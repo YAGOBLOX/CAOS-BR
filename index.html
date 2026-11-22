@@ -1,48 +1,31 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#090909">
-<title>CAOS BR — Arena de combate</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#08080d">
+<title>CAOS BR — Arena</title>
 <style>
-:root{color-scheme:dark;--bg:#080808;--panel:#111;--line:#242424;--muted:#929292;--white:#f5f5f5;--accent:#d9ff43}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--white);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 70% 10%,rgba(217,255,67,.08),transparent 35%),radial-gradient(ellipse at 0% 80%,rgba(255,255,255,.025),transparent 30%);z-index:-1}
-header{width:min(1180px,92%);margin:auto;padding:26px 0;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1c1c1c}
-.logo{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:2px}.mark{width:36px;height:36px;border:1px solid var(--accent);display:grid;place-items:center;color:var(--accent);font-size:14px;font-weight:900;transform:rotate(-5deg)}.logo span:last-child{font-size:15px}
-nav{display:flex;gap:26px}nav a{color:#bcbcbc;text-decoration:none;font-size:13px;transition:.2s}nav a:hover{color:var(--accent)}
-main{width:min(1180px,92%);margin:auto}.hero{min-height:72vh;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:40px;padding:72px 0 60px}
-.kicker{color:var(--accent);font-size:12px;letter-spacing:3px;font-weight:700;text-transform:uppercase}.hero h1{font-size:clamp(46px,8vw,92px);line-height:.95;letter-spacing:-4px;margin:20px 0 24px;font-weight:950}.hero h1 span{color:var(--accent)}.intro{max-width:530px;color:#aaa;line-height:1.7;font-size:16px}.actions{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 22px;text-decoration:none;font-size:13px;font-weight:800;letter-spacing:.7px;border:1px solid #353535;color:white;transition:.2s}.btn.primary{background:var(--accent);color:#080808;border-color:var(--accent)}.btn:hover{transform:translateY(-2px);border-color:var(--accent)}
-.visual{position:relative;min-height:380px;border:1px solid #262626;background:linear-gradient(145deg,#171717,#090909 65%);overflow:hidden;display:grid;place-items:center}.visual:before{content:"";position:absolute;width:280px;height:280px;border:1px solid rgba(217,255,67,.2);transform:rotate(45deg);box-shadow:0 0 70px rgba(217,255,67,.06)}.visual:after{content:"";position:absolute;width:190px;height:190px;border:1px solid rgba(255,255,255,.08);transform:rotate(45deg)}.visual-art{font-size:clamp(70px,12vw,130px);font-weight:1000;letter-spacing:-12px;color:#202020;text-shadow:1px 1px 0 #424242;z-index:1}.visual-tag{position:absolute;bottom:20px;left:20px;color:#777;font-size:10px;letter-spacing:3px}
-.stats{display:flex;gap:30px;border-top:1px solid #222;padding:22px 0;color:#777;font-size:11px;letter-spacing:1.5px}.stats strong{color:white}
-.dev{margin:28px 0 70px;padding:30px;border:1px solid var(--line);background:linear-gradient(110deg,#101010,#0b0b0b);display:flex;align-items:center;justify-content:space-between;gap:20px}.dev-left{display:flex;align-items:center;gap:18px}.status{width:10px;height:10px;background:var(--accent);border-radius:50%;box-shadow:0 0 16px rgba(217,255,67,.6)}.dev h2{font-size:17px;margin:0 0 8px}.dev p{margin:0;color:#888;font-size:13px;line-height:1.6}.label{font-size:10px;letter-spacing:2px;color:var(--accent);border:1px solid #343c1d;padding:9px 12px;white-space:nowrap}
-footer{border-top:1px solid #202020;padding:24px 4%;display:flex;justify-content:space-between;color:#666;font-size:11px;letter-spacing:1px}
-@media(max-width:760px){header{padding:20px 0}nav{gap:15px}nav a{font-size:12px}.hero{grid-template-columns:1fr;padding:55px 0 35px;gap:28px}.hero h1{letter-spacing:-2px}.visual{min-height:260px}.stats{gap:14px;flex-wrap:wrap}.dev{padding:22px;align-items:flex-start;flex-direction:column}.label{align-self:flex-start}footer{gap:12px;flex-direction:column}}
-</style>
-</head>
+:root{--bg:#08080d;--surface:#11111a;--line:#292936;--text:#f4f4f8;--muted:#9292a5;--a:#9b5cff;--b:#ff3c74}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse at 78% 16%,#401c7040,transparent 40%),radial-gradient(ellipse at 15% 65%,#30134422,transparent 40%);pointer-events:none}
+header{width:min(1160px,92%);margin:auto;padding:23px 0;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ffffff12}
+.logo{display:flex;gap:12px;align-items:center;text-decoration:none;color:white;font-weight:900;letter-spacing:2px}.logo-mark{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--a),var(--b));display:grid;place-items:center;color:white;font-size:18px;box-shadow:0 0 22px #9b5cff44}.logo-text{font-size:15px}.logo-text em{font-style:normal;color:#bb8aff}
+nav{display:flex;gap:28px}nav a{color:#a5a5b5;text-decoration:none;font-size:12px;font-weight:700;letter-spacing:1px}nav a:hover{color:white}
+main{width:min(1160px,92%);margin:auto}.hero{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:46px;padding:76px 0 62px;min-height:68vh}
+.tagline{display:inline-flex;align-items:center;gap:9px;padding:9px 13px;border:1px solid #9b5cff44;background:#9b5cff12;border-radius:30px;color:#c9a8ff;font-size:11px;font-weight:800;letter-spacing:1.5px}.tagline i{width:7px;height:7px;border-radius:50%;background:#bb8aff;box-shadow:0 0 10px #bb8aff}
+h1{font-size:clamp(52px,8vw,96px);letter-spacing:-5px;line-height:.94;margin:25px 0 22px;font-weight:1000}h1 .gradient{background:linear-gradient(100deg,#c18aff,#ff5b87);-webkit-background-clip:text;background-clip:text;color:transparent}
+.desc{color:#a5a5b5;line-height:1.8;font-size:15px;max-width:490px}.buttons{display:flex;gap:13px;flex-wrap:wrap;margin-top:30px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:15px 22px;border-radius:9px;text-decoration:none;font-size:12px;font-weight:900;letter-spacing:1px;border:1px solid #343443;color:#eee;transition:.22s}.btn:hover{transform:translateY(-3px);border-color:#b58aff}.btn.main{border:0;background:linear-gradient(110deg,#9856ff,#ec4c8c);box-shadow:0 8px 28px #a64dff30;color:white}.btn.secondary{background:#ffffff06}
+.art{height:390px;position:relative;border:1px solid #ffffff16;border-radius:20px;overflow:hidden;background:linear-gradient(145deg,#171321,#0c0b13 70%);display:grid;place-items:center;isolation:isolate}.art:before{content:"";position:absolute;width:290px;height:290px;border-radius:50%;background:linear-gradient(135deg,#a14fff,#f83e79);filter:blur(85px);opacity:.3}.ring{position:absolute;width:260px;height:260px;border:1px solid #bc80ff55;transform:rotate(45deg);box-shadow:0 0 80px #a54fff20}.ring.two{width:185px;height:185px;transform:rotate(15deg);border-color:#ff6e9c55}.art-word{position:relative;z-index:1;font-size:clamp(75px,11vw,130px);font-weight:1000;letter-spacing:-12px;color:#fff;text-shadow:0 0 45px #b359ff66}.art-caption{position:absolute;bottom:22px;left:22px;color:#8d829d;font-size:10px;letter-spacing:2px;font-weight:700}.art-number{position:absolute;right:22px;top:22px;color:#d0b3ff;font-size:10px;letter-spacing:2px}
+.strip{display:flex;flex-wrap:wrap;gap:12px;padding:20px 0;border-top:1px solid #ffffff12;border-bottom:1px solid #ffffff12}.strip span{font-size:11px;color:#8e8e9e;letter-spacing:1.3px;padding:7px 12px;border-radius:6px;background:#ffffff04}.strip b{color:#ddd}
+.development{margin:48px 0 76px;padding:30px;border-radius:16px;border:1px solid #a15bff35;background:linear-gradient(120deg,#17111f,#111119 70%);display:flex;align-items:center;justify-content:space-between;gap:25px;position:relative;overflow:hidden}.development:after{content:"";position:absolute;right:-70px;top:-100px;width:260px;height:260px;border-radius:50%;background:#a35aff;filter:blur(110px);opacity:.1}.dev-info{display:flex;gap:18px;align-items:center;z-index:1}.iconbox{width:46px;height:46px;border-radius:12px;background:#9b5cff20;border:1px solid #9b5cff50;display:grid;place-items:center;color:#c7a0ff;font-size:20px}.development h2{font-size:18px;margin:0 0 8px}.development p{margin:0;color:var(--muted);font-size:13px;line-height:1.65;max-width:570px}.pill{z-index:1;white-space:nowrap;padding:10px 14px;border-radius:8px;color:#d3b4ff;border:1px solid #a45aff55;background:#9b5cff12;font-size:10px;letter-spacing:1.8px;font-weight:900}
+footer{border-top:1px solid #ffffff12;padding:25px 4%;display:flex;justify-content:space-between;gap:12px;color:#77778a;font-size:10px;letter-spacing:1.5px}
+@media(max-width:760px){header{padding:18px 0}nav{gap:16px}nav a{font-size:11px}.hero{grid-template-columns:1fr;padding:54px 0 35px;gap:28px}h1{letter-spacing:-3px}.art{height:275px}.art-word{letter-spacing:-7px}.development{padding:22px;flex-direction:column;align-items:flex-start}.pill{align-self:flex-start}.strip{gap:6px}footer{flex-direction:column}}
+</style></head>
 <body>
-<header>
-<a class="logo" href="#" aria-label="CAOS BR início" style="color:inherit;text-decoration:none"><span class="mark">C</span><span>CAOS <span style="color:var(--accent)">BR</span></span></a>
-<nav><a href="#inicio">INÍCIO</a><a href="#desenvolvimento">PROJETO</a></nav>
-</header>
-<main>
-<section class="hero" id="inicio">
-<div>
-<div class="kicker">Arena • Combate • Multiplayer</div>
-<h1>ENTRE NO<br><span>CAOS.</span></h1>
-<p class="intro">Uma arena de combate em constante evolução. Movimentação, estratégia e ação — prepare-se para entrar na partida.</p>
-<div class="actions"><a class="btn primary" href="#desenvolvimento">JOGAR · EM BREVE</a><a class="btn" href="#desenvolvimento">SOBRE O PROJETO</a></div>
-</div>
-<div class="visual" aria-label="Arte abstrata de CAOS BR"><div class="visual-art">C/BR</div><div class="visual-tag">COMBATE. MOVIMENTO. SOBREVIVÊNCIA.</div></div>
-</section>
-<div class="stats"><span><strong>CAOS BR</strong> · PROJETO INDEPENDENTE</span><span>DESENVOLVIMENTO CONTÍNUO</span></div>
-<section class="dev" id="desenvolvimento">
-<div class="dev-left"><span class="status"></span><div><h2>Novos jogos e experiências</h2><p>Esta área está sendo preparada. Em breve, novos jogos, imagens e descrições aparecerão por aqui.</p></div></div>
-<span class="label">EM DESENVOLVIMENTO</span>
-</section>
-</main>
-<footer><span>CAOS BR</span><span>FEITO PARA QUEM GOSTA DE JOGAR.</span></footer>
-</body>
-</html>
+<header><a class="logo" href="#inicio"><span class="logo-mark">C</span><span class="logo-text">CAOS <em>BR</em></span></a><nav><a href="#inicio">INÍCIO</a><a href="#projeto">PROJETO</a></nav></header>
+<main><section class="hero" id="inicio"><div><div class="tagline"><i></i> ARENA · COMBATE · MULTIPLAYER</div><h1>ENTRE NO<br><span class="gradient">CAOS.</span></h1><p class="desc">Uma arena de combate em constante evolução. Movimente-se, pense rápido e encare o desafio. O campo de batalha está sendo preparado.</p><div class="buttons"><a class="btn main" href="#projeto">⌁ &nbsp; JOGAR · EM BREVE</a><a class="btn secondary" href="#projeto">CONHEÇA O PROJETO &nbsp; ↗</a></div></div>
+<div class="art"><div class="ring"></div><div class="ring two"></div><div class="art-number">PROJETO ORIGINAL · 01</div><div class="art-word">C/BR</div><div class="art-caption">AÇÃO • ESTRATÉGIA • ARENA</div></div></section>
+<div class="strip"><span><b>CAOS BR</b> / PROJETO INDEPENDENTE</span><span>DESENVOLVIMENTO CONTÍNUO</span><span>FEITO PARA JOGADORES</span></div>
+<section class="development" id="projeto"><div class="dev-info"><div class="iconbox">✦</div><div><h2>Novas experiências estão chegando</h2><p>Estamos preparando esta área para receber novos jogos. Em breve, cada título terá sua imagem, descrição e acesso para jogar.</p></div></div><div class="pill">◉ &nbsp; EM DESENVOLVIMENTO</div></section></main>
+<footer><span>CAOS BR</span><span>UMA NOVA EXPERIÊNCIA ESTÁ SENDO PREPARADA.</span></footer>
+</body></html>
