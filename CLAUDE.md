@@ -6,10 +6,26 @@ Desenvolvido em colaboração entre o dono do repositório (YAGOBLOX) e o Claude
 **Para retomar em um chat novo:** leia este arquivo, rode `git log --oneline -10` e
 `node --test`, e continue a partir de "Próximos passos".
 
+## Pendências combinadas com o dono (ler primeiro)
+
+1. **Trocar o jogo atual pelo jogo do dono.** O jogo que está no repositório é uma base
+   provisória feita pelo Claude. O dono (YAGOBLOX) vai enviar o jogo dele pelo chat; o Claude
+   deve encaixá-lo no repositório e fazer funcionar no GitHub Pages (raiz da `main`), removendo
+   a base provisória que não for mais usada. Enquanto o jogo dele não chega, a base atual
+   continua no ar para o site não ficar vazio.
+2. **Dar um acabamento no jogo dele ao encaixar:** arrumar o painel e o lobby (organização,
+   visual) e o personagem, sem mudar as regras nem a configuração dele. O dono vai configurar
+   o jogo por conta própria e mandar de novo; depois disso o Claude publica a nova versão.
+3. **Modo online adiado.** Decisão do dono: não publicar o servidor multiplayer agora.
+   Depois é preciso: criar o serviço no Render (seção "Publicar o servidor"), colocar a URL
+   `wss://...` em `client/config.js` e adaptar o servidor ao jogo definitivo. Lembrar o dono
+   desta pendência quando o jogo dele estiver pronto.
+4. Arquivo de teste `BOITATA.md` já foi apagado (não recriar).
+
 ## Links e hospedagem
 
 - Jogo publicado (GitHub Pages, branch `main`, pasta raiz): https://yagoblox.github.io/CAOS-BR/
-- Servidor multiplayer: **ainda não publicado**. Plano: Render (plano gratuito), ver "Publicar o servidor".
+- Servidor multiplayer: **ainda não publicado, adiado de propósito**. Plano: Render (plano gratuito), ver "Publicar o servidor".
 - Repositório público: nunca commitar senhas, chaves, tokens ou dados pessoais.
 
 ## Estrutura
@@ -64,9 +80,10 @@ Segurança do servidor: checagem de Origin (`ALLOWED_ORIGINS`), mensagens recebi
 a 4 KB, 90 mensagens/s por conexão, desconexão após 30 s sem mensagens, entrada validada em
 `setInput`, nomes filtrados.
 
-## Estado atual (v0.1)
+## Estado atual (v0.1, base provisória)
 
-Feito e testado (21 testes passando):
+Atenção: tudo abaixo descreve a base provisória feita pelo Claude, que será substituída pelo
+jogo do dono (ver "Pendências"). Feito e testado (21 testes passando):
 - Modo offline completo: 1 jogador + 3 bots, tiro, zona que fecha, placar, kill feed.
 - Controles de computador (WASD + mouse) e de celular (dois joysticks).
 - Servidor multiplayer autoritativo com bots de preenchimento (1 humano → 2 bots).
