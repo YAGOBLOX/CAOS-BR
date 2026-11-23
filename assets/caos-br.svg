@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="85%">
+      <stop offset="0" stop-color="#c3182a"/>
+      <stop offset="0.55" stop-color="#8f0f1a"/>
+      <stop offset="1" stop-color="#3b0509"/>
+    </radialGradient>
+    <radialGradient id="sun" cx="40%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#4a070d"/>
+      <stop offset="1" stop-color="#1a0709"/>
+    </radialGradient>
+    <pattern id="tape" width="56" height="56" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <rect width="56" height="56" fill="#f3e8de"/>
+      <rect width="28" height="56" fill="#1a0709"/>
+    </pattern>
+  </defs>
+
+  <rect width="1000" height="1000" fill="url(#bg)"/>
+  <circle cx="500" cy="440" r="330" fill="url(#sun)"/>
+
+  <g fill="none" stroke="#f3e8de" stroke-width="10" opacity="0.9">
+    <circle cx="500" cy="440" r="190"/>
+    <circle cx="500" cy="440" r="22" fill="#f3e8de"/>
+    <path d="M500 190v110M500 580v110M250 440h110M640 440h110"/>
+  </g>
+
+  <g transform="rotate(-8 500 640)">
+    <rect x="-100" y="590" width="1200" height="110" fill="#f3e8de"/>
+    <rect x="-100" y="590" width="1200" height="16" fill="url(#tape)"/>
+    <rect x="-100" y="684" width="1200" height="16" fill="url(#tape)"/>
+    <text x="500" y="658" text-anchor="middle" font-family="Impact, 'Arial Black', sans-serif"
+          font-size="52" letter-spacing="6" fill="#1a0709">EM DESENVOLVIMENTO</text>
+  </g>
+
+  <text x="500" y="890" text-anchor="middle" font-family="Impact, 'Arial Black', sans-serif"
+        font-size="190" letter-spacing="6" fill="#f3e8de">CAOS BR</text>
+</svg>

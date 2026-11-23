@@ -2,55 +2,116 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>CAOS BR</title>
-  <meta name="description" content="CAOS BR: jogo multiplayer de tiro 2D com arenas dinâmicas, jogado direto no navegador.">
-  <meta property="og:title" content="CAOS BR">
-  <meta property="og:description" content="Jogo multiplayer de tiro 2D com arenas dinâmicas, direto no navegador.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CAOS BR | Portal oficial de jogos</title>
+  <meta name="description" content="CAOS BR: o portal oficial dos jogos CAOS BR. Escolha um jogo e jogue.">
+  <meta property="og:title" content="CAOS BR | Portal oficial de jogos">
+  <meta property="og:description" content="O portal oficial dos jogos CAOS BR.">
   <meta property="og:type" content="website">
-  <meta name="theme-color" content="#0b0d12">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E">
-  <style>
-    html, body { margin: 0; height: 100%; background: #0b0d12; color: #e8ebf2;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; overflow: hidden; }
-    canvas { display: block; touch-action: none; -webkit-user-select: none; user-select: none; }
-    #menu { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center;
-      justify-content: center; gap: 14px; padding: 24px; text-align: center;
-      background: radial-gradient(circle at 50% 30%, #1b2030, #0b0d12 70%); }
-    #menu[hidden], #exit[hidden] { display: none; }
-    h1 { margin: 0; font-size: clamp(40px, 10vw, 72px); letter-spacing: 4px; color: #ffb347;
-      text-shadow: 0 0 24px rgba(255, 120, 40, 0.45); }
-    .sub { margin: 0 0 8px; color: #9aa3b8; max-width: 420px; }
-    input[type=text] { width: min(280px, 80vw); padding: 12px 14px; font-size: 16px; border-radius: 10px;
-      border: 1px solid #3a4154; background: #151925; color: #fff; text-align: center; }
-    button { width: min(280px, 80vw); padding: 14px; font-size: 17px; font-weight: 600; border: 0;
-      border-radius: 10px; background: #ff7a2f; color: #1a0e05; cursor: pointer; }
-    button.secondary { background: #2a3145; color: #e8ebf2; }
-    button:disabled { opacity: 0.45; cursor: not-allowed; }
-    #onlineNote { font-size: 13px; color: #8d96ab; min-height: 16px; }
-    .help { font-size: 13px; color: #8d96ab; max-width: 420px; line-height: 1.5; }
-    #exit { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); width: auto;
-      padding: 6px 14px; font-size: 13px; background: rgba(0,0,0,0.45); color: #ccd; }
-  </style>
+  <meta name="theme-color" content="#a4101c">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:wght@700;900&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js" defer></script>
 </head>
 <body>
-  <canvas id="game"></canvas>
-  <button id="exit" class="secondary" hidden>Sair (Esc)</button>
 
-  <div id="menu">
-    <h1>CAOS BR</h1>
-    <p class="sub">Tiro 2D com arenas dinâmicas. A tempestade fecha, a arena encolhe, sobreviva.</p>
-    <input id="name" type="text" maxlength="16" placeholder="Seu nome" autocomplete="off">
-    <button id="btnOffline">Jogar offline (contra bots)</button>
-    <button id="btnOnline" class="secondary">Jogar online</button>
-    <div id="onlineNote"></div>
-    <div class="help">
-      Computador: <b>WASD</b> move, <b>mouse</b> mira, <b>clique/Espaço</b> atira.<br>
-      Celular: joystick esquerdo move, joystick direito mira e atira.
-    </div>
-  </div>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="CAOS BR, voltar ao início">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true" focusable="false">
+        <circle cx="15" cy="15" r="12.5" fill="none" stroke="currentColor" stroke-width="2.5"/>
+        <circle cx="15" cy="15" r="5.5" fill="currentColor"/>
+      </svg>
+      <span>CAOS BR</span>
+    </a>
+    <button class="btn btn-line" type="button" data-open-login>Entrar</button>
+  </header>
 
-  <noscript>Ative o JavaScript para jogar CAOS BR.</noscript>
-  <script type="module" src="client/main.js"></script>
+  <main>
+    <section class="hero" id="inicio">
+      <div class="sun" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <h1 class="title">CAOS BR</h1>
+        <p class="lead">O portal oficial dos jogos CAOS BR.</p>
+
+        <dl class="credits">
+          <div class="credit">
+            <dt>Desenvolvedor de site</dt>
+            <dd>Yago Emidio Da Silva</dd>
+          </div>
+          <div class="credit">
+            <dt>Desenvolvedores do jogo</dt>
+            <dd>Gustavo</dd>
+            <dd>Kelvin</dd>
+          </div>
+        </dl>
+
+        <a class="scroll" href="#jogos">
+          Descer
+          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+            <path d="M9 2v13M3 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <section class="games" id="jogos" aria-labelledby="jogos-titulo">
+      <div class="wrap">
+        <h2 class="section-title" id="jogos-titulo">Jogos</h2>
+        <p class="games-lead">Escolha um jogo para jogar.</p>
+
+        <ul class="grid">
+          <!--
+            COMO ADICIONAR UM JOGO: copie um bloco <li class="game"> inteiro,
+            troque o arquivo da imagem (src), o texto da imagem (alt) e o nome.
+          -->
+          <li class="game">
+            <div class="art">
+              <img src="assets/caos-br.svg" alt="Imagem do jogo CAOS BR (em desenvolvimento)" width="1000" height="1000" draggable="false">
+            </div>
+            <div class="info">
+              <h3 class="game-name">CAOS BR</h3>
+              <span class="tag">Oficial e principal</span>
+            </div>
+            <button class="btn btn-solid" type="button" aria-disabled="true" title="Em breve">Jogar</button>
+          </li>
+
+          <li class="game game-soon">
+            <div class="art"><span>Novo jogo<br>em breve</span></div>
+            <div class="info">
+              <h3 class="game-name">Novo jogo</h3>
+              <span class="tag tag-quiet">Em breve</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap"><p>&copy; 2026 CAOS BR</p></div>
+  </footer>
+
+  <dialog class="login" id="login" aria-labelledby="login-titulo">
+    <form method="dialog" class="login-form">
+      <h2 class="login-title" id="login-titulo">Entrar</h2>
+      <p>Entre na sua conta para salvar o progresso dos jogos.</p>
+      <label class="field">E-mail
+        <input type="email" disabled placeholder="seu@email.com">
+      </label>
+      <label class="field">Senha
+        <input type="password" disabled placeholder="Sua senha">
+      </label>
+      <p class="note">O login ainda não está disponível.</p>
+      <div class="actions">
+        <button class="btn btn-solid" type="button" disabled>Entrar</button>
+        <button class="btn btn-line" value="fechar">Fechar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <noscript><p style="padding:1rem;text-align:center">Algumas partes do site precisam do JavaScript ativado.</p></noscript>
 </body>
 </html>
