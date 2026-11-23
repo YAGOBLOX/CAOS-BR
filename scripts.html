@@ -42,5 +42,17 @@ footer{border-top-color:#ffffff12;color:#92869f}
 .intro-site{position:relative}
 .ambient{isolation:isolate}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* Layout adaptável: celular, tablet e computador */
+html{width:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{min-width:0;width:100%}
+main,header{width:min(1100px,calc(100% - 48px))}
+.hero h1{font-size:clamp(42px,7vw,78px);overflow-wrap:anywhere}
+.catalog,.intro-site{width:100%;min-width:0}
+.code{max-width:100%;overflow-x:auto}
+@media(min-width:1100px){.ambient{height:clamp(350px,40vw,440px)}.catalog{padding:clamp(24px,3vw,36px)}}
+@media(max-width:900px){main,header{width:calc(100% - 40px)}.hero{padding:48px 0 32px}.catalog{padding:24px}}
+@media(max-width:680px){main,header{width:calc(100% - 32px)}.ambient{height:260px}.ambient-label{left:16px;letter-spacing:2px}.ambient-caption{padding:0 12px;letter-spacing:2px}.hero{padding:35px 0 25px}.hero h1{font-size:clamp(42px,13vw,65px);letter-spacing:-2px;margin:12px 0}.hero p{font-size:14px}.catalog{padding:18px;margin:16px 0 42px}.intro-site{padding:26px 18px 30px}.intro-site h2{letter-spacing:1px}.creator{letter-spacing:2px}footer{padding:22px 16px}}
+@media(max-width:380px){main,header{width:calc(100% - 24px)}.orbit{width:180px;height:180px}.orbit.two{width:130px;height:130px}.orbit.three{width:240px;height:240px}.core{font-size:64px}.catalog{padding:16px}}
 </style></head><body><section class="ambient"><div class="ambient-label">CAOS BR • LAB</div><div class="orbit"></div><div class="orbit two"></div><div class="orbit three"></div><div class="core">⌬</div><div class="ambient-caption">SCRIPTS &amp; EXPERIÊNCIAS ROBLOX</div></section>
 <header><a class="logo" href="index.html">CAOS <span>BR</span></a><a class="back" href="index.html">← VOLTAR</a></header><main><section class="hero"><div class="label">CATÁLOGO • ROBLOX</div><div class="developer-credit">Desenvolvido por <span>Yago Emídio</span></div><h1>SCRIPTS</h1><p>Um espaço para reunir scripts e recursos de Roblox. Cada publicação poderá apresentar nome, imagem, descrição e conteúdo para copiar, quando disponível.</p></section><article class="catalog intro-site"><div class="site-mark">⌬</div><h2>CAOS BR FPS</h2><p>Um espaço criado para reunir jogos, projetos e conteúdos da comunidade. Aqui você encontrará novidades, informações e recursos organizados em um só lugar — com novas publicações ao longo do tempo.</p><div class="creator">CRIADO POR <strong>YAGO</strong></div></article></main><footer>CAOS BR • SCRIPTS</footer></body></html>
