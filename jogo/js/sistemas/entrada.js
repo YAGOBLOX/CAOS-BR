@@ -1,0 +1,30 @@
+/* CAOS BR FPS · controles: toque, mouse, teclado, botão de tiro, sair */
+const fbt=$('#fbtn');
+// ===== controles =====
+function pos(e){const r=cv.getBoundingClientRect();return rot?[(e.clientY-r.top)/r.height*800,(r.right-e.clientX)/r.width*450]:[(e.clientX-r.left)/r.width*800,(e.clientY-r.top)/r.height*450]}
+cv.addEventListener('pointerdown',e=>{if(!G)return;const[x,y]=pos(e);cv.setPointerCapture(e.pointerId);
+ if(e.pointerType==='mouse'){aim=e.pointerId;fire=true;return}
+ if(x<400&&!joy)joy={id:e.pointerId,x,y};else if(aim===null){aim=e.pointerId;lx=x;ly=y}});
+cv.addEventListener('pointermove',e=>{if(!G)return;const[x,y]=pos(e);
+ if(e.pointerType==='mouse'){if(e.buttons){ang+=e.movementX*.006*sn();pit=cp(pit-e.movementY*.005*S.vs*sn()*(S.inv?-1:1))}return}
+ if(joy&&e.pointerId===joy.id){let dx=(x-joy.x)/45,dy=(y-joy.y)/45;const l=Math.hypot(dx,dy);if(l>1){dx/=l;dy/=l}jx=dx;jy=dy}
+ else if(e.pointerId===aim){ang+=(x-lx)*.008*sn();pit=cp(pit-(y-ly)*.006*S.vs*sn()*(S.inv?-1:1));lx=x;ly=y}});
+const up=e=>{if(joy&&e.pointerId===joy.id){joy=null;jx=jy=0}if(e.pointerId===aim){aim=null;fire=false}};
+cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+tap('#wsw',swp);tap('#rld',rel);tap('#jmp',jump);tap('#cro',()=>stance(1));tap('#prn',()=>stance(2));
+$('#game').addEventListener('contextmenu',e=>e.preventDefault());
+const kd=(e,v)=>{if(/INPUT|SELECT/.test(e.target.tagName))return;const k=e.key.toLowerCase();
+ if(k.length===1&&'wasd'.includes(k))keys[k]=v;
+ if(e.key.startsWith('Arrow'))keys[e.key]=v;
+ if(e.key===' ')fb=!!v;
+ if(!v)return;
+ if(k==='q')swp();if(k==='r')rel();if(k==='e')jump();if(k==='c')stance(1);if(k==='z')stance(2);
+ if(G&&!G.over&&k.length===1&&'123456'.includes(k)&&lst()[+k-1]!=null){G.p.w=lst()[+k-1];G.p.rl=0}};
+addEventListener('keydown',e=>kd(e,1));addEventListener('keyup',e=>kd(e,0));
+tap('#aimb',()=>{zoom=!zoom});
+tap('#smile',()=>{if(G)G.emo=G.t+2});
+fbt.addEventListener('pointerdown',e=>{fb=true;fid=e.pointerId;fpx=e.clientX;fpy=e.clientY;fbt.setPointerCapture(e.pointerId)});
+fbt.addEventListener('pointermove',e=>{if(e.pointerId!==fid)return;const rr=cv.getBoundingClientRect(),ddx=e.clientX-fpx,ddy=e.clientY-fpy,sx=rot?ddy*800/rr.height:ddx*800/rr.width,sy=rot?-ddx*450/rr.width:ddy*450/rr.height;
+ ang+=sx*.008*sn();pit=cp(pit-sy*.006*S.vs*sn()*(S.inv?-1:1));fpx=e.clientX;fpy=e.clientY});
+['pointerup','pointercancel'].forEach(n=>fbt.addEventListener(n,()=>fb=false));
+$('#quit').onclick=()=>{G=null;$('#game').style.display='none';ov.classList.remove('on')};

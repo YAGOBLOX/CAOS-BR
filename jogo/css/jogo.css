@@ -1,0 +1,22 @@
+/* CAOS BR FPS · HUD e canvas da partida */
+#game{position:absolute;inset:0;display:none;z-index:3;background:#000;user-select:none}
+#game canvas{width:800px;height:450px;touch-action:none;display:block}
+#game,#game *{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#c3,#cv{position:absolute;left:0;top:0}
+#wsw,#rld{position:absolute;bottom:8px;padding:6px 8px;font-size:9px}
+#wsw{left:calc(50% - 130px)}
+#rld{left:auto;right:132px;bottom:44px;width:52px;height:52px;border-radius:50%;padding:0;justify-content:center;font-size:0}
+#rld::first-letter{font-size:22px}
+#fbtn{position:absolute;right:34px;bottom:30px;width:84px;height:84px;border-radius:50%;font-size:32px;justify-content:center;background:#c0392bdd;touch-action:none;padding:0}
+.hb{position:absolute;top:10px;width:40px;height:40px;padding:0;justify-content:center;font-size:18px;background:#6b6b6bcc;border-color:#aaa}
+#smile{left:56px}#gear{left:102px}#shopb{left:148px}
+#quit{left:10px;font-size:0}#quit::first-letter{font-size:18px}
+#slots{position:absolute;right:8px;top:70px;display:flex;gap:4px;width:200px;flex-wrap:wrap;justify-content:flex-end}
+.sl{padding:7px 0;font-size:8px;justify-content:center;width:63px}
+.cr{display:flex;align-items:center;gap:6px;font-size:10px;margin:5px 0}.cr span{flex:1}.cr input[type=range]{width:120px}.cr b{width:32px;text-align:right}
+.cr select,.cr input[type=text]{background:#120d24;color:#fff;border:2px solid #5b5380;font:inherit;padding:3px;width:120px}
+.cs{margin-top:10px;color:var(--gold);font-size:10px;border-bottom:1px solid var(--line)}
+.mv{position:absolute;width:54px;height:54px;border-radius:50%;padding:0;flex-direction:column;justify-content:center;gap:1px;background:#3b3b55cc;font-size:8px;touch-action:none}
+.mv span:first-child{font-size:16px}.mv.on{background:#ffb81fcc;color:#000}
+#hudbar{position:absolute;left:50%;top:60px;transform:translateX(-50%);z-index:6;gap:8px;align-items:center;background:var(--panel);border:2px solid var(--gold);padding:6px 10px;font-size:10px}#hudbar .btn{padding:6px;width:auto;margin:0}
+#game.edit .hd{outline:2px dashed #ffb81f}

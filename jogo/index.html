@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Caos BR FPS</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/lobby.css">
+<link rel="stylesheet" href="css/overlay.css">
+<link rel="stylesheet" href="css/jogo.css">
+</head>
+<body>
+<div id="wrap"><div id="stage">
+ <div class="city" style="left:60px;width:90px;height:200px"></div>
+ <div class="city" style="left:170px;width:70px;height:260px"></div>
+ <div class="city" style="left:560px;width:100px;height:230px"></div>
+ <div class="city" style="left:670px;width:80px;height:180px"></div>
+ <div class="top">
+  <div class="me"><div class="ava">🙂</div><div><b id="nick">JOGADOR_01</b><small>NV. 49</small></div></div>
+  <div class="cur g">🪙 <span id="coins">21130</span></div>
+  <div class="cur d">💎 <span>9035</span></div>
+ </div>
+ <div class="logo">CAOS BR FPS</div>
+ <div class="menu">
+  <button class="btn" data-p="Novidades"><i>🟦</i>NOVIDADES</button>
+  <button class="btn" data-p="Loja"><i>🛒</i>LOJA</button>
+  <button class="btn" data-p="Sorte Royale"><i>🍀</i>SORTE ROYALE</button>
+  <button class="btn" data-p="Passe"><i>⭐</i>PASSE</button>
+  <button class="btn" data-p="Eventos"><i>📅</i>EVENTOS</button>
+ </div>
+ <div id="hero">
+  <div class="shadow"></div>
+  <div class="leg" style="left:31px"></div><div class="leg" style="left:57px"></div>
+  <div class="shoe" style="left:27px"></div><div class="shoe" style="left:55px"></div>
+  <div class="body"></div><div class="stripe"></div>
+  <div class="arm" style="left:12px"></div><div class="arm" style="left:83px"></div>
+  <div class="hand" style="left:12px"></div><div class="hand" style="left:83px"></div>
+  <div class="gun"></div>
+  <div class="head"></div><div class="hair"></div><div class="band"></div>
+  <div class="eye" style="left:35px"></div><div class="eye" style="left:55px"></div>
+ </div>
+ <div class="bot">
+  <button class="btn" data-p="Equipe"><i>💬</i>EQUIPE · SEM MENSAGENS</button>
+  <div class="row"><button class="btn" data-p="Cofre"><i>🧰</i>COFRE</button><button class="btn" data-p="Armas"><i>🔫</i>ARMAS</button></div>
+ </div>
+ <div class="amigos">
+  <div class="fhead"><button class="btn" data-p="Amigos">👥</button><button class="btn" data-p="Convites">📨</button><button class="btn" data-p="Config">⚙️</button></div>
+  <div class="fl" id="fl"></div>
+ </div>
+ <div class="play">
+  <div class="mode" id="mode">🏆 <span id="modeName">TREINO</span> <small style="margin-left:auto">▸ trocar</small></div>
+  <div class="mode" id="mapSel">🗺️ <span id="mapName">ILHA</span> <small id="mapHint" style="margin-left:auto">▸ trocar</small></div>
+  <button class="go" id="go">DECOLAR</button>
+ </div>
+ <div class="ver">BETA 1.0.0</div>
+ <div id="game"><canvas id="c3"></canvas><canvas id="cv" width="800" height="450"></canvas><button class="btn" id="fbtn">🔥</button><div id="slots"></div><button class="btn mv" id="jmp"><span>▲</span><span>PULAR</span></button><button class="btn mv" id="cro"><span>▼</span><span>AGACHAR</span></button><button class="btn mv" id="prn"><span>▬</span><span>DEITAR</span></button><button class="btn hb" id="gear">⚙</button><button class="btn hb" id="shopb" style="display:none">🛒</button><button class="btn hb" id="smile">😊</button><button class="btn mv" id="aimb"><span>⊕</span><span>MIRA</span></button><button class="btn" id="wsw" style="display:none">🔫 TROCAR (Q)</button><button class="btn" id="rld">↻ RECARGA (R)</button><button class="btn hb" id="quit">✕ SAIR</button></div>
+ <div class="ov" id="ov"><div class="card" id="card"></div></div>
+ <div id="hudbar" style="display:none">ARRASTE OS BOTÕES <button class="btn" id="hsv">SALVAR</button><button class="btn" id="hrs">RESTAURAR</button></div>
+</div></div>
+<!-- Só o essencial do lobby carrega aqui. three.js, personagens, mapa e modo são carregados sob demanda (carregamento/carregador.js). -->
+<script src="js/sistemas/utils.js"></script>
+<script src="js/sistemas/estado.js"></script>
+<script src="js/carregamento/manifesto.js"></script>
+<script src="js/carregamento/carregador.js"></script>
+<script src="js/sistemas/overlay.js"></script>
+<script src="js/sistemas/armas-dados.js"></script>
+<script src="js/sistemas/config.js"></script>
+<script src="js/sistemas/economia.js"></script>
+<script src="js/sistemas/layout-hud.js"></script>
+<script src="js/lobby/lobby.js"></script>
+</body>
+</html>
