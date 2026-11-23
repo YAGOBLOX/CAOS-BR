@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yagoblox.github.io/CAOS-BR/sitemap.xml
