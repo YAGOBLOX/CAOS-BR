@@ -43,3 +43,26 @@
 .gun{left:58px;top:128px;width:70px;height:16px;background:#222;border:2px solid #000;transform:rotate(-30deg);transform-origin:left}
 .leg{top:150px;width:22px;height:110px;background:#16161c;border:2px solid #000}
 .shoe{top:258px;width:28px;height:14px;background:#f2f2f2;border:2px solid #111}
+
+/* INTERFACE DO LOBBY: botões maiores e alinhados (só o menu; o HUD da partida não muda).
+   Colunas com a mesma largura: esquerda (menu + equipe/cofre/armas) e direita (amigos + modo/mapa/decolar). */
+.menu,.bot{left:8px;width:200px}
+.amigos,.play{right:8px;width:200px}
+.menu{top:58px;gap:8px}
+.menu .btn,.bot>.btn{font-size:12px;padding:10px;gap:10px;min-height:38px}
+.menu .btn i,.bot .btn i{font-size:18px;width:22px;text-align:center;flex:none}
+.bot{bottom:10px;gap:8px}
+.bot .row{gap:8px}
+.bot .row .btn{min-height:38px;font-size:12px;padding:10px 8px;justify-content:center}
+.amigos{gap:8px}
+.fhead{gap:6px}
+.fhead .btn{min-height:36px;font-size:16px;padding:6px}
+.fl{padding:5px 6px}
+.fr{font-size:11px;padding:6px 2px;gap:6px}
+.fr .a{width:28px;height:28px;font-size:15px}
+.fr .p{font-size:18px}
+.play{bottom:14px;gap:8px}
+.mode{font-size:12px;padding:9px 10px;gap:8px}
+.mode span{white-space:nowrap}
+.mode small[style*="hidden"]{display:none}
+.go{font-size:24px;padding:12px}
