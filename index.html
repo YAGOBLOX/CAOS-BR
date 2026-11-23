@@ -15,6 +15,18 @@
 .section{box-shadow:0 15px 38px #0004;transition:border-color .25s}
 .section:hover{border-color:#b77aff55}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+ 
+/* Layout adaptável: celular, tablet e computador */
+html{width:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{min-width:0;width:100%}
+main,header{width:min(1160px,calc(100% - 48px))}
+.hero{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,4vw,46px)}
+.art{width:100%;min-width:0}
+h1{font-size:clamp(44px,7vw,96px);overflow-wrap:anywhere}
+@media(min-width:1100px){.hero{padding-top:clamp(70px,8vh,110px)}.art{height:clamp(340px,35vw,440px)}}
+@media(max-width:900px){main,header{width:calc(100% - 40px)}.hero{gap:28px}.art{height:320px}.section{margin:38px 0 55px}}
+@media(max-width:680px){main,header{width:calc(100% - 32px)}.hero{grid-template-columns:1fr;padding:40px 0 30px;min-height:auto;gap:25px}h1{font-size:clamp(48px,14vw,76px);letter-spacing:-2px;margin:20px 0}.desc{font-size:14px}.art{height:clamp(230px,65vw,290px)}.strip{gap:8px}.strip span{font-size:10px}.section{padding:20px;margin:28px 0 40px}.foot{padding:22px 16px;font-size:9px}.drawer{right:16px;top:70px}}
+@media(max-width:380px){main,header{width:calc(100% - 24px)}.logo{gap:8px;letter-spacing:1px}.logo-mark{width:34px;height:34px}.menu-btn{width:42px;height:40px}.art-word{font-size:75px}.section{padding:17px}}
 </style></head><body>
 <header><a class="logo" href="#inicio"><span class="logo-mark">C</span><span class="logo-text">CAOS <em>BR FPS</em></span></a><button class="menu-btn" aria-label="Abrir menu" onclick="document.getElementById('drawer').classList.toggle('open')">☰</button><nav class="drawer" id="drawer"><a href="#inicio" onclick="closeMenu()">INÍCIO</a><a href="#jogos" onclick="closeMenu()">JOGOS</a><a href="scripts.html">SCRIPTS</a></nav></header>
 <main><section class="hero" id="inicio"><div><div class="developer-credit">Desenvolvido por <span>Yago Emídio</span></div><div class="tagline"><i></i> FPS · ARENA · MULTIPLAYER</div><h1>ENTRE NO<br><span class="gradient">CAOS.</span></h1><p class="desc">Uma arena de combate em constante evolução. Movimente-se, pense rápido e encare o desafio. O campo de batalha está sendo preparado.</p><div class="buttons"><a class="btn main" href="#jogos">⌁ &nbsp; VER JOGOS</a></div></div><div class="art"><div class="ring"></div><div class="ring two"></div><div class="art-number">FPS · BETA</div><div class="art-word">C/BR</div><div class="art-caption">AÇÃO • ESTRATÉGIA • ARENA</div></div></section>
