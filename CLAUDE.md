@@ -73,3 +73,8 @@ Como o jogo trata armas:
 
 ## Commits
 Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no celular").
+
+## Controles do HUD (estilo Free Fire)
+- Botão ATIRAR é analógico: base fixa + bolinha (`.fk`) que acompanha o dedo até um limite; arrastar o dedo gira a câmera SEM parar de atirar (eventos no `window` em `entrada.js`). Não troque por `click`/`pointerleave`.
+- Analógico de andar flutua e **segue o dedo** (a base anda junto quando o dedo passa do raio). Desenho no `hud.js`.
+- Os outros botões ficam em arco ao redor do ATIRAR (`applyCfg()` em `config.js`), longe do centro onde fica o boneco. `cfgv` (cfg) e `layv` (layout-hud.js) forçam o padrão novo uma vez; mude o número para resetar de novo.

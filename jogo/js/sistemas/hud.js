@@ -44,7 +44,7 @@ function draw(){
  drawCh();
  if(joy){cx.strokeStyle='#fff6';cx.lineWidth=3;cx.beginPath();cx.arc(joy.x,joy.y,45,0,6.28);cx.stroke();
   cx.fillStyle='#fff6';cx.beginPath();cx.arc(joy.x+jx*45,joy.y+jy*45,20,0,6.28);cx.fill()}
- else{cx.strokeStyle='#fff4';cx.lineWidth=2;cx.strokeRect(50,300,110,110)}
+ else{cx.strokeStyle='#fff4';cx.lineWidth=3;cx.beginPath();cx.arc(105,355,45,0,6.28);cx.stroke();cx.fillStyle='#fff3';cx.beginPath();cx.arc(105,355,20,0,6.28);cx.fill()}
  cx.globalAlpha=1;
  if(t<G.emo){const v=new THREE.Vector3(p.x,62,p.y).project(T.cam);cx.font='28px sans-serif';cx.textAlign='center';cx.fillText('😊',(v.x+1)*400,(1-v.y)*225);cx.textAlign='left'}
  if(t<6){cx.fillStyle='#fffc';cx.font='bold 11px monospace';cx.textAlign='center';cx.fillText('ESQ: ANDAR · DIR: CÂMERA · 🔥 ATIRAR · ⊕ MIRA',400,300);cx.textAlign='left'}

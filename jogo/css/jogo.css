@@ -49,3 +49,10 @@
 .sl img{max-width:48px;max-height:20px}
 .sl .am{font-size:7px}
 #slots.many .sl{width:42px;height:26px}#slots.many .sl img{max-width:38px;max-height:15px}
+
+/* ===== layout estilo Free Fire: botões um pouco maiores, atirar analógico (base fixa + bolinha que acompanha o dedo até um limite) ===== */
+.mv{width:52px;height:52px}.mv .ic{width:29px;height:29px}
+#rld{width:50px;height:50px}#rld .ic{width:28px;height:28px}
+#fbtn{background:radial-gradient(circle at 40% 35%,#8c2a22,#4a120e);border:3px solid #ff9a8d;overflow:visible}
+#fbtn .fk{display:flex;align-items:center;justify-content:center;width:64%;height:64%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff6a55,#b02a20);border:2px solid #ffd6cf;box-shadow:0 2px 6px #0009;pointer-events:none}
+#fbtn .fk .ic{width:58%;height:58%;stroke-width:1.6}

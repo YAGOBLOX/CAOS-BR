@@ -1,6 +1,7 @@
 /* CAOS BR FPS · editor de posição dos botões do HUD (salvo no aparelho) */
 let lay={};try{lay=JSON.parse(localStorage.getItem('lay')||'{}')}catch(e){}
 const saveLay=()=>{try{localStorage.setItem('lay',JSON.stringify(lay))}catch(e){}};
+try{if(localStorage.getItem('layv')!=='2'){lay={};saveLay();localStorage.setItem('layv','2')}}catch(e){}   // layout novo: descarta posições antigas
 let editMode=false,drag=null;
 const HUD=['fbtn','rld','jmp','cro','prn','aimb','slots','gear','shopb','smile','quit'];
 HUD.forEach(i=>$('#'+i).classList.add('hd'));

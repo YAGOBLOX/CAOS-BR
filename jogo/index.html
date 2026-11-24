@@ -5,10 +5,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Caos BR FPS</title>
-<link rel="stylesheet" href="css/base.css?v=7">
-<link rel="stylesheet" href="css/lobby.css?v=7">
-<link rel="stylesheet" href="css/overlay.css?v=7">
-<link rel="stylesheet" href="css/jogo.css?v=7">
+<link rel="stylesheet" href="css/base.css?v=8">
+<link rel="stylesheet" href="css/lobby.css?v=8">
+<link rel="stylesheet" href="css/overlay.css?v=8">
+<link rel="stylesheet" href="css/jogo.css?v=8">
 </head>
 <body>
 <div id="wrap"><div id="stage">
@@ -65,20 +65,20 @@
 <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14.2c1.3 2.3 6.7 2.3 8 0"/><circle cx="9" cy="10" r="1.1" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r="1.1" fill="currentColor" stroke="none"/></symbol>
 <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r="7"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></symbol>
 <symbol id="i-cart" viewBox="0 0 24 24"><path d="M2.5 4h3l2.2 11h10.6l2.2-8H7"/><circle cx="9.5" cy="19.5" r="1.6"/><circle cx="17" cy="19.5" r="1.6"/></symbol>
-</defs></svg><canvas id="c3"></canvas><canvas id="cv" width="800" height="450"></canvas><button class="btn" id="fbtn" aria-label="Atirar"><svg class="ic"><use href="#i-fire"/></svg></button><div id="slots"></div><button class="btn mv" id="jmp" aria-label="Pular"><svg class="ic"><use href="#i-jump"/></svg></button><button class="btn mv" id="cro" aria-label="Agachar"><svg class="ic"><use href="#i-crouch"/></svg></button><button class="btn mv" id="prn" aria-label="Deitar"><svg class="ic"><use href="#i-prone"/></svg></button><button class="btn hb" id="gear" aria-label="Configurações"><svg class="ic"><use href="#i-gear"/></svg></button><button class="btn hb" id="shopb" style="display:none" aria-label="Armas"><svg class="ic"><use href="#i-cart"/></svg></button><button class="btn hb" id="smile" aria-label="Emote"><svg class="ic"><use href="#i-smile"/></svg></button><button class="btn mv" id="aimb" aria-label="Mira"><svg class="ic"><use href="#i-scope"/></svg></button><button class="btn" id="wsw" style="display:none">🔫 TROCAR (Q)</button><button class="btn" id="rld" aria-label="Recarregar"><svg class="ic"><use href="#i-reload"/></svg></button><button class="btn hb" id="quit" aria-label="Voltar ao lobby"><svg class="ic"><use href="#i-home"/></svg><b>LOBBY</b></button></div>
+</defs></svg><canvas id="c3"></canvas><canvas id="cv" width="800" height="450"></canvas><button class="btn" id="fbtn" aria-label="Atirar"><span class="fk"><svg class="ic"><use href="#i-fire"/></svg></span></button><div id="slots"></div><button class="btn mv" id="jmp" aria-label="Pular"><svg class="ic"><use href="#i-jump"/></svg></button><button class="btn mv" id="cro" aria-label="Agachar"><svg class="ic"><use href="#i-crouch"/></svg></button><button class="btn mv" id="prn" aria-label="Deitar"><svg class="ic"><use href="#i-prone"/></svg></button><button class="btn hb" id="gear" aria-label="Configurações"><svg class="ic"><use href="#i-gear"/></svg></button><button class="btn hb" id="shopb" style="display:none" aria-label="Armas"><svg class="ic"><use href="#i-cart"/></svg></button><button class="btn hb" id="smile" aria-label="Emote"><svg class="ic"><use href="#i-smile"/></svg></button><button class="btn mv" id="aimb" aria-label="Mira"><svg class="ic"><use href="#i-scope"/></svg></button><button class="btn" id="wsw" style="display:none">🔫 TROCAR (Q)</button><button class="btn" id="rld" aria-label="Recarregar"><svg class="ic"><use href="#i-reload"/></svg></button><button class="btn hb" id="quit" aria-label="Voltar ao lobby"><svg class="ic"><use href="#i-home"/></svg><b>LOBBY</b></button></div>
  <div class="ov" id="ov"><div class="card" id="card"></div></div>
  <div id="hudbar" style="display:none">ARRASTE OS BOTÕES <button class="btn" id="hsv">SALVAR</button><button class="btn" id="hrs">RESTAURAR</button></div>
 </div></div>
 <!-- Só o essencial do lobby carrega aqui. three.js, personagens, mapa e modo são carregados sob demanda (carregamento/carregador.js). -->
-<script src="js/sistemas/utils.js?v=7"></script>
-<script src="js/sistemas/estado.js?v=7"></script>
-<script src="js/carregamento/manifesto.js?v=7"></script>
-<script src="js/carregamento/carregador.js?v=7"></script>
-<script src="js/sistemas/overlay.js?v=7"></script>
-<script src="js/sistemas/armas-dados.js?v=7"></script>
-<script src="js/sistemas/config.js?v=7"></script>
-<script src="js/sistemas/economia.js?v=7"></script>
-<script src="js/sistemas/layout-hud.js?v=7"></script>
-<script src="js/lobby/lobby.js?v=7"></script>
+<script src="js/sistemas/utils.js?v=8"></script>
+<script src="js/sistemas/estado.js?v=8"></script>
+<script src="js/carregamento/manifesto.js?v=8"></script>
+<script src="js/carregamento/carregador.js?v=8"></script>
+<script src="js/sistemas/overlay.js?v=8"></script>
+<script src="js/sistemas/armas-dados.js?v=8"></script>
+<script src="js/sistemas/config.js?v=8"></script>
+<script src="js/sistemas/economia.js?v=8"></script>
+<script src="js/sistemas/layout-hud.js?v=8"></script>
+<script src="js/lobby/lobby.js?v=8"></script>
 </body>
 </html>
