@@ -30,18 +30,19 @@ CAOS.registerMap({
   const add=(x,z,r)=>put.push([x,z,r]);
   // listas de instâncias [x,y,z,escX,escY,escZ,giroY,giroZ]
   const mk=()=>({t:[],a:[],b:[],c:[]}),PN=[mk(),mk()],RT=[mk(),mk()],BU=[[],[]],RB=[[],[]],RS=[],CR=[],BA=[[],[]],LG=[],ST=[];
-  const pine=(x,z,v,k)=>{const o=PN[v];o.t.push([x,13*k,z,k,k,k]);o.a.push([x,37*k,z,k,k,k,rr(0,6)]);o.b.push([x,55*k,z,k,k,k]);o.c.push([x,73*k,z,k,k,k]);walls.push([x-5*k,z-5*k,10*k,10*k]);add(x,z,18*k)};
-  const round=(x,z,v,k)=>{const o=RT[v];o.t.push([x,11*k,z,k,k,k]);o.a.push([x,36*k,z,k,.92*k,k]);o.b.push([x+7*k,45*k,z-4*k,k,k,k]);o.c.push([x-8*k,41*k,z+5*k,k,k,k]);walls.push([x-5*k,z-5*k,10*k,10*k]);add(x,z,21*k)};
-  const bush=(x,z)=>{const k=rr(1,1.8);BU[R()<.5?0:1].push([x,5*k,z,k,.7*k,k]);add(x,z,10*k)};
-  const rock=(x,z)=>{const r=rr(15,26);RB[R()<.5?0:1].push([x,r*.4,z,r,r*.75,r*rr(.8,1.1),rr(0,6)]);walls.push([x-r*.8,z-r*.8,r*1.6,r*1.6]);add(x,z,r)};
+  // k = altura relativa (boneco = 70 de altura). Pinheiro: 84*k de altura; árvore redonda: ~53*k. Copa mais fina (kx) que alta.
+  const pine=(x,z,v,k)=>{const o=PN[v],kx=.7*k;o.t.push([x,13*k,z,kx,k,kx]);o.a.push([x,37*k,z,kx,k,kx,rr(0,6)]);o.b.push([x,55*k,z,kx,k,kx]);o.c.push([x,73*k,z,kx,k,kx]);walls.push([x-4*kx,z-4*kx,8*kx,8*kx]);add(x,z,18*kx)};
+  const round=(x,z,v,k)=>{const o=RT[v],kx=.8*k;o.t.push([x,11*k,z,kx,k,kx]);o.a.push([x,36*k,z,kx,.92*k,kx]);o.b.push([x+7*kx,45*k,z-4*kx,kx,k,kx]);o.c.push([x-8*kx,41*k,z+5*kx,kx,k,kx]);walls.push([x-4*kx,z-4*kx,8*kx,8*kx]);add(x,z,22*kx)};
+  const bush=(x,z)=>{const k=rr(1.4,2.4);BU[R()<.5?0:1].push([x,5*k,z,k,.7*k,k]);add(x,z,10*k)};
+  const rock=(x,z)=>{const r=rr(20,38);RB[R()<.5?0:1].push([x,r*.4,z,r,r*.75,r*rr(.8,1.1),rr(0,6)]);walls.push([x-r*.8,z-r*.8,r*1.6,r*1.6]);add(x,z,r)};
   const pebbles=(x,z)=>{for(let i=0;i<3;i++){const s=rr(2.5,5.5);RS.push([x+rr(-14,14),s*.4,z+rr(-14,14),s,s*.8,s,rr(0,6)])}add(x,z,16)};
   // 1) cenário espalhado em grade com desvio (cobre o mapa todo de forma uniforme)
-  for(let gx=100;gx<W-60;gx+=160)for(let gz=100;gz<H-60;gz+=160){
-   if(R()<.18)continue;const x=gx+rr(-60,60),z=gz+rr(-60,60),t=R(),v=R()<.5?0:1,k=rr(1.7,2.2);
-   if(t<.32){if(ok(x,z,18*k))pine(x,z,v,k)}
-   else if(t<.58){if(ok(x,z,21*k))round(x,z,v,k)}
+  for(let gx=100;gx<W-60;gx+=120)for(let gz=100;gz<H-60;gz+=120){
+   if(R()<.12)continue;const x=gx+rr(-50,50),z=gz+rr(-50,50),t=R(),v=R()<.5?0:1,k=R()<.25?rr(1.5,2.3):rr(2.8,5);   // 25% menores (mudas), o resto de 2,8x a 5x
+   if(t<.32){if(ok(x,z,18*.7*k))pine(x,z,v,k)}
+   else if(t<.58){if(ok(x,z,22*.8*k))round(x,z,v,k)}
    else if(t<.72){if(ok(x,z,18))bush(x,z)}
-   else if(t<.86){if(ok(x,z,30))rock(x,z)}
+   else if(t<.86){if(ok(x,z,42))rock(x,z)}
    else if(ok(x,z,22))pebbles(x,z);
   }
   // 2) caixotes e barris encostados nas paredes (em duplas) e troncos/tocos soltos
