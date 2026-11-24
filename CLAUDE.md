@@ -96,3 +96,8 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 ## IA dos bots (loop.js, bloco dos bots)
 - Miram na altura real do jogador (em pé/agachado/deitado): ~10% cabeça, ~30% peito, o resto erra por perto. `shoot(e,a,dm,o,ty,d)` em `combate.js` recebe a altura alvo.
 - Esquivam (pulam/agacham, mais quando o jogador mira neles), andam com velocidade suave, se afastam uns dos outros e giram suave. Para ajustar a dificuldade: as chances em `const sd=...`/`r<.1`/`r<.4`, `q.rate` e `q.dmg` nos modos.
+
+## Mapas e escolha de mapa
+- Mapas: `ilha`, `deserto` (casas de adobe, montanhas de areia, cactos grandes, árvores secas, mesas, trilhas) e `estande`. Cada um em `jogo/js/mapas/<id>/mapa.js`, registrado em `manifesto.js` com `img` (prévia em `jogo/img/mapas/<id>.png`, 480x270) e listado em `maps:[...]` dos modos que podem usá-lo.
+- O lobby abre a tela ESCOLHER MAPA (`openMaps()` em `lobby.js`) com imagem + nome de cada mapa do modo. Mapa novo: copie `_modelo`, registre no manifesto, ponha a prévia em `img/mapas/` e confira (spawns/kits fora de paredes e alcançáveis).
+- Campo opcional `waterColor` no mapa troca a cor do "mar" fora da borda (deserto usa areia).

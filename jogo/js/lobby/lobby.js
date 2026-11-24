@@ -12,9 +12,13 @@ $('#mode').onclick=()=>{
  CAOS.sel.mode=modeIds[(modeIds.indexOf(CAOS.sel.mode)+1)%modeIds.length];
  CAOS.sel.map=MF.modes[CAOS.sel.mode].maps[0];refreshSel();
 };
-$('#mapSel').onclick=()=>{
- const ml=MF.modes[CAOS.sel.mode].maps;CAOS.sel.map=ml[(ml.indexOf(CAOS.sel.map)+1)%ml.length];refreshSel();
-};
+// escolha de mapa (estilo Free Fire): cartões com imagem e nome dos mapas do modo escolhido
+function openMaps(){
+ const ml=MF.modes[CAOS.sel.mode].maps;
+ open('<h2>ESCOLHER MAPA</h2><div class="mapgrid">'+ml.map(id=>{const m=MF.maps[id];return '<button class="mp'+(id===CAOS.sel.map?' on':'')+'" data-m="'+id+'"><img src="'+m.img+'" alt=""><b>'+m.name+(id===CAOS.sel.map?' ✓':'')+'</b></button>'}).join('')+'</div>');
+ card.querySelectorAll('.mp').forEach(b=>b.onclick=()=>{CAOS.sel.map=b.dataset.m;refreshSel();ov.classList.remove('on')});
+}
+$('#mapSel').onclick=openMaps;
 refreshSel();
 document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{
  const p=b.dataset.p;

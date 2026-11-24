@@ -11,7 +11,7 @@ function init3(){
  const tx=new THREE.CanvasTexture(c);tx.wrapS=tx.wrapT=THREE.RepeatWrapping;tx.repeat.set(W/160,H/160);tx.anisotropy=4;
  const flr=new THREE.Mesh(new THREE.PlaneGeometry(W,H),new THREE.MeshLambertMaterial({map:tx}));
  flr.rotation.x=-Math.PI/2;flr.position.set(W/2,0,H/2);flr.receiveShadow=true;sc.add(flr);
- const wt=new THREE.Mesh(new THREE.PlaneGeometry(8000,8000),new THREE.MeshLambertMaterial({color:0x1e78c8}));wt.rotation.x=-Math.PI/2;wt.position.set(W/2,-3,H/2);sc.add(wt);
+ const wt=new THREE.Mesh(new THREE.PlaneGeometry(8000,8000),new THREE.MeshLambertMaterial({color:M.waterColor||0x1e78c8}));wt.rotation.x=-Math.PI/2;wt.position.set(W/2,-3,H/2);sc.add(wt);
  const sd=new THREE.Mesh(new THREE.PlaneGeometry(W+160,H+160),new THREE.MeshLambertMaterial({color:0xd8c58f}));sd.rotation.x=-Math.PI/2;sd.position.set(W/2,-1,H/2);sc.add(sd);
  
  const mt=f=>{const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');f(g);const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=4;return t};
