@@ -53,10 +53,13 @@ Como o jogo trata armas:
 - No menu **ARMAS** o jogador compra e **EQUIPA uma arma só**. Na partida ele tem **2 slots: a arma equipada + PUNHO** (tocar na arma que já está na mão **recarrega**; tocar na outra puxa).
 - As 6 primeiras entradas de `WP` (PISTOLA, FUZIL, SHOTGUN, SMG, SNIPER, REVÓLVER) são antigas e estão com `hide:1`: não aparecem no menu nem na partida; só ficam porque os bots usam o modelo do FUZIL e os saves usam a posição. Armas com `st:1` são as iniciais (M1911, REMINGTON 870, M4A1).
 - **Todas as janelas (cards) têm botão ✕ fixo no topo**, e fecham também tocando fora ou com Esc (`open()` em `jogo/js/sistemas/overlay.js`). Na partida, o botão **⬅ LOBBY** (`#quit`) volta ao lobby. Não remova.
+- O jogador **equipa até 3 armas** no menu ARMAS (`eqs` em `economia.js`, salvo em `sv.q`). Na partida: um slot por arma equipada + PUNHO. **Tocar na arma que já está na mão recarrega; tocar em outra troca.**
+- Botões do jogo usam **ícones SVG** (sprite no começo do `#game` em `jogo/index.html`: boneco pulando/agachado/deitado, mira, recarga, tiro, lobby...). Não volte para emoji (ficam cinza/quebrados em alguns aparelhos). Estilo em `jogo/css/jogo.css` (bloco "BOTÕES DO JOGO"). O minimapa é desenhado em `hud.js`.
+- **CACHE:** a cada atualização, mude a versão `?v=` em 3 lugares: `GAME_URL` no `index.html` da raiz, as tags `<script>/<link>` do `jogo/index.html` e `ver` em `jogo/js/carregamento/manifesto.js`. Sem isso o navegador pode mostrar arquivos velhos.
 - Modelos 3D novos têm 3 cores por vértice (campo `c` em `GUNMESH`: 0 escuro, 1 madeira, 2 metal claro).
 - O **PUNHO** é a entrada com `fist:1` em `WP` (sem munição, golpe de curto alcance, sem modelo 3D). Não remova.
 - No modo **ESTANDE** (`allWeapons:true`) aparecem todas as armas + punho, em ícones pequenos.
-- O salvamento fica em `localStorage` `sv` = `{c: moedas, o: armas compradas, e: arma equipada}`.
+- O salvamento fica em `localStorage` `sv` = `{c: moedas, o: armas compradas, q: armas equipadas}`.
 
 ## Checklist antes de enviar (testar em 3 tamanhos)
 - Computador (ex.: 1280×720), celular **em pé** (ex.: 390×780) e celular **deitado** (ex.: 780×390).

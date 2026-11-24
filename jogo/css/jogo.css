@@ -27,3 +27,25 @@
 .mv span:first-child{font-size:16px}.mv.on{background:#ffb81fcc;color:#000}
 #hudbar{position:absolute;left:50%;top:60px;transform:translateX(-50%);z-index:6;gap:8px;align-items:center;background:var(--panel);border:2px solid var(--gold);padding:6px 10px;font-size:10px}#hudbar .btn{padding:6px;width:auto;margin:0}
 #game.edit .hd{outline:2px dashed #ffb81f}
+
+/* ===== BOTÕES DO JOGO (estilo mobile shooter): ícones SVG, escuros, com contorno colorido ===== */
+.ic{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;flex:none}
+#fbtn,.mv,#rld,.hb{display:flex;align-items:center;justify-content:center;padding:0;color:#fff;box-shadow:0 2px 8px #000a}
+#fbtn{width:84px;height:84px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff6a55,#b02a20);border:3px solid #ffd6cf}
+#fbtn .ic{width:46%;height:46%;stroke-width:1.6}
+.mv{width:48px;height:48px;border-radius:50%;background:#12122ed9;border:2px solid #9d8cff;font-size:0}
+.mv .ic{width:27px;height:27px}
+.mv.on{background:#ffb81f;color:#1a1000;border-color:#fff1b0}
+#rld{width:46px;height:46px;border-radius:50%;background:#12122ed9;border:2px solid #5ad1ff;color:#5ad1ff;font-size:0}
+#rld .ic{width:26px;height:26px}
+.hb{width:36px;height:36px;top:8px;border-radius:10px;background:#12122ed9;border:2px solid #9d8cff;font-size:0}
+.hb .ic{width:21px;height:21px}
+#quit{left:8px;flex-direction:column;gap:0;border-color:#ff8a7a;color:#ffb3a8;background:#3a1020d9}
+#quit .ic{width:17px;height:17px}#quit b{font-size:6px;line-height:7px;letter-spacing:.3px}
+#smile{left:50px}#gear{left:92px}#shopb{left:134px}
+/* slots de arma: até 3 equipadas + punho, em linha */
+#slots{width:240px;gap:4px;top:70px}
+.sl{width:54px;height:44px;padding:2px 1px}
+.sl img{max-width:48px;max-height:20px}
+.sl .am{font-size:7px}
+#slots.many .sl{width:42px;height:26px}#slots.many .sl img{max-width:38px;max-height:15px}

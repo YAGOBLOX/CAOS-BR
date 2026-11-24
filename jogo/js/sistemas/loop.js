@@ -4,7 +4,7 @@ function startGame(){
  CAOS.map=map;W=map.size[0];H=map.size[1];
  G={mode,map,train:!!mode.flags.train,range:!!mode.flags.range,kills:0,p:mk(map.playerSpawn[0],map.playerSpawn[1]),dmg:0,st:{h:0,t:0,m:0},hist:[],fx:[],b:null,kits:map.kits.map(([x,y])=>({x,y,t:0})),bl:[],over:0,t:0,emo:0};
  T=null;walls=map.walls();G.bs=mode.createBots(G,map);G.b=G.bs[0];jx=jy=0;fire=false;joy=null;aim=null;pit=0;
- G.p.w=eq;   // começa com a arma EQUIPADA no menu ARMAS
+ G.p.w=eqs[0];   // começa com a 1ª arma EQUIPADA no menu ARMAS
  $('#game').style.display='block';$('#shopb').style.display=G.mode.shop?'flex':'none';buildSlots();
  const g=G;let last=performance.now();
  (function f(ts){if(G!==g)return;const dt=Math.min(.05,(ts-last)/1000);last=ts;if(!editMode)upd(dt);draw();requestAnimationFrame(f)})(last);

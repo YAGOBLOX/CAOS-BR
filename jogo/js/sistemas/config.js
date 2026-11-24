@@ -7,9 +7,9 @@ let afr=1,zoom=false;
 const sn=()=>S.sens*(zoom?S.zs:1)*afr;
 function saveCfg(){try{localStorage.setItem('cfg',JSON.stringify(S))}catch(e){}}
 function applyCfg(){
- const f=$('#fbtn').style;f.width=f.height=S.fS+'px';f.right=S.fR+'px';f.bottom=S.fB+'px';f.fontSize=(S.fS*.38)+'px';
- const r=$('#rld').style;r.right=(S.fR+S.fS+12)+'px';r.bottom=(S.fB+S.fS/2-26)+'px';
- const mb=S.fB+S.fS+8;setTimeout(()=>{if(typeof applyLay==='function')applyLay()},0);[['#jmp',0],['#cro',62],['#prn',124],['#aimb',186]].forEach(([q,o])=>{const y=$(q).style;y.right=(S.fR+o)+'px';y.bottom=mb+'px'});
+ const f=$('#fbtn').style;f.width=f.height=S.fS+'px';f.right=S.fR+'px';f.bottom=S.fB+'px';
+ const r=$('#rld').style;r.right=(S.fR+S.fS+10)+'px';r.bottom=(S.fB+S.fS/2-23)+'px';
+ const mb=S.fB+S.fS+8;setTimeout(()=>{if(typeof applyLay==='function')applyLay()},0);[['#jmp',0],['#cro',54],['#prn',108],['#aimb',162]].forEach(([q,o])=>{const y=$(q).style;y.right=(S.fR+o)+'px';y.bottom=mb+'px'});
 }
 function openCfg(){
  const R=(l,k,a,b,st)=>`<div class="cr"><span>${l}</span><input type="range" data-k="${k}" min="${a}" max="${b}" step="${st}" value="${S[k]}"><b>${S[k]}</b></div>`;

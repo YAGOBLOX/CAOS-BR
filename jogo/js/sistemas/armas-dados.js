@@ -5,6 +5,7 @@
      pr PREÇO na loja (0 = já vem liberada)             d  descrição (opcional; se faltar, é gerada)
      ic ícone (img/armas/<id>.png)                      m  modelo 3D (chave em GUNMESH, js/personagens/armas-3d.js)
    hide:1 = não aparece no menu nem na partida (as 6 primeiras são antigas; ficam só porque os bots usam o FUZIL e os saves usam a posição)
+   (o jogador pode EQUIPAR até 3 armas no menu ARMAS; cada uma vira um slot na partida)
    st:1 = arma inicial (o jogador já começa com ela)
    IMPORTANTE: só ADICIONE armas no fim da lista (antes do PUNHO não importa, ele é achado por fist:true).
    O jogador salva as armas pelo NÚMERO da posição aqui, então não reordene nem apague as existentes.

@@ -4,7 +4,7 @@
  function script(src){
   if(cache.has(src)) return cache.get(src);
   const p=new Promise((ok,fail)=>{
-   const s=document.createElement('script');s.src=src;s.async=false;
+   const s=document.createElement('script');s.src=/^https?:/.test(src)?src:src+'?v='+CAOS.ver;s.async=false;
    s.onload=ok;s.onerror=()=>{cache.delete(src);fail(new Error('Não consegui carregar '+src))};
    document.head.appendChild(s);
   });
