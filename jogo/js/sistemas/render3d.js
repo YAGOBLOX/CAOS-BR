@@ -5,7 +5,7 @@ function init3(){
  r.setPixelRatio(Math.min(devicePixelRatio||1,2));r.setSize(800,450,false);
  const sc=new THREE.Scene();const SK=M.sky;sc.background=new THREE.Color(SK);sc.fog=new THREE.Fog(SK,M.fogNear,M.fogFar);
  sc.add(new THREE.HemisphereLight(0xcfe8ff,0x4a5a30,.75));
- const dl=new THREE.DirectionalLight(0xfff0d0,.95);dl.position.set(300,700,150);dl.target.position.set(W/2,0,H/2);dl.castShadow=true;dl.shadow.mapSize.set(2048,2048);const sh=dl.shadow.camera;sh.left=-760;sh.right=760;sh.top=560;sh.bottom=-560;sh.near=100;sh.far=1600;sc.add(dl,dl.target);r.shadowMap.enabled=true;r.shadowMap.type=THREE.PCFSoftShadowMap;const fl2=new THREE.DirectionalLight(0x9fc4ff,.3);fl2.position.set(-300,200,-300);sc.add(fl2);
+ const dl=new THREE.DirectionalLight(0xfff0d0,.95);dl.position.set(300,700,150);dl.target.position.set(W/2,0,H/2);dl.castShadow=true;dl.shadow.mapSize.set(1536,1536);const sh=dl.shadow.camera;sh.left=-760;sh.right=760;sh.top=560;sh.bottom=-560;sh.near=100;sh.far=1600;sc.add(dl,dl.target);r.shadowMap.enabled=true;r.shadowMap.type=THREE.PCFShadowMap;const fl2=new THREE.DirectionalLight(0x9fc4ff,.3);fl2.position.set(-300,200,-300);sc.add(fl2);
  const c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d');
  M.drawFloor(g);
  const tx=new THREE.CanvasTexture(c);tx.wrapS=tx.wrapT=THREE.RepeatWrapping;tx.repeat.set(W/160,H/160);tx.anisotropy=4;
@@ -33,7 +33,7 @@ function draw3d(){
  poseN(p,T.mp,p.fa===undefined?ang:p.fa,t);
  T.mbs.forEach((m,i)=>{const q=G.bs[i];m.g.visible=!!q&&(q.hp>0||q.rs===undefined||q.rs>2.2);if(q)poseN(q,m,q.a||0,t)});
  T.kits.forEach((o,i)=>{o.visible=G.kits[i].t<=0;o.rotation.y=t*2;o.position.y=14+Math.sin(t*3)*3});
- while(T.bl.length<G.bl.length){const s=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),new THREE.MeshBasicMaterial({color:0xffe9a0}));T.sc.add(s);T.bl.push(s)}
+ while(T.bl.length<G.bl.length){const s=new THREE.Mesh(T.bg||(T.bg=new THREE.BoxGeometry(1,1,1)),T.bm||(T.bm=new THREE.MeshBasicMaterial({color:0xffe9a0})));T.sc.add(s);T.bl.push(s)}
  T.bl.forEach((s,i)=>{const q=G.bl[i];s.visible=!!q;if(q){s.position.set(q.x,q.h,q.y);s.scale.set(q.th||1.4,q.th||1.4,q.ln||14);s.lookAt(q.x+q.vx,q.h+q.vh,q.y+q.vy)}});
  T.dl.target.position.set(p.x,0,p.y);T.dl.position.set(p.x-300,700,p.y-250);const R=camRay();T.cam.fov+=((zoom?42:72)-T.cam.fov)*.25;T.cam.updateProjectionMatrix();
  T.cam.position.set(R.o.x,R.o.y,R.o.z);T.cam.lookAt(R.t.x,R.t.y,R.t.z);

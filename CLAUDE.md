@@ -92,3 +92,7 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 - Lobby enxuto (estilo Free Fire): perfil, moedas, ⚙️, LOJA (compra/equipa armas — não existe mais botão ARMAS), NOVIDADES, modo/mapa e DECOLAR. Só deixe botão que tenha função.
 - Agachar/deitar são animados: `m.cs`/`m.ps` em `animacoes.js` (corpo) e `p.hs` em `loop.js` + `SM()` em `combate.js` (câmera). Não volte para troca instantânea.
 - Os bots seguram o M4A1 (`BOTW` em `modelos-armas.js`); a posição da arma na mão é em `poseN`.
+
+## IA dos bots (loop.js, bloco dos bots)
+- Miram na altura real do jogador (em pé/agachado/deitado): ~10% cabeça, ~30% peito, o resto erra por perto. `shoot(e,a,dm,o,ty,d)` em `combate.js` recebe a altura alvo.
+- Esquivam (pulam/agacham, mais quando o jogador mira neles), andam com velocidade suave, se afastam uns dos outros e giram suave. Para ajustar a dificuldade: as chances em `const sd=...`/`r<.1`/`r<.4`, `q.rate` e `q.dmg` nos modos.

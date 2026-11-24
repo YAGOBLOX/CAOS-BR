@@ -42,14 +42,29 @@ function upd(dt){
   for(const q of g.bs)if(q.hp<=0&&q.rs>0){q.rs-=dt;if(q.rs<=0){if(q.hx!=null){q.x=q.hx;q.y=q.hy}else{const sq=spawnPt();q.x=sq[0];q.y=sq[1]}q.hp=200}}
   for(const q of g.bs){if(q.hp<=0)continue;if(g.range){q.a=Math.atan2(p.y-q.y,p.x-q.x);continue}
    const d=Math.hypot(p.x-q.x,p.y-q.y),a=Math.atan2(p.y-q.y,p.x-q.x),los=see(q,p);
-   q.bst-=dt;if(q.bst<=0){q.bst=.6+Math.random()*.8;q.bsd=Math.random()<.5?1:-1}
+   // --- esquiva: pula ou agacha de vez em quando; mais ainda quando o jogador está mirando/atirando nele ---
+   q.dd=(q.dd===undefined?Math.random():q.dd)-dt;
+   if(q.dd<=0){q.dd=.7+Math.random()*1.5;if(los&&d<650&&p.hp>0){let df=Math.atan2(q.y-p.y,q.x-p.x)-ang;df=Math.abs(Math.atan2(Math.sin(df),Math.cos(df)));
+     const prob=(df<.2?(fire||fb?.8:.5):.2);
+     if(Math.random()<prob){if(Math.random()<.5&&q.z===0)q.vz=290;else{q.st=1;q.cr=.7+Math.random()*.6}}}}
+   if(q.cr>0){q.cr-=dt;if(q.cr<=0)q.st=0}
+   q.vz-=900*dt;q.z+=q.vz*dt;if(q.z<=0){q.z=0;q.vz=0}
+   // --- movimento: velocidade suave, sem grudar nos outros bots ---
+   q.bst-=dt;if(q.bst<=0){q.bst=.8+Math.random()*1.2;q.bsd=Math.random()<.5?1:-1}
    let bx,by;
    if(q.blk>0){q.blk-=dt;bx=Math.cos(q.wa);by=Math.sin(q.wa)}
    else{const f=(!los||d>320)?1:(d<180?-1:0),s2=q.bsd*.7;bx=Math.cos(a)*f+Math.cos(a+1.571)*s2;by=Math.sin(a)*f+Math.sin(a+1.571)*s2}
-   const bl=Math.hypot(bx,by)||1,spd=q.spd||105;
-   if(!mv(q,bx/bl*spd*dt,by/bl*spd*dt)&&q.blk<=0){q.blk=.5;q.wa=Math.random()*6.28}
-   q.cd-=dt;if(los&&d<520&&q.cd<=0){shoot(q,a+(Math.random()-.5)*.35*(q.acc||1),q.dmg||7,'b');q.cd=q.rate||.5}
-   q.a=a;
+   for(const o of g.bs){if(o===q||o.hp<=0)continue;const ox=q.x-o.x,oy=q.y-o.y,od=Math.hypot(ox,oy);if(od<40&&od>.1){bx+=ox/od*(40-od)/14;by+=oy/od*(40-od)/14}}
+   {const pd=d;if(pd<34&&pd>.1){bx-=Math.cos(a)*1.5;by-=Math.sin(a)*1.5}}
+   const bl=Math.hypot(bx,by)||1,spd=(q.spd||105)*(q.st===1?.6:1),kv=Math.min(1,dt*7);
+   q.vx=(q.vx||0)+(bx/bl*spd-(q.vx||0))*kv;q.vy=(q.vy||0)+(by/bl*spd-(q.vy||0))*kv;
+   if(!mv(q,q.vx*dt,q.vy*dt)&&q.blk<=0&&Math.hypot(q.vx,q.vy)>20){q.blk=.5;q.wa=Math.random()*6.28}
+   // --- tiro: mira na altura REAL do jogador (em pé, agachado ou deitado). ~10% cabeça, ~30% peito, o resto erra por perto ---
+   q.cd-=dt;if(los&&d<520&&q.cd<=0&&p.hp>0){
+    const sd=p.st===2?[16,9,2]:p.st===1?[38,24,6]:[50,32,6],r=Math.random();let ty,er;
+    if(r<.1){ty=(p.z||0)+sd[0];er=.012}else if(r<.4){ty=(p.z||0)+sd[1];er=.02}else{ty=(p.z||0)+sd[2]+Math.random()*30;er=.07+Math.random()*.15}
+    shoot(q,a+(Math.random()<.5?-1:1)*er*(Math.random()*.6+.4)*(q.acc||1)*(r<.4?1:1),q.dmg||7,'b',ty,d);q.cd=q.rate||.5}
+   {let df=a-(q.a||0);df=Math.atan2(Math.sin(df),Math.cos(df));q.a=(q.a||0)+df*Math.min(1,dt*10)}
   }
  }
  for(let i=g.bl.length-1;i>=0;i--){

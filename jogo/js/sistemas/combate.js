@@ -1,5 +1,5 @@
 /* CAOS BR FPS · tiro, raio da câmera, mira, mira assistida, trocar/recarregar arma */
-function shoot(e,a,dm,o){G.bl.push({x:e.x+Math.cos(a)*20,y:e.y+Math.sin(a)*20,vx:Math.cos(a)*520,vy:Math.sin(a)*520,o,dm,h:(e.z||0)+(e.st===2?10:e.st===1?26:36),vh:0,life:1.2,ln:10,th:1.3})}
+function shoot(e,a,dm,o,ty,d){const h0=(e.z||0)+(e.st===2?10:e.st===1?26:36);G.bl.push({x:e.x+Math.cos(a)*20,y:e.y+Math.sin(a)*20,vx:Math.cos(a)*520,vy:Math.sin(a)*520,o,dm,h:h0,vh:ty===undefined?0:(ty-h0)/Math.max(40,d)*520,life:1.2,ln:10,th:1.3})}
 // ===== mira / raio da câmera =====
 function camRay(){
  const SM=a=>{const h=G.p.hs===undefined?(G.p.st||0):G.p.hs,i=Math.min(1,Math.floor(h)),f=h-i;return a[i]+(a[i+1]-a[i])*f};   // altura da câmera suave entre em pé/agachado/deitado
