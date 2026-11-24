@@ -34,7 +34,7 @@ CAOS.registerMap({
   const pine=(x,z,v,k)=>{const o=PN[v],kx=.7*k;o.t.push([x,13*k,z,kx,k,kx]);o.a.push([x,37*k,z,kx,k,kx,rr(0,6)]);o.b.push([x,55*k,z,kx,k,kx]);o.c.push([x,73*k,z,kx,k,kx]);walls.push([x-4*kx,z-4*kx,8*kx,8*kx]);add(x,z,18*kx)};
   const round=(x,z,v,k)=>{const o=RT[v],kx=.8*k;o.t.push([x,11*k,z,kx,k,kx]);o.a.push([x,36*k,z,kx,.92*k,kx]);o.b.push([x+7*kx,45*k,z-4*kx,kx,k,kx]);o.c.push([x-8*kx,41*k,z+5*kx,kx,k,kx]);walls.push([x-4*kx,z-4*kx,8*kx,8*kx]);add(x,z,22*kx)};
   const bush=(x,z)=>{const k=rr(1.4,2.4);BU[R()<.5?0:1].push([x,5*k,z,k,.7*k,k]);add(x,z,10*k)};
-  const rock=(x,z)=>{const r=rr(20,38);RB[R()<.5?0:1].push([x,r*.4,z,r,r*.75,r*rr(.8,1.1),rr(0,6)]);walls.push([x-r*.8,z-r*.8,r*1.6,r*1.6]);add(x,z,r)};
+  const rock=(x,z)=>{const r=rr(20,38);RB[R()<.5?0:1].push([x,r*.4,z,r,r*.75,r*rr(.8,1.1),rr(0,6)]);walls.push([x-r*.95,z-r*.95,r*1.9,r*1.9]);add(x,z,r)};
   const pebbles=(x,z)=>{for(let i=0;i<3;i++){const s=rr(2.5,5.5);RS.push([x+rr(-14,14),s*.4,z+rr(-14,14),s,s*.8,s,rr(0,6)])}add(x,z,16)};
   // 1) cenário espalhado em grade com desvio (cobre o mapa todo de forma uniforme)
   for(let gx=100;gx<W-60;gx+=120)for(let gz=100;gz<H-60;gz+=120){

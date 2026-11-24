@@ -2,11 +2,11 @@
 // ===== HUD =====
 function bar(x,n,hp,col){cx.fillStyle='#000a';cx.fillRect(x,8,200,18);cx.fillStyle=col;cx.fillRect(x+2,10,196*hp/200,14);cx.fillStyle='#fff';cx.font='bold 10px monospace';cx.fillText(n+' '+hp,x+6,21)}
 function gun(x,y,i,c){cx.fillStyle=c;const L=[22,40,46,34,56,28][i];cx.fillRect(x,y,L,7);cx.fillRect(x+4,y+7,7,10);if(i>0)cx.fillRect(x+L*.45,y+7,6,9)}
-function drawCh(){
- const z=zoom?1.3:1;cx.save();const col=onTarget()?'#ff2b2b':'#fff';cx.fillStyle=col;cx.strokeStyle=col;cx.lineWidth=2*z;
- 
- cx.strokeStyle='#000b';cx.lineWidth=1.5;for(const[dx,dy]of[[-1,0],[1,0],[0,-1],[0,1]]){const g=5*z,l=10*z,t=3*z,x=dx?(dx<0?400-g-l:400+g):400-t/2,y=dy?(dy<0?225-g-l:225+g):225-t/2,w=dx?l:t,h=dx?t:l;cx.fillRect(x,y,w,h);cx.strokeRect(x,y,w,h)}
- cx.beginPath();cx.arc(400,225,1.6*z,0,6.28);cx.fill();cx.restore();
+function drawCh(){   // mira: bolinha (anel + ponto) estilo Free Fire; fica vermelha quando está em cima de um alvo
+ const z=zoom?.8:1,col=onTarget()?'#ff3b3b':'#ffffff';cx.save();
+ cx.lineWidth=4*z;cx.strokeStyle='#0008';cx.beginPath();cx.arc(400,225,7*z,0,6.283);cx.stroke();
+ cx.lineWidth=2*z;cx.strokeStyle=col;cx.beginPath();cx.arc(400,225,7*z,0,6.283);cx.stroke();
+ cx.fillStyle='#0008';cx.beginPath();cx.arc(400,225,3*z,0,6.283);cx.fill();cx.fillStyle=col;cx.beginPath();cx.arc(400,225,2*z,0,6.283);cx.fill();cx.restore();
 }
 function draw(){
  draw3d();

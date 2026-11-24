@@ -6,6 +6,10 @@ function camRay(){
  const p=G.p,c=Math.cos(ang),s=Math.sin(ang),dd=zoom?60:78,sh=zoom?10:20,dh=dd*Math.cos(pit),st=p.st||0,z=p.z||0;
  const o={x:cl(p.x-c*dh-s*sh,25,W-25),y:Math.max(10,SM([52,40,26])+z*.8-dd*Math.sin(pit)),z:cl(p.y-s*dh+c*sh,25,H-25)};
  const t={x:p.x+c*300-s*sh,y:SM([40,30,18])+z*.6+Math.tan(pit)*300,z:p.y+s*300+c*sh};
+ {// câmera não atravessa parede: encurta o recuo até antes do 1º obstáculo
+  const ex=p.x,ez=p.y,n=Math.max(1,Math.ceil(Math.hypot(o.x-ex,o.z-ez)/6));let kf=1;
+  for(let i=1;i<=n;i++){const u=i/n,x=ex+(o.x-ex)*u,z=ez+(o.z-ez)*u,y=40+(o.y-40)*u;if(y<WALLH+4&&hitW(x,z,7)){kf=Math.max(.12,(i-1)/n*.92);break}}
+  if(kf<1){o.x=ex+(o.x-ex)*kf;o.z=ez+(o.z-ez)*kf;o.y=40+(o.y-40)*kf}}
  const dx=t.x-o.x,dy=t.y-o.y,dz=t.z-o.z,l=Math.hypot(dx,dy,dz)||1;
  return{o,t,d:{x:dx/l,y:dy/l,z:dz/l}};
 }

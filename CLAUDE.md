@@ -101,3 +101,5 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 - Mapas: `ilha`, `deserto` (casas de adobe, montanhas de areia, cactos grandes, árvores secas, mesas, trilhas) e `estande`. Cada um em `jogo/js/mapas/<id>/mapa.js`, registrado em `manifesto.js` com `img` (prévia em `jogo/img/mapas/<id>.png`, 480x270) e listado em `maps:[...]` dos modos que podem usá-lo.
 - O lobby abre a tela ESCOLHER MAPA (`openMaps()` em `lobby.js`) com imagem + nome de cada mapa do modo. Mapa novo: copie `_modelo`, registre no manifesto, ponha a prévia em `img/mapas/` e confira (spawns/kits fora de paredes e alcançáveis).
 - Campo opcional `waterColor` no mapa troca a cor do "mar" fora da borda (deserto usa areia).
+- Colisores dos objetos devem cobrir quase toda a base visual (montanhas ~.85 do raio, pedras ~.95), senão o boneco "entra" neles.
+- A câmera em 3ª pessoa não atravessa parede: `camRay()` em `combate.js` encurta o recuo até antes do 1º obstáculo. Mira = bolinha (anel + ponto) em `drawCh()` no `hud.js`.
