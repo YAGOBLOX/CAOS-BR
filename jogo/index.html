@@ -5,10 +5,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Caos BR FPS</title>
-<link rel="stylesheet" href="css/base.css?v=10">
-<link rel="stylesheet" href="css/lobby.css?v=10">
-<link rel="stylesheet" href="css/overlay.css?v=10">
-<link rel="stylesheet" href="css/jogo.css?v=10">
+<link rel="stylesheet" href="css/base.css?v=11">
+<link rel="stylesheet" href="css/lobby.css?v=11">
+<link rel="stylesheet" href="css/overlay.css?v=11">
+<link rel="stylesheet" href="css/jogo.css?v=11">
 </head>
 <body>
 <div id="wrap"><div id="stage">
@@ -17,17 +17,13 @@
  <div class="city" style="left:560px;width:100px;height:230px"></div>
  <div class="city" style="left:670px;width:80px;height:180px"></div>
  <div class="top">
-  <div class="me"><div class="ava">🙂</div><div><b id="nick">JOGADOR_01</b><small>NV. 49</small></div></div>
-  <div class="cur g">🪙 <span id="coins">21130</span></div>
-  <div class="cur d">💎 <span>9035</span></div>
+  <div class="me"><div class="ava">🙂</div><b id="nick">JOGADOR_01</b></div>
  </div>
+ <div class="tr"><div class="cur g">🪙 <span id="coins">21130</span></div><button class="btn cfgb" data-p="Config" aria-label="Configurações">⚙️</button></div>
  <div class="logo">CAOS BR FPS</div>
  <div class="menu">
-  <button class="btn" data-p="Novidades"><i>🟦</i>NOVIDADES</button>
   <button class="btn" data-p="Loja"><i>🛒</i>LOJA</button>
-  <button class="btn" data-p="Sorte Royale"><i>🍀</i>SORTE ROYALE</button>
-  <button class="btn" data-p="Passe"><i>⭐</i>PASSE</button>
-  <button class="btn" data-p="Eventos"><i>📅</i>EVENTOS</button>
+  <button class="btn" data-p="Novidades"><i>🟦</i>NOVIDADES</button>
  </div>
  <div id="hero">
   <div class="shadow"></div>
@@ -39,14 +35,6 @@
   <div class="gun"></div>
   <div class="head"></div><div class="hair"></div><div class="band"></div>
   <div class="eye" style="left:35px"></div><div class="eye" style="left:55px"></div>
- </div>
- <div class="bot">
-  <button class="btn" data-p="Equipe"><i>💬</i>EQUIPE · SEM MENSAGENS</button>
-  <div class="row"><button class="btn" data-p="Cofre"><i>🧰</i>COFRE</button><button class="btn" data-p="Armas"><i><img src="img/armas/ak47.png" alt="" style="width:24px;height:auto"></i>ARMAS</button></div>
- </div>
- <div class="amigos">
-  <div class="fhead"><button class="btn" data-p="Amigos">👥</button><button class="btn" data-p="Convites">📨</button><button class="btn" data-p="Config">⚙️</button></div>
-  <div class="fl" id="fl"></div>
  </div>
  <div class="play">
   <div class="mode" id="mode">🏆 <span id="modeName">TREINO</span> <small style="margin-left:auto">▸ trocar</small></div>
@@ -70,16 +58,16 @@
  <div id="hudbar" style="display:none">ARRASTE OS BOTÕES <button class="btn" id="hsv">SALVAR</button><button class="btn" id="hrs">RESTAURAR</button></div>
 </div></div>
 <!-- Só o essencial do lobby carrega aqui. three.js, personagens, mapa e modo são carregados sob demanda (carregamento/carregador.js). -->
-<script src="js/sistemas/utils.js?v=10"></script>
-<script src="js/sistemas/estado.js?v=10"></script>
-<script src="js/carregamento/manifesto.js?v=10"></script>
-<script src="js/carregamento/carregador.js?v=10"></script>
-<script src="js/sistemas/overlay.js?v=10"></script>
-<script src="js/sistemas/armas-dados.js?v=10"></script>
-<script src="js/sistemas/config.js?v=10"></script>
-<script src="js/sistemas/economia.js?v=10"></script>
-<script src="js/sistemas/layout-hud.js?v=10"></script>
-<script src="js/lobby/lobby.js?v=10"></script>
-<script src="js/lobby/heroi3d.js?v=10"></script>
+<script src="js/sistemas/utils.js?v=11"></script>
+<script src="js/sistemas/estado.js?v=11"></script>
+<script src="js/carregamento/manifesto.js?v=11"></script>
+<script src="js/carregamento/carregador.js?v=11"></script>
+<script src="js/sistemas/overlay.js?v=11"></script>
+<script src="js/sistemas/armas-dados.js?v=11"></script>
+<script src="js/sistemas/config.js?v=11"></script>
+<script src="js/sistemas/economia.js?v=11"></script>
+<script src="js/sistemas/layout-hud.js?v=11"></script>
+<script src="js/lobby/lobby.js?v=11"></script>
+<script src="js/lobby/heroi3d.js?v=11"></script>
 </body>
 </html>

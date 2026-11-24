@@ -1,12 +1,5 @@
 /* CAOS BR FPS · lobby: perfil, amigos, menus, seleção de modo/mapa e botão DECOLAR */
 try{const n=localStorage.getItem('nick');if(n)$('#nick').textContent=n}catch(e){}
-const fl=$('#fl');
-[['BOT','🤖'],['RAFS_ADM','👾'],['LKZ2026','👾'],['SUESA_S','🎮']].forEach(([n,e])=>{
- const d=document.createElement('div');d.className='fr';
- d.innerHTML='<div class="a">'+e+'</div><div class="n">'+n+'</div><div class="p">+</div>';
- d.onclick=()=>{d.classList.toggle('in');d.querySelector('.p').textContent=d.classList.contains('in')?'✓':'+'};
- fl.appendChild(d);
-});
 // ===== seleção de modo e mapa (dados vêm do manifesto; nada de mapa/modo é carregado aqui) =====
 const MF=CAOS.manifest,modeIds=Object.keys(MF.modes);
 CAOS.sel.mode=modeIds[0];CAOS.sel.map=MF.modes[modeIds[0]].maps[0];
@@ -25,7 +18,7 @@ $('#mapSel').onclick=()=>{
 refreshSel();
 document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{
  const p=b.dataset.p;
- if(p==='Config')openCfg();else if(p==='Loja'||p==='Armas')openShop();else if(p==='Novidades')open('<h2>NOVIDADES</h2>• Mapa expandido (1800 x 1200)<br>• 12 armas novas no menu ARMAS: AK-47, M4A1, MP5, AWM, RPG-7 e mais<br>• Escolha a arma no menu ARMAS; na partida: arma + punho (toque na arma para recarregar)<br>• HUD editável nas configurações<br>• 200 de vida para todos');else open('<h2>'+p.toUpperCase()+'</h2>Em breve! Aqui vai a tela de '+p+'.');
+ if(p==='Config')openCfg();else if(p==='Loja')openShop();else if(p==='Novidades')open('<h2>NOVIDADES</h2>• Mapa expandido (1800 x 1200)<br>• 12 armas novas na LOJA: AK-47, M4A1, MP5, AWM, RPG-7 e mais<br>• Compre e equipe armas na LOJA; na partida: arma + punho (toque na arma para recarregar)<br>• HUD editável nas configurações<br>• 200 de vida para todos');else open('<h2>'+p.toUpperCase()+'</h2>Em breve! Aqui vai a tela de '+p+'.');
 });
 let iv;
 $('#go').onclick=()=>{

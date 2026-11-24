@@ -2,9 +2,10 @@
 function shoot(e,a,dm,o){G.bl.push({x:e.x+Math.cos(a)*20,y:e.y+Math.sin(a)*20,vx:Math.cos(a)*520,vy:Math.sin(a)*520,o,dm,h:(e.z||0)+(e.st===2?10:e.st===1?26:36),vh:0,life:1.2,ln:10,th:1.3})}
 // ===== mira / raio da câmera =====
 function camRay(){
+ const SM=a=>{const h=G.p.hs===undefined?(G.p.st||0):G.p.hs,i=Math.min(1,Math.floor(h)),f=h-i;return a[i]+(a[i+1]-a[i])*f};   // altura da câmera suave entre em pé/agachado/deitado
  const p=G.p,c=Math.cos(ang),s=Math.sin(ang),dd=zoom?60:78,sh=zoom?10:20,dh=dd*Math.cos(pit),st=p.st||0,z=p.z||0;
- const o={x:cl(p.x-c*dh-s*sh,25,W-25),y:Math.max(10,[52,40,26][st]+z*.8-dd*Math.sin(pit)),z:cl(p.y-s*dh+c*sh,25,H-25)};
- const t={x:p.x+c*300-s*sh,y:[40,30,18][st]+z*.6+Math.tan(pit)*300,z:p.y+s*300+c*sh};
+ const o={x:cl(p.x-c*dh-s*sh,25,W-25),y:Math.max(10,SM([52,40,26])+z*.8-dd*Math.sin(pit)),z:cl(p.y-s*dh+c*sh,25,H-25)};
+ const t={x:p.x+c*300-s*sh,y:SM([40,30,18])+z*.6+Math.tan(pit)*300,z:p.y+s*300+c*sh};
  const dx=t.x-o.x,dy=t.y-o.y,dz=t.z-o.z,l=Math.hypot(dx,dy,dz)||1;
  return{o,t,d:{x:dx/l,y:dy/l,z:dz/l}};
 }

@@ -1,6 +1,6 @@
 /* CAOS BR FPS · modelo 3D do humanoide (jogador e bots): articulações encaixadas (quadril, joelho, ombro, cotovelo) */
 function humanoid(pl,shc){
- const skin=pl?0xc08a5e:0xe59a5a,sh=pl?0x1a1b20:shc,pa=pl?0x1c1d24:0x2a2a2a,ha=0x400000,glv=0x1b1b1f;
+ const skin=pl?0xc08a5e:0xe59a5a,sh=pl?0x1a1b20:shc,pa=pl?0x1c1d24:0x303524,ha=0x400000,glv=0x1b1b1f;
  const g=new THREE.Group(),M=[],G2=(p,x,y,z)=>{const q=new THREE.Group();q.position.set(x,y,z);p.add(q);return q};
  const mesh=(geo,c,x,y,z,sx,sy,sz,p)=>{const o=new THREE.Mesh(geo,new THREE.MeshLambertMaterial({color:c}));o.position.set(x,y,z);o.scale.set(sx,sy,sz);o.castShadow=true;(p||g).add(o);M.push(o.material);return o};
  const cy=new THREE.CylinderGeometry(.5,.5,1,18),sp=new THREE.SphereGeometry(.5,20,14),bx=new THREE.BoxGeometry(1,1,1),tp=new THREE.CylinderGeometry(.5,.4,1,20),th=new THREE.CylinderGeometry(.5,.42,1,16);
@@ -24,7 +24,10 @@ function humanoid(pl,shc){
   for(const z of[-4,0,4])mesh(bx,0x2fd34a,5.2*Math.sqrt(1-(z/9.2)**2)+.2,13,z,.6,20,1.5,ts);
   const r=mesh(cy,0x1c1c22,-6.8,12,-2.5,2.6,34,2.6,ts);r.rotation.z=.2;
  }else{
-  mesh(sp,0x3a4030,0,3.6,0,12.4,8.2,11.4,hd);mesh(bx,0x2a3024,4.6,1.8,0,2.6,1.2,11,hd);mesh(sp,0x1a1a1a,5.1,.2,-2.5,1.2,2.4,2.4,hd);mesh(sp,0x1a1a1a,5.1,.2,2.5,1.2,2.4,2.4,hd);mesh(bx,0x2d3328,0,14,0,11.2,12,18.8,ts);
+  // soldado: capacete, óculos, máscara e colete (no lugar do bloco quadrado)
+  mesh(sp,0x3a4030,0,3.4,0,12.6,8.6,11.6,hd);mesh(cy,0x2c3224,0,1.2,0,12.8,1.6,12,hd);mesh(bx,0x1a1a1a,4.9,.2,0,1.2,2.6,9.2,hd);mesh(sp,0x4aa8ff,5.4,.2,-2.5,.8,2,2.4,hd);mesh(sp,0x4aa8ff,5.4,.2,2.5,.8,2,2.4,hd);
+  mesh(sp,0x23271d,4.4,-3.6,0,4,3.6,9.4,hd);mesh(bx,0x242a1f,-1,-5.4,0,9,.8,9,hd);
+  mesh(tp,0x39402f,0,13.8,0,11.6,13,19.6,ts);mesh(bx,0x2d3328,6.2,16,0,1.6,4.4,8,ts);mesh(bx,0x2d3328,6,9.2,-5,2.2,4.6,4.6,ts);mesh(bx,0x2d3328,6,9.2,5,2.2,4.6,4.6,ts);
  }
  // braços de 2 ossos: ombro (esfera) → braço de manga → cotovelo → antebraço → luva. A pose vem de IK em animacoes.js
  const arm=z=>{const s=G2(ts,0,21,z);s.rotation.order='YXZ';
@@ -32,6 +35,6 @@ function humanoid(pl,shc){
   const el=G2(s,0,-12,0);mesh(sp,skin,0,0,0,5,5,5,el);mesh(th,skin,0,-6.2,0,4.8,12.4,4.8,el);mesh(cy,0x2b2b2f,0,-10.6,0,5.4,2,5.4,el);mesh(sp,glv,0,-13.4,0,5.8,5.8,5.8,el);
   s.el=el;return s};
  const A1=arm(-9.2),A2=arm(9.2);
- const gn=G2(ts,8,13,3.6);gn.gs=gunModels(pl?null:[1]);gn.gs.forEach(x=>{if(x)gn.add(x)});
+ const gn=G2(ts,8,13,3.6);gn.gs=gunModels(pl?null:[BOTW]);gn.gs.forEach(x=>{if(x)gn.add(x)});
  return{g,hp,ts,hd,L1,L2,A1,A2,gn,M,lx:0,ly:0};
 }

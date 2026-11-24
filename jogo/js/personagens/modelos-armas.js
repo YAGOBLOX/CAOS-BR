@@ -1,4 +1,5 @@
 /* CAOS BR FPS · modelos 3D das armas */
+const BOTW=WP.findIndex(w=>w.id==='m4a1');   // arma que os bots seguram
 function gunModels(only){
  const mt=c=>new THREE.MeshLambertMaterial({color:c}),dk=mt(0x23252b),md=mt(0x3b3f48),wd=mt(0x6b4a2a),ac=mt(0x9aa0aa),gl=new THREE.MeshLambertMaterial({color:0x4aa8ff,emissive:0x0a2a50});
  const bg=new THREE.BoxGeometry(1,1,1),cg=new THREE.CylinderGeometry(.5,.5,1,14);

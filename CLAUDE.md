@@ -87,3 +87,8 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 - `jogo/js/personagens/modelos.js` (humanoide com quadril/joelho/ombro/cotovelo encaixados) e `animacoes.js` (pose + IK de 2 ossos: as mãos seguram a arma; punho = guarda de boxe).
 - O CORPO é independente da câmera: `p.fa` (loop.js) vira suave para onde anda; ao atirar/mirar vira para a mira. A bala sempre sai pela mira (câmera), não pelo corpo.
 - O lobby mostra o mesmo boneco em 3D (`jogo/js/lobby/heroi3d.js`, carrega three.js em 2º plano via `CAOS.loadChars()`); se falhar, fica o desenho 2D (`#hero`).
+
+## Lobby e transições
+- Lobby enxuto (estilo Free Fire): perfil, moedas, ⚙️, LOJA (compra/equipa armas — não existe mais botão ARMAS), NOVIDADES, modo/mapa e DECOLAR. Só deixe botão que tenha função.
+- Agachar/deitar são animados: `m.cs`/`m.ps` em `animacoes.js` (corpo) e `p.hs` em `loop.js` + `SM()` em `combate.js` (câmera). Não volte para troca instantânea.
+- Os bots seguram o M4A1 (`BOTW` em `modelos-armas.js`); a posição da arma na mão é em `poseN`.

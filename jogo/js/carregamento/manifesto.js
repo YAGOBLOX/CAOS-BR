@@ -1,6 +1,6 @@
 /* CAOS BR FPS · MANIFESTO: lista de mapas, modos e arquivos. Para adicionar mapa/modo, registre aqui */
 const CAOS={
- ver:'10',   // MUDE este número (e o ?v= do index.html e do site) a cada atualização, para o navegador baixar os arquivos novos
+ ver:'11',   // MUDE este número (e o ?v= do index.html e do site) a cada atualização, para o navegador baixar os arquivos novos
  maps:{}, modes:{}, map:null, sel:{mode:null,map:null},
  manifest:{
   three:'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',

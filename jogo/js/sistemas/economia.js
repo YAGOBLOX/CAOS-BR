@@ -29,7 +29,7 @@ function buildSlots(){
 // ===== menu ARMAS: comprar e equipar =====
 function openShop(msg){
  const y=card.scrollTop;
- open('<h2>ARMAS · 🪙 '+coins+'</h2><div class="cs">'+(msg||('Equipadas ('+eqs.length+'/'+MAXEQ+'): '+eqs.map(i=>WP[i].n).join(' · ')))+'</div>'+WP.map((w,i)=>{
+ open('<h2>LOJA · 🪙 '+coins+'</h2><div class="cs">'+(msg||('Equipadas ('+eqs.length+'/'+MAXEQ+'): '+eqs.map(i=>WP[i].n).join(' · ')))+'</div>'+WP.map((w,i)=>{
   if(w.fist||w.hide)return'';
   const have=own.includes(i),on=eqs.includes(i);
   const btn=on?`<button class="btn wb on" data-u="${i}">✓ EQUIPADA</button>`:have?`<button class="btn wb" data-e="${i}">EQUIPAR</button>`:`<button class="btn wb" data-b="${i}">🪙 ${w.pr}</button>`;

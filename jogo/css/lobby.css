@@ -70,3 +70,9 @@
 /* boneco 3D do lobby: quando carrega, esconde o desenho 2D de papel */
 #hero.is3d>div{display:none}
 #hero3d{position:absolute;left:-110px;top:-10px;width:330px;height:300px;object-fit:contain;pointer-events:none;filter:drop-shadow(0 8px 6px #0006)}
+
+/* lobby enxuto (estilo Free Fire): só o que funciona */
+.me b{font-size:11px;display:block;padding:0 4px}
+.tr{position:absolute;right:8px;top:8px;display:flex;gap:6px;align-items:center}
+.cfgb{padding:5px 9px;font-size:16px;justify-content:center}
+.menu{top:60px}
