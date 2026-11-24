@@ -10,7 +10,7 @@
 #fbtn{position:absolute;right:34px;bottom:30px;width:84px;height:84px;border-radius:50%;font-size:32px;justify-content:center;background:#c0392bdd;touch-action:none;padding:0}
 .hb{position:absolute;top:10px;width:40px;height:40px;padding:0;justify-content:center;font-size:18px;background:#6b6b6bcc;border-color:#aaa}
 #smile{left:56px}#gear{left:102px}#shopb{left:148px}
-#quit{left:10px;font-size:0}#quit::first-letter{font-size:18px}
+#quit{left:10px;flex-direction:column;gap:1px;font-size:7px;line-height:1;letter-spacing:0;background:#c0392bcc;border-color:#ff8a7a}#quit span{font-size:17px}
 #slots{position:absolute;right:8px;top:70px;display:flex;gap:4px;width:200px;flex-wrap:wrap;justify-content:flex-end}
 /* slots da partida: arma equipada (ícone pequeno + balas) e punho. Tocar na arma que já está na mão recarrega */
 .sl{padding:3px 2px;font-size:8px;justify-content:center;align-items:center;flex-direction:column;gap:1px;width:84px;height:44px}

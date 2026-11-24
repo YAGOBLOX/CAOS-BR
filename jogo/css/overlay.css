@@ -6,3 +6,8 @@
 .card .btn{justify-content:center;margin-top:12px;width:100%}
 .bar{height:12px;background:#111;border:2px solid var(--line);margin-top:10px}
 .bar i{display:block;height:100%;width:0;background:var(--gold)}
+
+/* botão ✕ sempre visível no topo da janela (fica fixo mesmo rolando a lista) */
+.cxb{position:sticky;top:0;height:0;z-index:3}
+.card .cxb .btn{position:absolute;right:-4px;top:-8px;width:30px;height:30px;margin:0;padding:0;justify-content:center;font-size:15px;background:#c0392b;border-color:#ff8a7a}
+.card h2{padding-right:30px}

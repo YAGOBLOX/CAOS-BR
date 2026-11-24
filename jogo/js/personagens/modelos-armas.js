@@ -12,12 +12,14 @@ function gunModels(only){
   g=>{B(g,dk,8,0,0,18,4.2,3.4);T(g,dk,17,.6,28,2.2);B(g,wd,-6,-1,0,15,5,3.6,-.1);T(g,dk,6,4.6,13,3.2);B(g,gl,5.5,4.6,0,.6,2.6,2.6);B(g,gl,18.4,4.6,0,.6,2.6,2.6);B(g,md,9,-5,0,3,7,2.8,.15)},
   g=>{T(g,dk,6,.8,12,2.2);P(g,cg,md,4,.4,0,6.4,3.4,6.4,1.5708);B(g,dk,2,-.2,0,8,4,3);B(g,wd,0,-4.6,0,3.6,8,3,.35)}
  ];
- // armas novas: malha vinda do OBJ (GUNMESH em armas-3d.js), uma cor só; o PUNHO fica sem modelo (mãos vazias)
- const gm=new THREE.MeshLambertMaterial({color:0x2e3138,side:THREE.DoubleSide});
- const meshGun=(g,d)=>{const p=new Float32Array(d.v.length);for(let k=0;k<p.length;k++)p[k]=d.v[k]/20;
-  const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(p,3));geo.setIndex(d.i);
+ // armas novas: malha vinda do OBJ (GUNMESH em armas-3d.js) com 3 cores por vértice: escuro, madeira e metal claro; o PUNHO fica sem modelo (mãos vazias)
+ const gm=new THREE.MeshLambertMaterial({color:0xffffff,vertexColors:true,side:THREE.DoubleSide});
+ const PAL=[[.17,.18,.21],[.48,.29,.14],[.56,.58,.62]];
+ const meshGun=(g,d)=>{const p=new Float32Array(d.v.length),c=new Float32Array(d.v.length);for(let k=0;k<p.length;k++)p[k]=d.v[k]/20;
+  for(let k=0;k<d.v.length/3;k++){const q=PAL[d.c?d.c[k]:0];c[k*3]=q[0];c[k*3+1]=q[1];c[k*3+2]=q[2]}
+  const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(p,3));geo.setAttribute('color',new THREE.BufferAttribute(c,3));geo.setIndex(d.i);
   const fl=geo.toNonIndexed();fl.computeVertexNormals();const o=new THREE.Mesh(fl,gm);o.castShadow=true;g.add(o)};
- return WP.map((w,i)=>{if(only&&!only.includes(i))return null;const g=new THREE.Group();
+ return WP.map((w,i)=>{if(only&&!only.includes(i))return null;if(w.hide&&i!==1)return null;const g=new THREE.Group();
   if(defs[i])defs[i](g);else if(w.m&&typeof GUNMESH!=='undefined'&&GUNMESH[w.m])meshGun(g,GUNMESH[w.m]);
   g.visible=false;return g});
 }

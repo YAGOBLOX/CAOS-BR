@@ -51,6 +51,9 @@ jogo/             o jogo completo (tem o próprio index.html, css/ e js/)
 
 Como o jogo trata armas:
 - No menu **ARMAS** o jogador compra e **EQUIPA uma arma só**. Na partida ele tem **2 slots: a arma equipada + PUNHO** (tocar na arma que já está na mão **recarrega**; tocar na outra puxa).
+- As 6 primeiras entradas de `WP` (PISTOLA, FUZIL, SHOTGUN, SMG, SNIPER, REVÓLVER) são antigas e estão com `hide:1`: não aparecem no menu nem na partida; só ficam porque os bots usam o modelo do FUZIL e os saves usam a posição. Armas com `st:1` são as iniciais (M1911, REMINGTON 870, M4A1).
+- **Todas as janelas (cards) têm botão ✕ fixo no topo**, e fecham também tocando fora ou com Esc (`open()` em `jogo/js/sistemas/overlay.js`). Na partida, o botão **⬅ LOBBY** (`#quit`) volta ao lobby. Não remova.
+- Modelos 3D novos têm 3 cores por vértice (campo `c` em `GUNMESH`: 0 escuro, 1 madeira, 2 metal claro).
 - O **PUNHO** é a entrada com `fist:1` em `WP` (sem munição, golpe de curto alcance, sem modelo 3D). Não remova.
 - No modo **ESTANDE** (`allWeapons:true`) aparecem todas as armas + punho, em ícones pequenos.
 - O salvamento fica em `localStorage` `sv` = `{c: moedas, o: armas compradas, e: arma equipada}`.
