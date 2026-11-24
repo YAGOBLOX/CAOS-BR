@@ -1,7 +1,7 @@
 /* CAOS BR FPS · início da partida, fim, mortes e atualização por quadro (upd) */
 function startGame(){
  const mode=CAOS.modes[CAOS.sel.mode],map=CAOS.maps[CAOS.sel.map];
- CAOS.map=map;W=map.size[0];H=map.size[1];
+ CAOS.map=map;W=map.size[0];H=map.size[1];WALLH=map.wallHeight||70;
  G={mode,map,train:!!mode.flags.train,range:!!mode.flags.range,kills:0,p:mk(map.playerSpawn[0],map.playerSpawn[1]),dmg:0,st:{h:0,t:0,m:0},hist:[],fx:[],b:null,kits:map.kits.map(([x,y])=>({x,y,t:0})),bl:[],over:0,t:0,emo:0};
  T=null;walls=map.walls();G.bs=mode.createBots(G,map);G.b=G.bs[0];jx=jy=0;fire=false;joy=null;aim=null;pit=0;
  G.p.w=eqs[0];   // começa com a 1ª arma EQUIPADA no menu ARMAS
