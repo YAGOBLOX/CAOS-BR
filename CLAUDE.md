@@ -78,3 +78,7 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 - Botão ATIRAR é analógico: base fixa + bolinha (`.fk`) que acompanha o dedo até um limite; arrastar o dedo gira a câmera SEM parar de atirar (eventos no `window` em `entrada.js`). Não troque por `click`/`pointerleave`.
 - Analógico de andar flutua e **segue o dedo** (a base anda junto quando o dedo passa do raio). Desenho no `hud.js`.
 - Os outros botões ficam em arco ao redor do ATIRAR (`applyCfg()` em `config.js`), longe do centro onde fica o boneco. `cfgv` (cfg) e `layv` (layout-hud.js) forçam o padrão novo uma vez; mude o número para resetar de novo.
+
+## Bala e cores das armas
+- Cada arma em `WP` tem `bv` (velocidade da bala), `rg` (alcance), `bn`/`bt` (comprimento/espessura do traço). A bala é um traço fino alinhado à direção (`render3d.js`) e anda em sub-passos de ~8px (`loop.js`) para não atravessar parede/inimigo.
+- As cores das armas 3D são por região em `colr()` dentro de `jogo/js/personagens/modelos-armas.js` (uma regra por arma, com o campo `m`). Arma nova sem regra usa as 3 cores padrão.

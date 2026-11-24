@@ -1,5 +1,5 @@
 /* CAOS BR FPS · tiro, raio da câmera, mira, mira assistida, trocar/recarregar arma */
-function shoot(e,a,dm,o){G.bl.push({x:e.x+Math.cos(a)*20,y:e.y+Math.sin(a)*20,vx:Math.cos(a)*520,vy:Math.sin(a)*520,o,dm,h:(e.z||0)+(e.st===2?10:e.st===1?26:36),vh:0,life:1.2})}
+function shoot(e,a,dm,o){G.bl.push({x:e.x+Math.cos(a)*20,y:e.y+Math.sin(a)*20,vx:Math.cos(a)*520,vy:Math.sin(a)*520,o,dm,h:(e.z||0)+(e.st===2?10:e.st===1?26:36),vh:0,life:1.2,ln:10,th:1.3})}
 // ===== mira / raio da câmera =====
 function camRay(){
  const p=G.p,c=Math.cos(ang),s=Math.sin(ang),dd=zoom?60:78,sh=zoom?10:20,dh=dd*Math.cos(pit),st=p.st||0,z=p.z||0;
@@ -34,7 +34,7 @@ function shootAim(w){
  const hx=R.pt.x-mx,hz=R.pt.z-mz,hy=R.pt.y-mh,hd=Math.hypot(hx,hz),k=w.sp*(zoom?.8:2);
  const a=(hd>8?Math.atan2(hz,hx):ang)+(Math.random()-.5)*k;
  const vh=(hd>8?hy/hd:Math.tan(pit))+(Math.random()-.5)*k*.5;
- G.bl.push({x:mx,y:mz,vx:Math.cos(a)*520,vy:Math.sin(a)*520,o:'p',dm:w.dm,h:mh,vh:vh*520,life:w.life||1.2});
+ const v=w.bv||900;G.bl.push({x:mx,y:mz,vx:Math.cos(a)*v,vy:Math.sin(a)*v,o:'p',dm:w.dm,h:mh,vh:vh*v,life:w.life||(w.rg||700)/v,ln:w.bn||14,th:w.bt||1.4});
 }
 function assist(g,dt){
  const p=g.p;afr=1;
