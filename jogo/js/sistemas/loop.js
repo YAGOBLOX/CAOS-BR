@@ -40,7 +40,8 @@ function upd(dt){
   else if((fire||fb)&&p.cd<=0){const w=WP[p.w];if(!w.fist)p.am[p.w]--;for(let i=0;i<w.pel;i++)shootAim(w);p.cd=w.cd;if(!w.fist&&p.am[p.w]<=0)p.rl=w.rl}
   for(const k of g.kits){k.t-=dt;if(k.t<=0)for(const e of[p,g.b])if(e.hp>0&&e.hp<e.mx&&Math.hypot(e.x-k.x,e.y-k.y)<22){e.hp=Math.min(e.mx,e.hp+40);k.t=12}}
   for(const q of g.bs)if(q.hp<=0&&q.rs>0){q.rs-=dt;if(q.rs<=0){if(q.hx!=null){q.x=q.hx;q.y=q.hy}else{const sq=spawnPt();q.x=sq[0];q.y=sq[1]}q.hp=200}}
-  for(const q of g.bs){if(q.hp<=0)continue;if(g.range){q.a=Math.atan2(p.y-q.y,p.x-q.x);continue}
+  for(const q of g.bs){if(q.hp<=0)continue;if(!g.range&&hitW(q.x,q.y,12)){const sq=spawnPt();q.x=sq[0];q.y=sq[1]}   // árvore/pedra colocada depois pode cair em cima do bot: tira ele de dentro
+   if(g.range){q.a=Math.atan2(p.y-q.y,p.x-q.x);continue}
    const d=Math.hypot(p.x-q.x,p.y-q.y),a=Math.atan2(p.y-q.y,p.x-q.x),los=see(q,p);
    // --- esquiva: pula ou agacha de vez em quando; mais ainda quando o jogador está mirando/atirando nele ---
    q.dd=(q.dd===undefined?Math.random():q.dd)-dt;
