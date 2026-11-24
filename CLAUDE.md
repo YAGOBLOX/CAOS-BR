@@ -82,3 +82,8 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 ## Bala e cores das armas
 - Cada arma em `WP` tem `bv` (velocidade da bala), `rg` (alcance), `bn`/`bt` (comprimento/espessura do traço). A bala é um traço fino alinhado à direção (`render3d.js`) e anda em sub-passos de ~8px (`loop.js`) para não atravessar parede/inimigo.
 - As cores das armas 3D são por região em `colr()` dentro de `jogo/js/personagens/modelos-armas.js` (uma regra por arma, com o campo `m`). Arma nova sem regra usa as 3 cores padrão.
+
+## Personagem 3D
+- `jogo/js/personagens/modelos.js` (humanoide com quadril/joelho/ombro/cotovelo encaixados) e `animacoes.js` (pose + IK de 2 ossos: as mãos seguram a arma; punho = guarda de boxe).
+- O CORPO é independente da câmera: `p.fa` (loop.js) vira suave para onde anda; ao atirar/mirar vira para a mira. A bala sempre sai pela mira (câmera), não pelo corpo.
+- O lobby mostra o mesmo boneco em 3D (`jogo/js/lobby/heroi3d.js`, carrega three.js em 2º plano via `CAOS.loadChars()`); se falhar, fica o desenho 2D (`#hero`).

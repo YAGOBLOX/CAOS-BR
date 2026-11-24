@@ -29,6 +29,11 @@ function upd(dt){
   const k=Math.min(1,dt*(mx||my?14:18));p.vx=(p.vx||0)+((-my*c-mx*s)*sp-(p.vx||0))*k;p.vy=(p.vy||0)+((-my*s+mx*c)*sp-(p.vy||0))*k;if(mv(p,p.vx*dt,0)===0)p.vx=0;if(mv(p,0,p.vy*dt)===0)p.vy=0;
   p.vz-=900*dt;p.z+=p.vz*dt;if(p.z<=0){p.z=0;p.vz=0}
   assist(g,dt);p.cd-=dt;
+  // corpo independente da câmera: vira (suave) para onde anda; ao atirar/mirar vira para a mira
+  {if(p.fa===undefined)p.fa=ang;if(fire||fb)p.ft=.6;else if(p.ft>0)p.ft-=dt;
+   const sv=Math.hypot(p.vx||0,p.vy||0),aimN=fire||fb||zoom||p.ft>0;let tg=null;
+   if(aimN)tg=ang;else if(sv>25)tg=Math.atan2(p.vy,p.vx);
+   if(tg!==null){const df=Math.atan2(Math.sin(tg-p.fa),Math.cos(tg-p.fa));p.fa+=df*Math.min(1,dt*(aimN?13:9))}}
   if(p.rl>0){p.rl-=dt;if(p.rl<=0)p.am[p.w]=WP[p.w].mag}
   else if(p.am[p.w]<=0)p.rl=WP[p.w].rl;
   else if((fire||fb)&&p.cd<=0){const w=WP[p.w];if(!w.fist)p.am[p.w]--;for(let i=0;i<w.pel;i++)shootAim(w);p.cd=w.cd;if(!w.fist&&p.am[p.w]<=0)p.rl=w.rl}

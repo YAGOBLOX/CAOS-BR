@@ -66,3 +66,7 @@
 .mode span{white-space:nowrap}
 .mode small[style*="hidden"]{display:none}
 .go{font-size:24px;padding:12px}
+
+/* boneco 3D do lobby: quando carrega, esconde o desenho 2D de papel */
+#hero.is3d>div{display:none}
+#hero3d{position:absolute;left:-110px;top:-10px;width:330px;height:300px;object-fit:contain;pointer-events:none;filter:drop-shadow(0 8px 6px #0006)}

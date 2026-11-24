@@ -30,7 +30,7 @@ function init3(){
 }
 function draw3d(){
  const p=G.p,t=G.t;if(!T)init3();
- poseN(p,T.mp,ang,t);
+ poseN(p,T.mp,p.fa===undefined?ang:p.fa,t);
  T.mbs.forEach((m,i)=>{const q=G.bs[i];m.g.visible=!!q&&(q.hp>0||q.rs===undefined||q.rs>2.2);if(q)poseN(q,m,q.a||0,t)});
  T.kits.forEach((o,i)=>{o.visible=G.kits[i].t<=0;o.rotation.y=t*2;o.position.y=14+Math.sin(t*3)*3});
  while(T.bl.length<G.bl.length){const s=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),new THREE.MeshBasicMaterial({color:0xffe9a0}));T.sc.add(s);T.bl.push(s)}

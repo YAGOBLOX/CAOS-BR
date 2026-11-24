@@ -11,6 +11,7 @@
   cache.set(src,p);return p;
  }
  const seq=async list=>{for(const f of list) await script(f)};   // mantém a ordem
+ CAOS.loadChars=async function(){await script(CAOS.manifest.three);await seq(CAOS.manifest.characters)};   // só three.js + personagens (boneco do lobby)
  // Carrega tudo que a partida precisa (cada arquivo só 1 vez; trocar de mapa/modo baixa só o que falta)
  CAOS.load=async function(modeId,mapId){
   const M=CAOS.manifest,mo=M.modes[modeId],ma=M.maps[mapId];
