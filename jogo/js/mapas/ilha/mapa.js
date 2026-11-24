@@ -30,27 +30,27 @@ CAOS.registerMap({
   const add=(x,z,r)=>put.push([x,z,r]);
   // listas de instâncias [x,y,z,escX,escY,escZ,giroY,giroZ]
   const mk=()=>({t:[],a:[],b:[],c:[]}),PN=[mk(),mk()],RT=[mk(),mk()],BU=[[],[]],RB=[[],[]],RS=[],CR=[],BA=[[],[]],LG=[],ST=[];
-  const pine=(x,z,v)=>{const k=rr(.95,1.25),o=PN[v];o.t.push([x,13*k,z,k,k,k]);o.a.push([x,37*k,z,k,k,k,rr(0,6)]);o.b.push([x,55*k,z,k,k,k]);o.c.push([x,73*k,z,k,k,k]);walls.push([x-7,z-7,14,14]);add(x,z,17*k)};
-  const round=(x,z,v)=>{const k=rr(.95,1.25),o=RT[v];o.t.push([x,11*k,z,k,k,k]);o.a.push([x,36*k,z,k,.92*k,k]);o.b.push([x+7*k,45*k,z-4*k,k,k,k]);o.c.push([x-8*k,41*k,z+5*k,k,k,k]);walls.push([x-7,z-7,14,14]);add(x,z,20*k)};
-  const bush=(x,z)=>{const k=rr(.8,1.5);BU[R()<.5?0:1].push([x,5*k,z,k,.7*k,k]);add(x,z,9*k)};
+  const pine=(x,z,v,k)=>{const o=PN[v];o.t.push([x,13*k,z,k,k,k]);o.a.push([x,37*k,z,k,k,k,rr(0,6)]);o.b.push([x,55*k,z,k,k,k]);o.c.push([x,73*k,z,k,k,k]);walls.push([x-5*k,z-5*k,10*k,10*k]);add(x,z,18*k)};
+  const round=(x,z,v,k)=>{const o=RT[v];o.t.push([x,11*k,z,k,k,k]);o.a.push([x,36*k,z,k,.92*k,k]);o.b.push([x+7*k,45*k,z-4*k,k,k,k]);o.c.push([x-8*k,41*k,z+5*k,k,k,k]);walls.push([x-5*k,z-5*k,10*k,10*k]);add(x,z,21*k)};
+  const bush=(x,z)=>{const k=rr(1,1.8);BU[R()<.5?0:1].push([x,5*k,z,k,.7*k,k]);add(x,z,10*k)};
   const rock=(x,z)=>{const r=rr(15,26);RB[R()<.5?0:1].push([x,r*.4,z,r,r*.75,r*rr(.8,1.1),rr(0,6)]);walls.push([x-r*.8,z-r*.8,r*1.6,r*1.6]);add(x,z,r)};
   const pebbles=(x,z)=>{for(let i=0;i<3;i++){const s=rr(2.5,5.5);RS.push([x+rr(-14,14),s*.4,z+rr(-14,14),s,s*.8,s,rr(0,6)])}add(x,z,16)};
   // 1) cenário espalhado em grade com desvio (cobre o mapa todo de forma uniforme)
-  for(let gx=80;gx<W-60;gx+=125)for(let gz=80;gz<H-60;gz+=125){
-   if(R()<.2)continue;const x=gx+rr(-48,48),z=gz+rr(-48,48),t=R(),v=R()<.5?0:1;
-   if(t<.30){if(ok(x,z,17))pine(x,z,v)}
-   else if(t<.54){if(ok(x,z,20))round(x,z,v)}
-   else if(t<.70){if(ok(x,z,10))bush(x,z)}
-   else if(t<.82){if(ok(x,z,26))rock(x,z)}
-   else if(ok(x,z,16))pebbles(x,z);
+  for(let gx=100;gx<W-60;gx+=160)for(let gz=100;gz<H-60;gz+=160){
+   if(R()<.18)continue;const x=gx+rr(-60,60),z=gz+rr(-60,60),t=R(),v=R()<.5?0:1,k=rr(1.7,2.2);
+   if(t<.32){if(ok(x,z,18*k))pine(x,z,v,k)}
+   else if(t<.58){if(ok(x,z,21*k))round(x,z,v,k)}
+   else if(t<.72){if(ok(x,z,18))bush(x,z)}
+   else if(t<.86){if(ok(x,z,30))rock(x,z)}
+   else if(ok(x,z,22))pebbles(x,z);
   }
   // 2) caixotes e barris encostados nas paredes (em duplas) e troncos/tocos soltos
   for(let n=0,tr=0;n<12&&tr<300;tr++){const w=base[(R()*base.length)|0],s=R()<.5?-1:1,x=R()<.5?w[0]+rr(0,w[2]):w[0]+(s<0?-14:w[2]+14),z=x<w[0]||x>w[0]+w[2]?w[1]+rr(0,w[3]):w[1]+(s<0?-14:w[3]+14);
    if(!ok(x,z,9))continue;n++;
-   if(n%3===0){BA[n%2].push([x,8,z,1,1,1]);walls.push([x-7,z-7,14,14]);add(x,z,8)}
-   else{const y=rr(0,6);CR.push([x,8,z,1,1,1,y]);walls.push([x-8,z-8,16,16]);add(x,z,9);if(R()<.4){CR.push([x,24,z,.85,.85,.85,y+.5])}}}
-  for(let n=0,tr=0;n<16&&tr<300;tr++){const x=rr(60,W-60),z=rr(60,H-60);if(!ok(x,z,16))continue;n++;
-   if(n%2)LG.push([x,3.6,z,1,1,1,rr(0,6),1.5708]);else ST.push([x,4.5,z,1,1,1]);add(x,z,16)}
+   if(n%3===0){BA[n%2].push([x,8,z,1,1,1]);walls.push([x-7,z-7,14,14]);add(x,z,14)}
+   else{const y=rr(0,6);CR.push([x,8,z,1,1,1,y]);walls.push([x-8,z-8,16,16]);add(x,z,16);if(R()<.4){CR.push([x,24,z,.85,.85,.85,y+.5])}}}
+  for(let n=0,tr=0;n<16&&tr<300;tr++){const x=rr(60,W-60),z=rr(60,H-60);if(!ok(x,z,26))continue;n++;
+   if(n%2)LG.push([x,3.6,z,1,1,1,rr(0,6),1.5708]);else ST.push([x,4.5,z,1,1,1]);add(x,z,26)}
   // 3) desenha tudo em lotes (poucos desenhos = leve no celular)
   const dm=new THREE.Object3D();
   const batch=(geo,mat,list,sombra)=>{if(!list.length)return;const m=new THREE.InstancedMesh(geo,mat,list.length);
