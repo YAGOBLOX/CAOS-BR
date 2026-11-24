@@ -25,7 +25,7 @@ $('#mapSel').onclick=()=>{
 refreshSel();
 document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{
  const p=b.dataset.p;
- if(p==='Config')openCfg();else if(p==='Loja'||p==='Armas')openShop();else if(p==='Novidades')open('<h2>NOVIDADES</h2>• Mapa expandido (1800 x 1200)<br>• Loja de armas: SMG, Sniper e Revólver<br>• HUD editável nas configurações<br>• 200 de vida para todos');else open('<h2>'+p.toUpperCase()+'</h2>Em breve! Aqui vai a tela de '+p+'.');
+ if(p==='Config')openCfg();else if(p==='Loja'||p==='Armas')openShop();else if(p==='Novidades')open('<h2>NOVIDADES</h2>• Mapa expandido (1800 x 1200)<br>• 12 armas novas no menu ARMAS: AK-47, M4A1, MP5, AWM, RPG-7 e mais<br>• Escolha a arma no menu ARMAS; na partida: arma + punho (toque na arma para recarregar)<br>• HUD editável nas configurações<br>• 200 de vida para todos');else open('<h2>'+p.toUpperCase()+'</h2>Em breve! Aqui vai a tela de '+p+'.');
 });
 let iv;
 $('#go').onclick=()=>{

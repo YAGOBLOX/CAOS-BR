@@ -14,6 +14,9 @@ scripts.html      página de scripts
 caos-br-fps.png   capa do jogo
 jogo/             o jogo completo (tem o próprio index.html, css/ e js/)
   README.md       estrutura interna do jogo (mapas, modos, o que carrega e quando)
+  img/armas/             ícones das armas (menu ARMAS, slots e HUD)
+  js/personagens/armas-3d.js   malhas 3D das armas novas (GUNMESH)
+  js/sistemas/armas-dados.js   lista de armas (WP): números, preço, ícone, modelo
   js/sistemas/utils.js   função fit(): tamanho/escala da tela do jogo (VER REGRAS ABAIXO)
 ```
 
@@ -39,6 +42,18 @@ jogo/             o jogo completo (tem o próprio index.html, css/ e js/)
 2. Se vier um zip novo do jogo, **preserve** as regras acima, principalmente o `fit()` esticado em `utils.js`. Se o zip novo trouxer o `fit()` antigo (escala uniforme `Math.min`), reaplique a versão esticada.
 3. Para adicionar mapa ou modo, siga `jogo/README.md` (copiar `_modelo` e registrar em `jogo/js/carregamento/manifesto.js`).
 4. Se mudar o nome ou o caminho de `jogo/index.html`, atualize `GAME_URL` no script do `index.html` do site.
+
+## Como adicionar uma ARMA
+1. **Dados**: em `jogo/js/sistemas/armas-dados.js`, adicione uma linha no FIM da lista `WP` (antes do PUNHO não importa; nunca reordene nem apague as existentes, porque o jogador salva as armas pela posição). Campos explicados no topo do arquivo. O **preço é o campo `pr`** (é só mudar ali).
+2. **Ícone**: `jogo/img/armas/<id>.png` (PNG com fundo transparente, ~256x96, arma de lado com o cano para a direita, cor clara). Campo `ic`.
+3. **Modelo 3D**: em `jogo/js/personagens/armas-3d.js`, adicione `<id>:{v:[...],i:[...]}` ao `GUNMESH` (v = vértices x,y,z multiplicados por 20 e arredondados; i = índices dos triângulos; eixo +x = cano, origem = mão). Campo `m` = `<id>`. Sem modelo, a arma funciona mas fica invisível na mão.
+4. Pronto: ela aparece sozinha no menu ARMAS (comprar/equipar). Não precisa mexer em loja, slots ou HUD.
+
+Como o jogo trata armas:
+- No menu **ARMAS** o jogador compra e **EQUIPA uma arma só**. Na partida ele tem **2 slots: a arma equipada + PUNHO** (tocar na arma que já está na mão **recarrega**; tocar na outra puxa).
+- O **PUNHO** é a entrada com `fist:1` em `WP` (sem munição, golpe de curto alcance, sem modelo 3D). Não remova.
+- No modo **ESTANDE** (`allWeapons:true`) aparecem todas as armas + punho, em ícones pequenos.
+- O salvamento fica em `localStorage` `sv` = `{c: moedas, o: armas compradas, e: arma equipada}`.
 
 ## Checklist antes de enviar (testar em 3 tamanhos)
 - Computador (ex.: 1280×720), celular **em pé** (ex.: 390×780) e celular **deitado** (ex.: 780×390).

@@ -34,7 +34,7 @@ function shootAim(w){
  const hx=R.pt.x-mx,hz=R.pt.z-mz,hy=R.pt.y-mh,hd=Math.hypot(hx,hz),k=w.sp*(zoom?.8:2);
  const a=(hd>8?Math.atan2(hz,hx):ang)+(Math.random()-.5)*k;
  const vh=(hd>8?hy/hd:Math.tan(pit))+(Math.random()-.5)*k*.5;
- G.bl.push({x:mx,y:mz,vx:Math.cos(a)*520,vy:Math.sin(a)*520,o:'p',dm:w.dm,h:mh,vh:vh*520,life:1.2});
+ G.bl.push({x:mx,y:mz,vx:Math.cos(a)*520,vy:Math.sin(a)*520,o:'p',dm:w.dm,h:mh,vh:vh*520,life:w.life||1.2});
 }
 function assist(g,dt){
  const p=g.p;afr=1;

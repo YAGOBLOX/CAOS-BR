@@ -4,6 +4,7 @@ function startGame(){
  CAOS.map=map;W=map.size[0];H=map.size[1];
  G={mode,map,train:!!mode.flags.train,range:!!mode.flags.range,kills:0,p:mk(map.playerSpawn[0],map.playerSpawn[1]),dmg:0,st:{h:0,t:0,m:0},hist:[],fx:[],b:null,kits:map.kits.map(([x,y])=>({x,y,t:0})),bl:[],over:0,t:0,emo:0};
  T=null;walls=map.walls();G.bs=mode.createBots(G,map);G.b=G.bs[0];jx=jy=0;fire=false;joy=null;aim=null;pit=0;
+ G.p.w=eq;   // começa com a arma EQUIPADA no menu ARMAS
  $('#game').style.display='block';$('#shopb').style.display=G.mode.shop?'flex':'none';buildSlots();
  const g=G;let last=performance.now();
  (function f(ts){if(G!==g)return;const dt=Math.min(.05,(ts-last)/1000);last=ts;if(!editMode)upd(dt);draw();requestAnimationFrame(f)})(last);
@@ -30,7 +31,7 @@ function upd(dt){
   assist(g,dt);p.cd-=dt;
   if(p.rl>0){p.rl-=dt;if(p.rl<=0)p.am[p.w]=WP[p.w].mag}
   else if(p.am[p.w]<=0)p.rl=WP[p.w].rl;
-  else if((fire||fb)&&p.cd<=0){const w=WP[p.w];p.am[p.w]--;for(let i=0;i<w.pel;i++)shootAim(w);p.cd=w.cd;if(p.am[p.w]<=0)p.rl=w.rl}
+  else if((fire||fb)&&p.cd<=0){const w=WP[p.w];if(!w.fist)p.am[p.w]--;for(let i=0;i<w.pel;i++)shootAim(w);p.cd=w.cd;if(!w.fist&&p.am[p.w]<=0)p.rl=w.rl}
   for(const k of g.kits){k.t-=dt;if(k.t<=0)for(const e of[p,g.b])if(e.hp>0&&e.hp<e.mx&&Math.hypot(e.x-k.x,e.y-k.y)<22){e.hp=Math.min(e.mx,e.hp+40);k.t=12}}
   for(const q of g.bs)if(q.hp<=0&&q.rs>0){q.rs-=dt;if(q.rs<=0){if(q.hx!=null){q.x=q.hx;q.y=q.hy}else{const sq=spawnPt();q.x=sq[0];q.y=sq[1]}q.hp=200}}
   for(const q of g.bs){if(q.hp<=0)continue;if(g.range){q.a=Math.atan2(p.y-q.y,p.x-q.x);continue}
