@@ -122,3 +122,7 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 - Preço: campo `pr` (0 = grátis). Compra ainda NÃO existe (`have()` em skins-dados.js): skin com `pr>0` não comprada mostra EM BREVE. Ao criar a compra, some moedas (`coins`/`saveSv` em economia.js) e coloque o id em `o`.
 - `humanoid(1)` escolhe o modelo pela skin; o boneco do lobby troca com `heroRefresh()`. Os bots não usam skins.
 - Skin oficial do Steve (Mojang) NÃO está no projeto (não foi possível baixar/recriar): para usar, ponha `steve.png` em `img/skins/` e registre 1 linha.
+
+## Fundo do lobby (v25)
+- `#lbg` em `jogo/index.html` (SVG de corredor roxo em perspectiva + `.fs` formas flutuando + `#beam`/`#ped` pedestal) e CSS no fim de `css/lobby.css`. É só decoração (`pointer-events:none`); o boneco 3D fica centralizado sobre o pedestal. NÃO é interativo.
+- `#rank` = espaço reservado flutuando (bloco "PATENTE") para o futuro sistema de patentes: troque `.gem` pela imagem da patente. Ainda não clicável.

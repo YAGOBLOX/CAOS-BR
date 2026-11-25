@@ -82,3 +82,27 @@
 .mp{width:210px;padding:0;background:var(--panel);border:3px solid var(--line);color:var(--txt);font:inherit;cursor:pointer;text-align:center}
 .mp img{width:100%;display:block}.mp b{display:block;padding:6px 4px;font-size:10px;letter-spacing:1px}
 .mp.on{border-color:var(--gold)}.mp.on b{color:var(--gold)}.mp:active{transform:scale(.97)}
+
+/* FUNDO DO LOBBY (decorativo, sem toque): corredor roxo em perspectiva + itens flutuando em camadas + pedestal. O boneco fica no centro. */
+#lbg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+#lbg svg{position:absolute;inset:0;width:100%;height:100%}
+.fs{position:absolute;display:block;animation:fsf 6s ease-in-out infinite}
+.fs.f1{left:50px;top:118px;width:46px;height:46px;background:linear-gradient(135deg,#8fe4ff,#8a52ff);clip-path:polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0 50%);filter:blur(1px);opacity:.85}
+.fs.f2{left:128px;top:248px;width:26px;height:34px;background:linear-gradient(135deg,#ff8ee8,#7a3dff);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);filter:blur(2px);opacity:.8;animation-delay:-2s}
+.fs.f3{left:702px;top:150px;width:52px;height:52px;background:linear-gradient(135deg,#8fe4ff,#8a52ff);clip-path:polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0 50%);filter:blur(1px);opacity:.85;animation-delay:-1s}
+.fs.f4{left:648px;top:268px;width:30px;height:38px;background:linear-gradient(135deg,#ff8ee8,#7a3dff);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);filter:blur(2px);opacity:.8;animation-delay:-3s}
+.fs.f5{left:222px;top:92px;width:20px;height:20px;background:#b9a0ff;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);filter:blur(3px);opacity:.6;animation-delay:-4s}
+.fs.f6{left:580px;top:104px;width:24px;height:24px;background:#9be8ff;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);filter:blur(3px);opacity:.6;animation-delay:-2.5s}
+.fs.f7{left:84px;top:330px;width:64px;height:64px;background:linear-gradient(135deg,#a47aff,#4b1fb0);clip-path:polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0 50%);filter:blur(5px);opacity:.55;animation-delay:-1.5s}
+.fs.f8{left:690px;top:336px;width:56px;height:56px;background:linear-gradient(135deg,#a47aff,#4b1fb0);clip-path:polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0 50%);filter:blur(5px);opacity:.55;animation-delay:-3.5s}
+@keyframes fsf{50%{transform:translateY(-12px) rotate(6deg)}}
+#beam{position:absolute;left:320px;top:110px;width:160px;height:250px;background:linear-gradient(to top,rgba(210,160,255,.5),rgba(210,160,255,0));-webkit-mask-image:linear-gradient(90deg,transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(90deg,transparent,#000 30%,#000 70%,transparent)}
+#ped{position:absolute;left:270px;top:336px;width:260px;height:60px}
+#ped b{position:absolute;left:0;top:0;width:260px;height:56px;border-radius:50%;background:radial-gradient(ellipse,#2a1260 0,#12082e 70%);border:3px solid #7fd6ff;box-shadow:0 0 18px #7fd6ff,inset 0 0 14px #8a52ff}
+#ped u{position:absolute;left:30px;top:9px;width:200px;height:38px;border-radius:50%;border:2px solid #ff7fe6;box-shadow:0 0 12px #ff7fe6;opacity:.8}
+/* PATENTE: espaço reservado (bloco flutuando). Quando o sistema de patentes existir, troque .gem pela imagem da patente (#rank). Não é clicável. */
+#rank{position:absolute;left:252px;top:168px;width:70px;text-align:center;animation:fsf 3.6s ease-in-out infinite;filter:drop-shadow(0 0 10px #ffb42b)}
+#rank .gem{display:block;width:60px;height:68px;margin:0 auto;background:linear-gradient(160deg,#fff0a8,#ffb42b 45%,#8a52ff);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+#rank small{display:block;margin-top:4px;font-size:8px;letter-spacing:1px;color:#ffe08a;text-shadow:1px 1px 0 #000}
+#hero.is3d{animation:none}
+#hero3d{left:-125px!important;top:-30px!important;width:360px!important;height:330px!important}
