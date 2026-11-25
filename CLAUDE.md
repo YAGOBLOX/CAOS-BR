@@ -113,3 +113,4 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 ## Roupa e poses do Xbot (v20)
 - `xbClothes()` (fim de `modelos.js`): roupa estilo samurai/oni (referência do dono): jaqueta azul com lapela rosa, calça larga roxa, faixa magenta, ataduras, sandália branca, máscara oni vermelha com chifres e coque. Peças presas aos OSSOS. Cintura fina (corpo masculino). Medidas em cm.
 - `poseX()`: andar/correr só em pé; agachado/deitado usam o parado + pose por código (sem tremer). Agachar: queda do quadril `88.8*(1-cos(1.05*cs))`. Cotovelos com pole para fora (mão não cruza o corpo); arma em z=4.4, foregrip limitado a 9.
+- v22: cintura afinada por osso em `poseX()` (`Hips.scale.x=.8`, `Spine2` e `UpLeg` com `1/.8` para ombros/pernas ficarem normais). Roupa cobre costas inteiras (jaqueta com `ez` ~.98 e deslocada para trás) e tem mais detalhes (dobras da calça, trevo, ataduras, dentes da máscara, chifres).

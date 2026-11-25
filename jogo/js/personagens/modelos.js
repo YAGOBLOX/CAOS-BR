@@ -58,41 +58,54 @@ function xbotBody(){
 }
 
 // ===== roupa do Xbot (samurai/oni, ref. do dono): peças presas aos OSSOS (seguem as animações). Medidas em cm (unidade local dos ossos) =====
+// obs.: em poseX o quadril/cintura é afinado (Hips.scale.x) e Spine2/UpLeg compensam; peças em Hips/Spine/Spine1 herdam o afinamento.
 function xbClothes(root,M){
  const B=n=>root.getObjectByName('mixamorig'+n),V=new THREE.Vector3(0,1,0),Q=new THREE.Quaternion();
  root.traverse(o=>{if(o.isSkinnedMesh&&o.material){o.material.color.setHex(/Joints/.test(o.name)?0xb98560:0xd9a87c);if(o.material.roughness!==undefined)o.material.roughness=.7}});
  const mt=c=>{const m=new THREE.MeshStandardMaterial({color:c,roughness:.88,metalness:0});M.push(m);return m};
  const put=(bone,geo,c,x,y,z,sx,sy,sz)=>{const o=new THREE.Mesh(geo,mt(c));o.position.set(x,y,z);o.scale.set(sx,sy,sz);o.castShadow=true;o.frustumCulled=false;bone.add(o);return o};
- const limb=(bone,child,r0,r1,c,f0,f1,ex,ez)=>{const d=child.position.clone(),L=d.length();Q.setFromUnitVectors(V,d.clone().normalize());
-  const o=put(bone,new THREE.CylinderGeometry(r1,r0,L*(f1-f0),18),c,d.x*(f0+f1)/2,d.y*(f0+f1)/2,d.z*(f0+f1)/2,ex||1,1,ez||1);o.quaternion.copy(Q);return o};
- const ball=(bone,c,x,y,z,rx,ry,rz)=>put(bone,new THREE.SphereGeometry(1,14,10),c,x,y,z,rx,ry,rz);
+ const limb=(bone,child,r0,r1,c,f0,f1,ex,ez,dz)=>{const d=child.position.clone(),L=d.length();Q.setFromUnitVectors(V,d.clone().normalize());
+  const o=put(bone,new THREE.CylinderGeometry(r1,r0,L*(f1-f0),20),c,d.x*(f0+f1)/2,d.y*(f0+f1)/2,d.z*(f0+f1)/2+(dz||0),ex||1,1,ez||1);o.quaternion.copy(Q);return o};
+ const ball=(bone,c,x,y,z,rx,ry,rz)=>put(bone,new THREE.SphereGeometry(1,16,12),c,x,y,z,rx,ry,rz);
  const box=(bone,c,x,y,z,w,h,d)=>put(bone,new THREE.BoxGeometry(w,h,d),c,x,y,z,1,1,1);
- const AZ=0x4f6fb0,AZ2=0x2f3a63,RO=0xe0489a,BR=0xeeeeee,PA=0x4d4670,MG=0x8a3a72,SAN=0xdad8e2,DK=0x2a2a30;
- // cintura: faixa roxa (fina, corpo de homem) + laços
- limb(B('Hips'),B('Spine'),19.6,17.8,PA,-1.6,.5,1,.82);limb(B('Hips'),B('Spine'),18.4,17.4,MG,.3,1.1,1,.8);
- const H=B('Hips');box(H,AZ2,3,2,12.4,2.6,15,1.4);box(H,AZ2,-3,-3,12.4,2.6,13,1.4);box(H,AZ2,0,8,12.2,5,3,1.8);
- // camisa branca por baixo + jaqueta azul curta (lapela rosa)
- limb(B('Spine'),B('Spine1'),15.6,15.8,BR,0,1.03,1,.74);
- limb(B('Spine'),B('Spine1'),16.4,16.9,AZ,.55,1.03,1,.78);limb(B('Spine1'),B('Spine2'),16.9,18.2,AZ,0,1.03,1,.78);limb(B('Spine2'),B('Neck'),19.4,16.2,AZ,0,1,1,.74);
- const S=B('Spine'),S1=B('Spine1'),S2=B('Spine2');
- for(const sg of[1,-1]){box(S,RO,sg*5.2,5,13.2,3.2,12,1);box(S1,RO,sg*5.2,0,13.8,3.2,12,1);box(S2,RO,sg*5.2,2,14.9,3.4,22,1)}
- box(S2,AZ2,0,2,14.4,7,22,1);box(S1,AZ2,0,0,13.4,7,12,1);box(S2,BR,0,13,14.4,5,8,1);
- ball(S2,BR,-12,9,9.4,2.4,2.4,1.4);   // trevo branco do ombro
- const hd=B('Head'),nk=B('Neck');limb(nk,hd,5.4,5,PA,0,.7,1,1);
+ const AZ=0x4a69ab,AZ2=0x2e3a66,RO=0xe24f9c,BR=0xf0f0f4,PA=0x4a4070,PA2=0x382f58,MG=0x8c3a74,MG2=0xb04a8a,SAN=0xdcdae4,DK=0x2a2a30,COR=0xe9b9a0;
+ const H=B('Hips'),S=B('Spine'),S1=B('Spine1'),S2=B('Spine2'),hd=B('Head'),nk=B('Neck');
+ // ---- cintura/quadril: calça (cobre a pelve toda) + faixa magenta grossa + laço grande
+ limb(H,S,21.5,19.5,PA,-1.7,.5,1,.98,-1.8);limb(H,S,20.2,19.4,MG,.28,1.12,1,.96,-1.6);limb(H,S,20.6,19.8,MG2,.28,.4,1,.97,-1.6);
+ box(H,AZ2,4,0,15.3,2.8,16,1.5);box(H,AZ2,-4,-4,15.2,2.8,14,1.5);ball(H,AZ2,0,8.5,15,3.2,3,1.8);
+ // ---- camisa branca + jaqueta azul curta (cobre costas e frente) com lapela rosa
+ limb(S,S1,18.2,18,BR,0,1.04,1,.96,-1.6);
+ limb(S,S1,19.4,19.8,AZ,.5,1.05,1,.98,-1.4);limb(S1,S2,19.8,21,AZ,0,1.04,1,.98,-1.4);limb(S2,nk,22,18,AZ,0,1.02,1,.96,-1.2);
+ limb(S,S1,19.6,19.9,RO,.46,.56,1,.98,-1.4);                              // barra rosa da jaqueta
+ for(const sg of[1,-1]){box(S,RO,sg*5.4,5,16.6,3.4,12,1);box(S1,RO,sg*5.4,0,17.4,3.4,12,1);box(S2,RO,sg*5.4,2,18.6,3.6,22,1);}
+ box(S2,AZ2,0,2,18.2,7.4,22,1);box(S1,AZ2,0,0,17,7.4,12,1);box(S2,BR,0,14,18,5.4,9,1);
+ box(S2,AZ2,0,2,-16.4,22,20,1);box(S1,AZ2,0,-3,-17,2,10,1);                    // costas: pano da jaqueta com costura central
+ for(let k=0;k<3;k++)box(S1,AZ2,0,-4+k*5,-16.9,34,.8,1);                         // dobras horizontais nas costas
+ ball(S2,BR,-14,11,11,2.6,2.6,1.5);ball(S2,BR,-14,6,11.5,2,3.4,1.2);box(S2,BR,-14,2,11.5,1,6,.8); // trevo + fita branca
+ limb(nk,hd,5.8,5.4,COR,0,.6,1,1);
  for(const sd of['Left','Right']){
-  const up=B(sd+'UpLeg'),kn=B(sd+'Leg'),ft=B('' + sd+'Foot'),to=B(sd+'ToeBase'),sg=sd==='Left'?1:-1;
-  // calça larga roxa até a panturrilha, faixa magenta, meia/sandália
-  limb(up,kn,13.4,12,PA,-.1,1.03,1.05,1.12).position.x+=sg*1.2;ball(kn,PA,0,0,0,11.6,11.6,11.6);
-  limb(kn,ft,11.6,10.6,PA,0,.62,1.05,1.1);limb(kn,ft,8.8,7.8,MG,.6,1.0);limb(kn,ft,9,8.2,0x7e7a88,.6,.66);
-  limb(ft,to,6.4,5.6,SAN,-.1,1.05,1.02,1);ball(to,SAN,0,0,5,5.6,4.2,6.6);box(to,DK,0,-3.6,3.5,11,1.8,15);
-  // braço: manga curta larga azul, antebraço com bandagem branca
+  const up=B(sd+'UpLeg'),kn=B(sd+'Leg'),ft=B(sd+'Foot'),to=B(sd+'ToeBase'),sg=sd==='Left'?1:-1;
+  // calça larga (hakama) com dobras, boca da canela cinchada, faixa magenta com corda e meia branca
+  limb(up,kn,14.2,13.2,PA,-.1,1.03,1.05,1.14).position.x+=sg*1.2;ball(kn,PA,0,0,2,13,13,13.5);
+  limb(up,kn,14.6,14.6,PA2,.28,.34,1.05,1.14).position.x+=sg*1.2;limb(up,kn,13.6,13.6,PA2,.62,.67,1.05,1.14).position.x+=sg*1.2;
+  limb(kn,ft,13,11.8,PA,0,.64,1.04,1.1);limb(kn,ft,12,11,PA2,.2,.26,1.04,1.1);ball(kn,PA2,0,-14,8,9.5,5,5);
+  limb(kn,ft,9.6,8,MG,.62,1.0);limb(kn,ft,10.2,9.6,0x6b2f5c,.64,.7);limb(kn,ft,9,8.5,COR,.9,.95);
+  limb(ft,to,6.4,5.6,SAN,-.1,1.05,1.02,1);ball(to,SAN,0,0,5,5.6,4.2,6.6);box(to,DK,0,-3.6,3.5,11.5,2.2,15.5);box(ft,DK,0,3,5,.9,.9,10);
+  // manga curta larga em camadas + atadura
   const sh=B(sd+'Shoulder'),ar=B(sd+'Arm'),fo=B(sd+'ForeArm'),ha=B(sd+'Hand');
-  limb(sh,ar,6.8,7,AZ,0,1);ball(ar,AZ,0,0,0,7.4,7.4,7.4);limb(ar,fo,8.2,8,AZ,0,.62);limb(ar,fo,8.3,8.1,AZ2,.6,.66);
-  limb(fo,ha,4.8,4.4,BR,.25,1.0);if(sg<0)ball(fo,0xb02030,2,fo.position.length()*.0+8,3.5,1.6,2.4,1.2);
+  limb(sh,ar,7,7.4,AZ,0,1);ball(ar,AZ,0,0,0,8,8,8);limb(ar,fo,9.4,9,AZ,0,.66);limb(ar,fo,9.7,9.6,AZ2,.62,.7);limb(ar,fo,10.4,9.8,AZ,.18,.5,1,1);
+  limb(fo,ha,5,4.5,BR,.28,1.0);limb(fo,ha,5.3,5.3,0xcfcfd6,.45,.5);limb(fo,ha,5.3,5.3,0xcfcfd6,.7,.75);
+  if(sg<0){ball(fo,0xb02030,3,14,4.3,1.6,3.2,.9);ball(fo,0xb02030,-3,19,3.5,1.2,2.2,.9);ball(fo,0xb02030,2,22,-3,1.4,2.4,.9)}
  }
- // cabeça: cabelo preto com coque + máscara oni vermelha com chifres
- ball(hd,0x161616,0,15.2,-.5,9.8,11.4,12.4);ball(hd,0x161616,0,26,-3,3.6,3.6,3.6);
- ball(hd,0xc22a2c,0,11.6,10.6,8.6,10.2,3.4);ball(hd,0xc9a44a,0,19.8,10.2,6.6,3.2,3);
- ball(hd,0x0d0d0d,-3.6,13.6,13.6,2.3,1.1,.8);ball(hd,0x0d0d0d,3.6,13.6,13.6,2.3,1.1,.8);box(hd,0x2b1c14,0,5,12.6,8.6,3,2);
- for(const sg of[1,-1]){const h=put(hd,new THREE.ConeGeometry(1.9,11,10),0x2e2420,sg*8.4,24.6,5.8,1,1,1);h.rotation.z=-sg*.55}
+ // ---- cabeça: cabelo preto + coque, máscara oni (rosto vermelho, testa dourada, dentes, nariz) e chifres curvos
+ ball(hd,0x161616,0,15.4,-.6,9.9,11.6,12.6);ball(hd,0x161616,0,27,-3,3.8,4.4,3.8);ball(hd,0x161616,-2,29,-3,1.5,4.2,1.5);ball(hd,0x161616,2,29,-3,1.5,4.2,1.5);
+ ball(hd,0xc0282a,0,11.4,10.2,8.8,10.6,3.6);ball(hd,0xa81f22,-5.2,8.5,12,3.4,3.4,2.4);ball(hd,0xa81f22,5.2,8.5,12,3.4,3.4,2.4);   // rosto + bochechas
+ ball(hd,0xcfa74e,0,20,10.6,7,3.3,3.2);ball(hd,0xe2c15c,0,20,13,2,1.8,1);box(hd,0xcfa74e,0,16.6,13.4,1.2,5,1.2);                 // testa dourada
+ ball(hd,0x0d0d0d,-3.7,13.6,13.4,2.5,1.1,.9);ball(hd,0x0d0d0d,3.7,13.6,13.4,2.5,1.1,.9);box(hd,0x1a0f0f,-3.8,16.2,13.2,4.5,.9,1);box(hd,0x1a0f0f,3.8,16.2,13.2,4.5,.9,1);// olhos e sobrancelhas
+ ball(hd,0x8a1518,0,10,14.2,1.8,2.4,1.6);                                                                                              // nariz
+ box(hd,0x2b1c14,0,5,12.8,9,3.4,2.2);for(let k=-3;k<=3;k++)box(hd,0xf4f0e2,k*1.15,5.8,14.1,.8,1.8,.8);                                // boca com dentes
+ for(const sg of[1,-1]){
+  const a=put(hd,new THREE.ConeGeometry(2,8,10),0x2e2420,sg*8.2,23,6,1,1,1);a.rotation.z=-sg*.35;
+  const b=put(hd,new THREE.ConeGeometry(1.5,6,10),0x2e2420,sg*10.8,28,6,1,1,1);b.rotation.z=-sg*.8;
+ }
 }

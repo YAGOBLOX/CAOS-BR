@@ -66,7 +66,10 @@ function poseX(e,m,a,t){
  set('sneak_pose',0);set('idle',1-mv);set('walk',mv*(1-run));set('run',mv*run);
  if(A.walk)A.walk.timeScale=Math.max(.6,d/1.2);if(A.run)A.run.timeScale=Math.max(.8,d/2);
  m.mx.update(dt);
- const bb=m.root,gb=n=>bb.getObjectByName('mixamorig'+n),drop=88.8*(1-Math.cos(1.05*cs));   // queda do quadril (cm) para os pés ficarem no chão
+ const bb=m.root,gb=n=>bb.getObjectByName('mixamorig'+n);
+ // corpo masculino: quadril/cintura mais estreitos (Hips .8 em X); ombros e pernas voltam ao tamanho normal
+ {const w=.8;gb('Hips').scale.x=w;gb('Spine2').scale.x=1/w;gb('LeftUpLeg').scale.x=1/w;gb('RightUpLeg').scale.x=1/w}
+ const drop=88.8*(1-Math.cos(1.05*cs));   // queda do quadril (cm) para os pés ficarem no chão
  if(cs>.005){gb('Hips').position.y-=drop;const sw=Math.sin(m.ph*2)*.4*am;for(const sd of['Left','Right']){const sg=sd==='Left'?1:-1;gb(sd+'UpLeg').rotateX(XBK.up*cs+sg*sw*cs);gb(sd+'Leg').rotateX(XBK.kn*cs-Math.max(0,sg*sw)*.8*cs)}}
  const lie=dead?1:ps,g=m.g;g.position.set(e.x,e.z+5*lie,e.y);g.rotation.set(0,-a,-1.5*lie);g.scale.setScalar(1);
  const wi=e.w===undefined?BOTW:e.w,has=!!m.gn.gs[wi];m.gn.gs.forEach((x,i)=>{if(x)x.visible=i===wi});
