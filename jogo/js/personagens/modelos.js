@@ -57,46 +57,52 @@ function xbotBody(){
   bn:{rU:B('RightArm'),rF:B('RightForeArm'),rH:B('RightHand'),lU:B('LeftArm'),lF:B('LeftForeArm'),lH:B('LeftHand')}};
 }
 
-// ===== roupa do Xbot (samurai/oni, ref. do dono): peças presas aos OSSOS (seguem as animações). Medidas em cm (unidade local dos ossos) =====
-// obs.: em poseX o quadril/cintura é afinado (Hips.scale.x) e Spine2/UpLeg compensam; peças em Hips/Spine/Spine1 herdam o afinamento.
+// ===== roupa do Xbot (samurai/oni, ref. do dono) =====
+// Roupa = cópia "inflada" da própria malha do corpo, ligada ao MESMO esqueleto (skinning): dobra lisa nas articulações, sem peças atravessando.
+// Cada vértice recebe cor/folga por região (altura y e abertura x do corpo em T-pose). Medidas em metros (corpo = 1,806 de altura). Cabeça: peças rígidas no osso Head.
 function xbClothes(root,M){
- const B=n=>root.getObjectByName('mixamorig'+n),V=new THREE.Vector3(0,1,0),Q=new THREE.Quaternion();
- root.traverse(o=>{if(o.isSkinnedMesh&&o.material){o.material.color.setHex(/Joints/.test(o.name)?0xb98560:0xd9a87c);if(o.material.roughness!==undefined)o.material.roughness=.7}});
+ const B=n=>root.getObjectByName('mixamorig'+n);
+ const AZ=0x4a69ab,AZ2=0x2e3a66,RO=0xe24f9c,BR=0xf0f0f4,PA=0x4a4070,PA2=0x352c55,MG=0x8c3a74,MG2=0xb04a8a,SAN=0xdcdae4,DK=0x2a2a30,COR=0xe9b9a0,SKIN=0xd9a87c,SKJ=0xb98560,BL=0xb02030;
+ const srcs=[];root.traverse(o=>{if(o.isSkinnedMesh&&o.material){o.material.color.setHex(/Joints/.test(o.name)?SKJ:SKIN);if(o.material.roughness!==undefined)o.material.roughness=.7;if(/Surface/.test(o.name))srcs.push(o)}});
  const mt=c=>{const m=new THREE.MeshStandardMaterial({color:c,roughness:.88,metalness:0});M.push(m);return m};
  const put=(bone,geo,c,x,y,z,sx,sy,sz)=>{const o=new THREE.Mesh(geo,mt(c));o.position.set(x,y,z);o.scale.set(sx,sy,sz);o.castShadow=true;o.frustumCulled=false;bone.add(o);return o};
- const limb=(bone,child,r0,r1,c,f0,f1,ex,ez,dz)=>{const d=child.position.clone(),L=d.length();Q.setFromUnitVectors(V,d.clone().normalize());
-  const o=put(bone,new THREE.CylinderGeometry(r1,r0,L*(f1-f0),20),c,d.x*(f0+f1)/2,d.y*(f0+f1)/2,d.z*(f0+f1)/2+(dz||0),ex||1,1,ez||1);o.quaternion.copy(Q);return o};
  const ball=(bone,c,x,y,z,rx,ry,rz)=>put(bone,new THREE.SphereGeometry(1,16,12),c,x,y,z,rx,ry,rz);
  const box=(bone,c,x,y,z,w,h,d)=>put(bone,new THREE.BoxGeometry(w,h,d),c,x,y,z,1,1,1);
- const AZ=0x4a69ab,AZ2=0x2e3a66,RO=0xe24f9c,BR=0xf0f0f4,PA=0x4a4070,PA2=0x382f58,MG=0x8c3a74,MG2=0xb04a8a,SAN=0xdcdae4,DK=0x2a2a30,COR=0xe9b9a0;
- const H=B('Hips'),S=B('Spine'),S1=B('Spine1'),S2=B('Spine2'),hd=B('Head'),nk=B('Neck');
- // ---- cintura/quadril: calça (cobre a pelve toda) + faixa magenta grossa + laço grande
- limb(H,S,21.5,19.5,PA,-1.7,.5,1,.98,-1.8);limb(H,S,20.2,19.4,MG,.28,1.12,1,.96,-1.6);limb(H,S,20.6,19.8,MG2,.28,.4,1,.97,-1.6);
- box(H,AZ2,4,0,15.3,2.8,16,1.5);box(H,AZ2,-4,-4,15.2,2.8,14,1.5);ball(H,AZ2,0,8.5,15,3.2,3,1.8);
- // ---- camisa branca + jaqueta azul curta (cobre costas e frente) com lapela rosa
- limb(S,S1,18.2,18,BR,0,1.04,1,.96,-1.6);
- limb(S,S1,19.4,19.8,AZ,.5,1.05,1,.98,-1.4);limb(S1,S2,19.8,21,AZ,0,1.04,1,.98,-1.4);limb(S2,nk,22,18,AZ,0,1.02,1,.96,-1.2);
- limb(S,S1,19.6,19.9,RO,.46,.56,1,.98,-1.4);                              // barra rosa da jaqueta
- for(const sg of[1,-1]){box(S,RO,sg*5.4,5,16.6,3.4,12,1);box(S1,RO,sg*5.4,0,17.4,3.4,12,1);box(S2,RO,sg*5.4,2,18.6,3.6,22,1);}
- box(S2,AZ2,0,2,18.2,7.4,22,1);box(S1,AZ2,0,0,17,7.4,12,1);box(S2,BR,0,14,18,5.4,9,1);
- box(S2,AZ2,0,2,-16.4,22,20,1);box(S1,AZ2,0,-3,-17,2,10,1);                    // costas: pano da jaqueta com costura central
- for(let k=0;k<3;k++)box(S1,AZ2,0,-4+k*5,-16.9,34,.8,1);                         // dobras horizontais nas costas
- ball(S2,BR,-14,11,11,2.6,2.6,1.5);ball(S2,BR,-14,6,11.5,2,3.4,1.2);box(S2,BR,-14,2,11.5,1,6,.8); // trevo + fita branca
- limb(nk,hd,5.8,5.4,COR,0,.6,1,1);
- for(const sd of['Left','Right']){
-  const up=B(sd+'UpLeg'),kn=B(sd+'Leg'),ft=B(sd+'Foot'),to=B(sd+'ToeBase'),sg=sd==='Left'?1:-1;
-  // calça larga (hakama) com dobras, boca da canela cinchada, faixa magenta com corda e meia branca
-  limb(up,kn,14.2,13.2,PA,-.1,1.03,1.05,1.14).position.x+=sg*1.2;ball(kn,PA,0,0,2,13,13,13.5);
-  limb(up,kn,14.6,14.6,PA2,.28,.34,1.05,1.14).position.x+=sg*1.2;limb(up,kn,13.6,13.6,PA2,.62,.67,1.05,1.14).position.x+=sg*1.2;
-  limb(kn,ft,13,11.8,PA,0,.64,1.04,1.1);limb(kn,ft,12,11,PA2,.2,.26,1.04,1.1);ball(kn,PA2,0,-14,8,9.5,5,5);
-  limb(kn,ft,9.6,8,MG,.62,1.0);limb(kn,ft,10.2,9.6,0x6b2f5c,.64,.7);limb(kn,ft,9,8.5,COR,.9,.95);
-  limb(ft,to,6.4,5.6,SAN,-.1,1.05,1.02,1);ball(to,SAN,0,0,5,5.6,4.2,6.6);box(to,DK,0,-3.6,3.5,11.5,2.2,15.5);box(ft,DK,0,3,5,.9,.9,10);
-  // manga curta larga em camadas + atadura
-  const sh=B(sd+'Shoulder'),ar=B(sd+'Arm'),fo=B(sd+'ForeArm'),ha=B(sd+'Hand');
-  limb(sh,ar,7,7.4,AZ,0,1);ball(ar,AZ,0,0,0,8,8,8);limb(ar,fo,9.4,9,AZ,0,.66);limb(ar,fo,9.7,9.6,AZ2,.62,.7);limb(ar,fo,10.4,9.8,AZ,.18,.5,1,1);
-  limb(fo,ha,5,4.5,BR,.28,1.0);limb(fo,ha,5.3,5.3,0xcfcfd6,.45,.5);limb(fo,ha,5.3,5.3,0xcfcfd6,.7,.75);
-  if(sg<0){ball(fo,0xb02030,3,14,4.3,1.6,3.2,.9);ball(fo,0xb02030,-3,19,3.5,1.2,2.2,.9);ball(fo,0xb02030,2,22,-3,1.4,2.4,.9)}
- }
+ const hd=B('Head');
+ const mix=(a,b,k)=>{const ca=new THREE.Color(a),cb=new THREE.Color(b);return ca.lerp(cb,Math.max(0,Math.min(1,k))).getHex()};
+ srcs.forEach(sm=>{
+  const g=sm.geometry.clone(),P=g.attributes.position,N=g.attributes.normal,n=P.count;
+  let y0=1e9,y1=-1e9;for(let i=0;i<n;i++){const y=P.getY(i);if(y<y0)y0=y;if(y>y1)y1=y}
+  const s=(y1-y0)/1.806,cm=.01*s;
+  // normais suavizadas (vértices na mesma posição somam) para a roupa inflar sem abrir buracos
+  const key=i=>Math.round(P.getX(i)*1e4)+','+Math.round(P.getY(i)*1e4)+','+Math.round(P.getZ(i)*1e4),mp=new Map();
+  for(let i=0;i<n;i++){const k=key(i);let a=mp.get(k);if(!a){a=[0,0,0];mp.set(k,a)}a[0]+=N.getX(i);a[1]+=N.getY(i);a[2]+=N.getZ(i)}
+  const col=new Float32Array(n*3),inf=new Float32Array(n),c=new THREE.Color();
+  for(let i=0;i<n;i++){
+   const x=P.getX(i)/s,y=(P.getY(i)-y0)/s,z=P.getZ(i)/s,ax=Math.abs(x);let hex=SKIN,f=0;
+   if(y<.1){hex=y<.03?DK:SAN;f=.7}                                                   // meia branca + sola da sandália
+   else if(y<.13){hex=SAN;f=.4}
+   else if(y<.31){hex=y>.27?COR:(Math.floor(y*55)%2?MG:MG2);f=y>.27?1.9:1.3}           // faixa magenta com corda
+   else if(y<.97&&ax<.3){f=y<.37?4.2-(y-.31)*20:(y<.5?3:(y<.8?3-(y-.5)*6.7:1));if(y>.78&&z<0)f=.4;hex=mix(PA,PA2,.5+.5*Math.sin(y*170+ax*30))}  // calça larga (hakama) com dobras
+   else if(y<1.12&&ax<.3){hex=MG;f=1.2;if(z>0&&ax<.03&&y<1.06){hex=AZ2;f=2.2}}          // faixa da cintura + ponta do laço
+   else if(ax<.17&&y<1.47){f=1.7;hex=AZ;                                           // jaqueta
+    if(z>.02){if(ax>.05&&ax<.095)hex=RO;else if(ax<=.05)hex=y>1.4?BR:AZ2}else if(z<-.02&&ax<.01)hex=AZ2;
+    if(y<1.16)hex=mix(AZ,RO,1)}
+   else if(ax>=.17&&y>1.2&&y<1.56){                                                 // braço
+    if(ax<.45){hex=AZ;f=1.8+(ax-.17)*3.4}else if(ax<.48){hex=AZ2;f=2.8}
+    else if(ax<.72){hex=BR;f=.9;if(x<0&&ax>.52&&ax<.66&&z>-.02&&(Math.floor(ax*70)+Math.floor(y*40))%3===0)hex=BL}}
+   const k=key(i),a=mp.get(k),L=Math.hypot(a[0],a[1],a[2])||1;
+   P.setXYZ(i,P.getX(i)+a[0]/L*f*cm,P.getY(i)+a[1]/L*f*cm,P.getZ(i)+a[2]/L*f*cm);
+   c.setHex(hex);col[i*3]=c.r;col[i*3+1]=c.g;col[i*3+2]=c.b;inf[i]=f;
+  }
+  // só mantém triângulos que têm roupa (o resto é pele que já existe)
+  const idx=g.index?Array.from(g.index.array):Array.from({length:n},(_,i)=>i),keep=[];
+  for(let t=0;t<idx.length;t+=3)if(inf[idx[t]]>0||inf[idx[t+1]]>0||inf[idx[t+2]]>0)keep.push(idx[t],idx[t+1],idx[t+2]);
+  g.setIndex(keep);g.setAttribute('color',new THREE.BufferAttribute(col,3));
+  const mat=new THREE.MeshStandardMaterial({vertexColors:true,skinning:true,roughness:.9,metalness:0,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2});M.push(mat);
+  const cl=new THREE.SkinnedMesh(g,mat);cl.position.copy(sm.position);cl.quaternion.copy(sm.quaternion);cl.scale.copy(sm.scale);
+  sm.parent.add(cl);cl.bind(sm.skeleton,sm.bindMatrix);cl.frustumCulled=false;cl.castShadow=true;
+ });
  // ---- cabeça: cabelo preto + coque, máscara oni (rosto vermelho, testa dourada, dentes, nariz) e chifres curvos
  ball(hd,0x161616,0,15.4,-.6,9.9,11.6,12.6);ball(hd,0x161616,0,27,-3,3.8,4.4,3.8);ball(hd,0x161616,-2,29,-3,1.5,4.2,1.5);ball(hd,0x161616,2,29,-3,1.5,4.2,1.5);
  ball(hd,0xc0282a,0,11.4,10.2,8.8,10.6,3.6);ball(hd,0xa81f22,-5.2,8.5,12,3.4,3.4,2.4);ball(hd,0xa81f22,5.2,8.5,12,3.4,3.4,2.4);   // rosto + bochechas
