@@ -58,23 +58,26 @@ const XBK={up:-1.05,kn:2.1};
 function poseX(e,m,a,t){
  const d=Math.min(6,Math.hypot(e.x-m.lx,e.y-m.ly));m.lx=e.x;m.ly=e.y;
  const dt=Math.max(0,Math.min(.05,t-(m.pt===undefined?t:m.pt)));m.pt=t;const kk=1-Math.exp(-dt*11);
- m.amp=(m.amp||0)+((e.z>0?0:Math.min(1,d/2.2))-(m.amp||0))*.25;
+ m.amp=(m.amp||0)+((e.z>0?0:Math.min(1,d/2.2))-(m.amp||0))*.25;m.ph=(m.ph||0)+d*.09;
  const dead=e.hp<=0;m.cs=(m.cs||0)+(((e.st===1&&!dead)?1:0)-(m.cs||0))*kk;m.ps=(m.ps||0)+(((e.st===2&&!dead)?1:0)-(m.ps||0))*kk;
- const am=m.amp,run=Math.max(0,Math.min(1,(d-1.5)/1.1)),cs=m.cs,ps=m.ps,A=m.act,wk=am*(1-run),L=(x,y,k)=>x+(y-x)*k;
- const set=(n,w)=>{if(A[n])A[n].setEffectiveWeight(w)};
- set('sneak_pose',cs);set('idle',(1-cs)*(1-am));set('walk',(1-cs)*wk);set('run',(1-cs)*am*run);
+ const am=m.amp,run=Math.max(0,Math.min(1,(d-1.5)/1.1)),cs=m.cs,ps=m.ps,A=m.act,L=(x,y,k)=>x+(y-x)*k;
+ // animação de andar/correr só em pé (agachado e deitado usam o parado + pose por código; sem tremer)
+ const mv=am*(1-Math.max(cs,ps)),set=(n,w)=>{if(A[n])A[n].setEffectiveWeight(w)};
+ set('sneak_pose',0);set('idle',1-mv);set('walk',mv*(1-run));set('run',mv*run);
  if(A.walk)A.walk.timeScale=Math.max(.6,d/1.2);if(A.run)A.run.timeScale=Math.max(.8,d/2);
  m.mx.update(dt);
- if(cs>.01){const bb=m.root,gb=n=>bb.getObjectByName('mixamorig'+n);const hp=gb('Hips');hp.position.y-=44*cs;for(const sd of['Left','Right']){gb(sd+'UpLeg').rotateX(XBK.up*cs);gb(sd+'Leg').rotateX(XBK.kn*cs)}}   // agachar: abaixa o quadril e dobra coxa/joelho
- const lie=dead?1:ps,g=m.g;g.position.set(e.x,e.z+(e.z>0?0:0)+5*lie,e.y);g.rotation.set(0,-a,-1.5*lie);g.scale.setScalar(1);
+ const bb=m.root,gb=n=>bb.getObjectByName('mixamorig'+n),drop=88.8*(1-Math.cos(1.05*cs));   // queda do quadril (cm) para os pés ficarem no chão
+ if(cs>.005){gb('Hips').position.y-=drop;const sw=Math.sin(m.ph*2)*.4*am;for(const sd of['Left','Right']){const sg=sd==='Left'?1:-1;gb(sd+'UpLeg').rotateX(XBK.up*cs+sg*sw*cs);gb(sd+'Leg').rotateX(XBK.kn*cs-Math.max(0,sg*sw)*.8*cs)}}
+ const lie=dead?1:ps,g=m.g;g.position.set(e.x,e.z+5*lie,e.y);g.rotation.set(0,-a,-1.5*lie);g.scale.setScalar(1);
  const wi=e.w===undefined?BOTW:e.w,has=!!m.gn.gs[wi];m.gn.gs.forEach((x,i)=>{if(x)x.visible=i===wi});
  g.updateMatrixWorld(true);
- // arma e mãos (não faz com o corpo deitado/morto: os braços ficam como a animação)
  if(!dead){
-  const hy=L(41,30,cs);m.gn.position.set(L(9,-8,ps),L(hy,46,ps),2.9);m.gn.rotation.z=ps*1.5708;m.gn.visible=true;m.gn.updateMatrixWorld(true);
-  const side=new THREE.Vector3(0,0,1).transformDirection(g.matrixWorld);
-  const T1=m.gn.localToWorld(new THREE.Vector3(0,-.4,.5)),T2=has?m.gn.localToWorld(new THREE.Vector3(foreOf(wi),-1.6,-2)):m.gn.localToWorld(new THREE.Vector3(10,-1,-2.4));
-  const b=m.bn;ik2(b.rU,b.rF,b.rH,T1,new THREE.Vector3(0,-1,0).addScaledVector(side,.9));ik2(b.lU,b.lF,b.lH,T2,new THREE.Vector3(0,-1,0).addScaledVector(side,-.9));
+  const dropU=drop*XB_H/180,hy=41-dropU;
+  m.gn.position.set(L(10,-8,ps),L(hy,46,ps),4.4);m.gn.rotation.z=ps*1.5708;m.gn.visible=true;m.gn.updateMatrixWorld(true);
+  const side=new THREE.Vector3(0,0,1).transformDirection(g.matrixWorld),down=new THREE.Vector3(0,-1,0);
+  const fg=has?Math.min(foreOf(wi),9):8,T1=m.gn.localToWorld(new THREE.Vector3(0,-.4,.4)),T2=m.gn.localToWorld(new THREE.Vector3(fg,-1.4,-3.2));
+  const pl=(sg)=>down.clone().multiplyScalar(1-ps*.7).addScaledVector(side,sg*(.9+ps*.6));   // cotovelo sempre para fora (a mão não cruza o corpo)
+  const b=m.bn;ik2(b.rU,b.rF,b.rH,T1,pl(1));ik2(b.lU,b.lF,b.lH,T2,pl(-1));
  }else m.gn.visible=false;
  for(const mt of m.M)if(mt.emissive)mt.emissive.setHex(e.fl>0?0xffffff:0);
 }

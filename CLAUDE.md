@@ -109,3 +109,7 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 - `xbotBody()` (modelos.js) e `poseX()` (animacoes.js): mistura de animações por velocidade, agachar = quadril/joelhos por código, deitado = corpo girado, mãos na arma por IK de 2 ossos (`ik2`). O three r128 mede a malha errado (bind pose): a altura é fixa em 1,8 m (`XB_H/1.8`).
 - Carregamento: `CAOS.loadXbot()` (carregador.js), com limite de 25 s; se falhar, usa o boneco simples. `js/lib/GLTFLoader.js` e `SkeletonUtils.js` são do three r128 (local, sem CDN extra).
 - Trocar de modelo: ajuste nomes dos ossos `mixamorig*` e a altura real em `xbotBody()`.
+
+## Roupa e poses do Xbot (v20)
+- `xbClothes()` (fim de `modelos.js`): calça, botas, camisa, colete, mochila, mangas, luvas, boné e óculos presos aos OSSOS (tubos do osso até o filho). Pele em `Beta_Surface`/`Beta_Joints`. Medidas em cm (unidade local dos ossos).
+- `poseX()`: andar/correr só em pé; agachado/deitado usam o parado + pose por código (sem tremer). Agachar: queda do quadril `88.8*(1-cos(1.05*cs))`. Cotovelos com pole para fora (mão não cruza o corpo); arma em z=4.4, foregrip limitado a 9.

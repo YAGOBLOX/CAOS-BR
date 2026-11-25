@@ -45,6 +45,7 @@ const XB_H=61;   // altura do boneco no jogo (o antigo tinha ~61)
 function xbotBody(){
  const X=CAOS.xbot,root=THREE.SkeletonUtils.clone(X.scene),M=[],g=new THREE.Group(),hold=new THREE.Group();
  root.traverse(o=>{if(o.isMesh||o.isSkinnedMesh){o.frustumCulled=false;o.castShadow=true;if(o.material){o.material=o.material.clone();M.push(o.material)}}});
+ xbClothes(root,M);
  const mx=new THREE.AnimationMixer(root),act={};
  X.animations.forEach(c=>{act[c.name]=mx.clipAction(c)});
  for(const n of['idle','walk','run','sneak_pose']){if(act[n]){act[n].play();act[n].setEffectiveWeight(n==='idle'?1:0)}}
@@ -54,4 +55,39 @@ function xbotBody(){
  const gn=new THREE.Group();gn.gs=gunModels(null);gn.gs.forEach(x=>{if(x)gn.add(x)});gn.scale.setScalar(.8);g.add(gn);
  return{xb:1,g,hold,root,mx,act,gn,M,lx:0,ly:0,
   bn:{rU:B('RightArm'),rF:B('RightForeArm'),rH:B('RightHand'),lU:B('LeftArm'),lF:B('LeftForeArm'),lH:B('LeftHand')}};
+}
+
+// ===== roupa do Xbot: peças presas aos OSSOS (seguem as animações). Medidas em cm (unidade local dos ossos), tiradas do corpo do modelo =====
+function xbClothes(root,M){
+ const B=n=>root.getObjectByName('mixamorig'+n),V=new THREE.Vector3(0,1,0),Q=new THREE.Quaternion();
+ root.traverse(o=>{if(o.isSkinnedMesh&&o.material){o.material.color.setHex(/Joints/.test(o.name)?0x7a4f33:0xc9966b);if(o.material.roughness!==undefined)o.material.roughness=.7}});
+ const mt=c=>{const m=new THREE.MeshStandardMaterial({color:c,roughness:.88,metalness:0});M.push(m);return m},cache={};
+ const put=(bone,geo,c,x,y,z,sx,sy,sz)=>{const o=new THREE.Mesh(geo,mt(c));o.position.set(x,y,z);o.scale.set(sx,sy,sz);o.castShadow=true;o.frustumCulled=false;bone.add(o);return o};
+ // tubo do osso até o filho (r0 perto do osso, r1 perto do filho), de f0 a f1 do comprimento; ex/ez = achatamento (tronco é elíptico)
+ const limb=(bone,child,r0,r1,c,f0,f1,ex,ez)=>{const d=child.position.clone(),L=d.length();Q.setFromUnitVectors(V,d.clone().normalize());
+  const o=put(bone,new THREE.CylinderGeometry(r1,r0,L*(f1-f0),18),c,d.x*(f0+f1)/2,d.y*(f0+f1)/2,d.z*(f0+f1)/2,ex||1,1,ez||1);o.quaternion.copy(Q);return o};
+ const ball=(bone,c,x,y,z,rx,ry,rz)=>put(bone,new THREE.SphereGeometry(1,14,10),c,x,y,z,rx,ry,rz);
+ const SH=0x2f3640,VE=0x474f36,PA=0x3b4132,BO=0x1d1915,GL=0x17171a,CAP=0x2d3826,BLK=0x141518;
+ // quadril/cinto, barriga, peito, colete
+ limb(B('Hips'),B('Spine'),22,20.5,PA,-1.5,1.02,1,.86);limb(B('Hips'),B('Spine'),20.6,20.2,BLK,.55,.9,1,.7);
+ limb(B('Spine'),B('Spine1'),17.8,17.2,SH,0,1.03,1,.76);limb(B('Spine1'),B('Spine2'),17.2,17.8,SH,0,1.03,1,.8);
+ limb(B('Spine2'),B('Neck'),20.2,17.2,VE,0,1.0,1,.73);
+ const S2=B('Spine2');for(const x of[-9,0,9])put(S2,new THREE.BoxGeometry(7,8,3.2),0x3a4130,x,6,14.6,1,1,1);put(S2,new THREE.BoxGeometry(24,9,2.4),0x3a4130,0,12,-14.6,1,1,1);
+ // mochila nas costas
+ put(S2,new THREE.BoxGeometry(24,26,11),0x39402f,0,7,-20.5,1,1,1);put(S2,new THREE.BoxGeometry(19,10,3),0x2d3326,0,-1,-27,1,1,1);
+ for(const sd of['Left','Right']){
+  const up=B(sd+'UpLeg'),kn=B(sd+'Leg'),ft=B(sd+'Foot'),to=B(sd+'ToeBase'),sg=sd==='Left'?1:-1;
+  limb(up,kn,13,10.4,PA,-.1,1.03,1.05,1.15).position.x+=sg*1.2;ball(kn,PA,0,0,0,10.4,10.4,10.4);
+  limb(kn,ft,10,8,PA,0,.58,1.05,1.12);limb(kn,ft,8.6,7.2,BO,.56,1.02);       // calça + cano da bota
+  limb(ft,to,6.6,5.8,BO,-.1,1.05,1.02,1);ball(to,BO,0,0,5,5.8,4.4,6.8);   // pé da bota
+  // braço: manga, ombro, punho, luva
+  const sh=B(sd+'Shoulder'),ar=B(sd+'Arm'),fo=B(sd+'ForeArm'),ha=B(sd+'Hand'),mi=B(sd+'HandMiddle1');
+  limb(sh,ar,6.3,6,SH,0,1);ball(ar,SH,0,0,0,6.6,6.6,6.6);limb(ar,fo,5.9,5,SH,0,1.02);limb(fo,ha,4.5,4.2,SH,0,.28);
+  limb(ha,mi,4.5,4.1,GL,-.25,1.4);ball(ha,GL,mi.position.x*.5,mi.position.y*.5,mi.position.z*.5,4.8,4.8,4.8);
+ }
+ // cabeça: boné com aba + óculos/viseira
+ const hd=B('Head');
+ put(hd,new THREE.SphereGeometry(1,18,10,0,6.2832,0,1.5708),CAP,0,17.2,.5,10.4,12.4,13.6);   // calota do boné
+ put(hd,new THREE.BoxGeometry(17,1.2,9),CAP,0,18.8,12.6,1,1,1);                              // aba
+ ball(hd,BLK,0,17.4,.3,9.4,2.6,12.9);ball(hd,0x4aa8ff,0,17.4,3.4,7.6,1.9,10.2);               // faixa dos óculos + lentes
 }
