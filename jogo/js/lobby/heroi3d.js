@@ -8,12 +8,16 @@
   const cam=new THREE.PerspectiveCamera(26,660/600,1,600);cam.position.set(0,34,150);cam.lookAt(0,30,0);
   let m=humanoid(1);sc.add(m.g);window.heroRefresh=()=>{sc.remove(m.g);m=humanoid(1);sc.add(m.g)};   // heroRefresh: troca o boneco quando a skin muda
   const e={x:0,y:0,z:0,hp:200,st:0,fl:0,w:1};m.g.position.y=-2;
-  let t0=performance.now(),run=true;
+  let t0=performance.now(),run=true,spin=0,drag=null;
+  // arrastar o boneco gira ele (como no Free Fire); sem arrastar, balança de leve
+  cv.addEventListener('pointerdown',ev=>{drag=ev.clientX;try{cv.setPointerCapture(ev.pointerId)}catch(e){}});
+  cv.addEventListener('pointermove',ev=>{if(drag===null)return;spin+=(ev.clientX-drag)*.012;drag=ev.clientX});
+  const up=()=>{drag=null};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
   hero.classList.add('is3d');
   (function loop(){requestAnimationFrame(loop);
    const g=document.getElementById('game');if(g&&g.style.display==='block')return;
    const t=(performance.now()-t0)/1000;e.w=(typeof eqs!=='undefined'&&eqs.length)?eqs[0]:1;
-   poseN(e,m,1.57-.45+Math.sin(t*.6)*.3,t);if(!m.xb&&!m.mc){m.ts.rotation.z=-.03+Math.sin(t*1.6)*.02;m.g.scale.setScalar(.8)}m.g.position.set(0,-2+Math.sin(t*1.6)*.3,0);
+   poseN(e,m,1.12+spin+(drag===null?Math.sin(t*.6)*.12:0),t);if(!m.xb&&!m.mc){m.ts.rotation.z=-.03+Math.sin(t*1.6)*.02;m.g.scale.setScalar(.8)}m.g.position.set(0,-2+Math.sin(t*1.6)*.3,0);
    r.render(sc,cam)})();
  }).catch(()=>{});
 })();

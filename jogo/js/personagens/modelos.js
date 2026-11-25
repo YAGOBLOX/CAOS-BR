@@ -64,7 +64,8 @@ function xbotBody(){
 function xbClothes(root,M){
  const B=n=>root.getObjectByName('mixamorig'+n);
  const AZ=0x4a69ab,AZ2=0x2e3a66,RO=0xe24f9c,BR=0xf0f0f4,PA=0x4a4070,PA2=0x352c55,MG=0x8c3a74,MG2=0xb04a8a,SAN=0xdcdae4,DK=0x2a2a30,COR=0xe9b9a0,SKIN=0xd9a87c,SKJ=0xb98560,BL=0xb02030;
- const srcs=[];root.traverse(o=>{if(o.isSkinnedMesh&&o.material){o.material.color.setHex(/Joints/.test(o.name)?SKJ:SKIN);if(o.material.roughness!==undefined)o.material.roughness=.7;if(/Surface/.test(o.name))srcs.push(o)}});
+ const srcs=[];root.traverse(o=>{if(o.isSkinnedMesh&&o.material){o.material.color.setHex(/Joints/.test(o.name)?SKJ:SKIN);if(o.material.roughness!==undefined)o.material.roughness=.7;srcs.push(o)}});
+ srcs.sort((a,b)=>/Surface/.test(a.name)?-1:1);let Y0=0,SC=1;   // altura/escala vêm da malha Surface; a Joints (juntas pretas do Xbot: cintura, joelhos...) também ganha roupa
  const mt=c=>{const m=new THREE.MeshStandardMaterial({color:c,roughness:.88,metalness:0});M.push(m);return m};
  const put=(bone,geo,c,x,y,z,sx,sy,sz)=>{const o=new THREE.Mesh(geo,mt(c));o.position.set(x,y,z);o.scale.set(sx,sy,sz);o.castShadow=true;o.frustumCulled=false;bone.add(o);return o};
  const ball=(bone,c,x,y,z,rx,ry,rz)=>put(bone,new THREE.SphereGeometry(1,16,12),c,x,y,z,rx,ry,rz);
@@ -73,8 +74,8 @@ function xbClothes(root,M){
  const mix=(a,b,k)=>{const ca=new THREE.Color(a),cb=new THREE.Color(b);return ca.lerp(cb,Math.max(0,Math.min(1,k))).getHex()};
  srcs.forEach(sm=>{
   const g=sm.geometry.clone(),P=g.attributes.position,N=g.attributes.normal,n=P.count;
-  let y0=1e9,y1=-1e9;for(let i=0;i<n;i++){const y=P.getY(i);if(y<y0)y0=y;if(y>y1)y1=y}
-  const s=(y1-y0)/1.806,cm=.01*s;
+  if(/Surface/.test(sm.name)){let a=1e9,b=-1e9;for(let i=0;i<n;i++){const y=P.getY(i);if(y<a)a=y;if(y>b)b=y}Y0=a;SC=(b-a)/1.806}
+  const y0=Y0,s=SC,cm=.01*s;
   // normais suavizadas (vértices na mesma posição somam) para a roupa inflar sem abrir buracos
   const key=i=>Math.round(P.getX(i)*1e4)+','+Math.round(P.getY(i)*1e4)+','+Math.round(P.getZ(i)*1e4),mp=new Map();
   for(let i=0;i<n;i++){const k=key(i);let a=mp.get(k);if(!a){a=[0,0,0];mp.set(k,a)}a[0]+=N.getX(i);a[1]+=N.getY(i);a[2]+=N.getZ(i)}

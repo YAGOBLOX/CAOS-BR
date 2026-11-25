@@ -126,3 +126,4 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 ## Fundo do lobby (v25)
 - `#lbg` em `jogo/index.html` (SVG de corredor roxo em perspectiva + `.fs` formas flutuando + `#beam`/`#ped` pedestal) e CSS no fim de `css/lobby.css`. É só decoração (`pointer-events:none`); o boneco 3D fica centralizado sobre o pedestal. NÃO é interativo.
 - `#rank` = espaço reservado flutuando (bloco "PATENTE") para o futuro sistema de patentes: troque `.gem` pela imagem da patente. Ainda não clicável.
+- v26: lobby com `#wall` (parede de armas AK-47/MP5/SCAR, só decoração, ícones de `img/armas/`), mais detalhes no fundo (gerado por SVG em `#lbg`), pedestal com sombra e boneco que GIRA arrastando (`heroi3d.js`: `spin`). A roupa do Xbot agora também cobre a malha `Beta_Joints` (cintura/juntas), com a escala/altura tirada da `Beta_Surface`.
