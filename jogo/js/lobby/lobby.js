@@ -22,7 +22,7 @@ $('#mapSel').onclick=openMaps;
 refreshSel();
 document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{
  const p=b.dataset.p;
- if(p==='Config')openCfg();else if(p==='Loja')openShop();else if(p==='Novidades')open('<h2>NOVIDADES</h2>• Mapa expandido (1800 x 1200)<br>• 12 armas novas na LOJA: AK-47, M4A1, MP5, AWM, RPG-7 e mais<br>• Compre e equipe armas na LOJA; na partida: arma + punho (toque na arma para recarregar)<br>• HUD editável nas configurações<br>• 200 de vida para todos');else open('<h2>'+p.toUpperCase()+'</h2>Em breve! Aqui vai a tela de '+p+'.');
+ if(p==='Config')openCfg();else if(p==='Loja')openShop();else if(p==='Skins')openSkins();else if(p==='Novidades')open('<h2>NOVIDADES</h2>• Mapa expandido (1800 x 1200)<br>• 12 armas novas na LOJA: AK-47, M4A1, MP5, AWM, RPG-7 e mais<br>• Compre e equipe armas na LOJA; na partida: arma + punho (toque na arma para recarregar)<br>• HUD editável nas configurações<br>• 200 de vida para todos');else open('<h2>'+p.toUpperCase()+'</h2>Em breve! Aqui vai a tela de '+p+'.');
 });
 let iv;
 $('#go').onclick=()=>{

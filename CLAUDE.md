@@ -115,3 +115,10 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 - `poseX()`: andar/correr só em pé; agachado/deitado usam o parado + pose por código (sem tremer). Agachar: queda do quadril `88.8*(1-cos(1.05*cs))`. Cotovelos com pole para fora (mão não cruza o corpo); arma em z=4.4, foregrip limitado a 9.
 - v22: cintura afinada por osso em `poseX()` (`Hips.scale.x=.8`, `Spine2` e `UpLeg` com `1/.8` para ombros/pernas ficarem normais). Roupa cobre costas inteiras (jaqueta com `ez` ~.98 e deslocada para trás) e tem mais detalhes (dobras da calça, trevo, ataduras, dentes da máscara, chifres).
 - v23: a roupa do Xbot agora é uma CÓPIA INFLADA da malha do corpo (`Beta_Surface`) ligada ao mesmo esqueleto (skinning), com cor/folga por região (altura/abertura do corpo em T-pose) em `xbClothes()`. Material precisa de `skinning:true` (three r128). Só a máscara/cabelo/chifres são peças rígidas no osso Head. Para mudar a roupa, ajuste as regiões `if(y<...)` (cor `hex`, folga `f` em cm).
+
+## Skins (v24) — conjuntos completos, só o dono adiciona
+- Lista e menu em `jogo/js/sistemas/skins-dados.js` (`CAOS.SKINS`). Botão SKINS no lobby (`data-p="Skins"` → `openSkins()`). Escolha salva em `localStorage` `sk` = `{s:id, o:[ids comprados]}`. O jogador NÃO envia skins: nova skin = imagem em `jogo/img/skins/<id>.png` + 1 linha em `CAOS.SKINS`.
+- `tipo:'mc'` = boneco de blocos (Minecraft) em `js/personagens/skin-mc.js` (`mcBody`/`poseM`): PNG 64x64 (ou 64x32), braço fino detectado sozinho. `tipo:'xbot'` = Xbot com roupa Samurai Oni (código em `xbClothes`). Skin que falha ao carregar cai no Xbot.
+- Preço: campo `pr` (0 = grátis). Compra ainda NÃO existe (`have()` em skins-dados.js): skin com `pr>0` não comprada mostra EM BREVE. Ao criar a compra, some moedas (`coins`/`saveSv` em economia.js) e coloque o id em `o`.
+- `humanoid(1)` escolhe o modelo pela skin; o boneco do lobby troca com `heroRefresh()`. Os bots não usam skins.
+- Skin oficial do Steve (Mojang) NÃO está no projeto (não foi possível baixar/recriar): para usar, ponha `steve.png` em `img/skins/` e registre 1 linha.

@@ -11,3 +11,11 @@
 .cxb{position:sticky;top:0;height:0;z-index:3}
 .card .cxb .btn{position:absolute;right:-4px;top:-8px;width:30px;height:30px;margin:0;padding:0;justify-content:center;font-size:15px;background:#c0392b;border-color:#ff8a7a}
 .card h2{padding-right:30px}
+
+/* menu SKINS (conjuntos completos) */
+.skg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.sk{background:#1a1530;border:2px solid #4a3f7a;padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center}
+.sk.on{border-color:var(--gold);box-shadow:0 0 8px var(--gold)}
+.skp{width:48px;height:96px;image-rendering:pixelated;object-fit:contain}
+.sk b{font-size:10px}.sk small{color:var(--gold);font-size:10px}
+.sk .btn{margin-top:4px;padding:5px;font-size:10px;min-height:0}

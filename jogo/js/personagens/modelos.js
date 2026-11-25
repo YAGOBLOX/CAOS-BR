@@ -1,5 +1,6 @@
 /* CAOS BR FPS · modelo 3D do humanoide (jogador e bots): articulações encaixadas (quadril, joelho, ombro, cotovelo) */
 function humanoid(pl,shc){
+ if(pl){const sk=CAOS.skinCur&&CAOS.skinCur();if(sk&&sk.tipo==='mc'&&CAOS.skinTex&&CAOS.skinTex[sk.id])return mcBody(sk)}   // skin escolhida (blocos tipo Minecraft)
  if(pl&&CAOS.xbot)return xbotBody();
  const skin=pl?0xc08a5e:0xe59a5a,sh=pl?0x1a1b20:shc,pa=pl?0x1c1d24:0x303524,ha=0x400000,glv=0x1b1b1f;
  const g=new THREE.Group(),M=[],G2=(p,x,y,z)=>{const q=new THREE.Group();q.position.set(x,y,z);p.add(q);return q};

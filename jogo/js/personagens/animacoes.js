@@ -9,6 +9,7 @@ function armIK(A,sz,tx,ty,tz){
  A.rotation.set(0,Math.atan2(-dz,dx),Math.atan2(r,-dy)-al);A.el.rotation.z=Math.PI-ga;
 }
 function poseN(e,m,a,t){
+ if(m.mc)return poseM(e,m,a,t);
  if(m.xb)return poseX(e,m,a,t);
  const d=Math.min(6,Math.hypot(e.x-m.lx,e.y-m.ly));m.lx=e.x;m.ly=e.y;
  const dt=Math.max(0,Math.min(.05,t-(m.pt===undefined?t:m.pt)));m.pt=t;
