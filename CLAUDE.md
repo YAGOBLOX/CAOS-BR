@@ -103,3 +103,9 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 - Campo opcional `waterColor` no mapa troca a cor do "mar" fora da borda (deserto usa areia).
 - Colisores dos objetos devem cobrir quase toda a base visual (montanhas ~.85 do raio, pedras ~.95), senão o boneco "entra" neles.
 - A câmera em 3ª pessoa não atravessa parede: `camRay()` em `combate.js` encurta o recuo até antes do 1º obstáculo. Mira = bolinha (anel + ponto) em `drawCh()` no `hud.js`.
+
+## Modelo do jogador (Xbot, glb)
+- O jogador usa `jogo/modelos/xbot.glb` (esqueleto Mixamo; animações idle/walk/run). Os bots continuam com o boneco simples e leve (`humanoid(0)`). Guardados para uso futuro (não carregados): `soldado.glb`, `michelle.glb`, `readyplayer.glb` na mesma pasta. Licença: modelos de exemplo do three.js (Mixamo/Ready Player Me) — confira antes de publicar.
+- `xbotBody()` (modelos.js) e `poseX()` (animacoes.js): mistura de animações por velocidade, agachar = quadril/joelhos por código, deitado = corpo girado, mãos na arma por IK de 2 ossos (`ik2`). O three r128 mede a malha errado (bind pose): a altura é fixa em 1,8 m (`XB_H/1.8`).
+- Carregamento: `CAOS.loadXbot()` (carregador.js), com limite de 25 s; se falhar, usa o boneco simples. `js/lib/GLTFLoader.js` e `SkeletonUtils.js` são do three r128 (local, sem CDN extra).
+- Trocar de modelo: ajuste nomes dos ossos `mixamorig*` e a altura real em `xbotBody()`.

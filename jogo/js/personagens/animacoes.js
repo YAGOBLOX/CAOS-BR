@@ -9,6 +9,7 @@ function armIK(A,sz,tx,ty,tz){
  A.rotation.set(0,Math.atan2(-dz,dx),Math.atan2(r,-dy)-al);A.el.rotation.z=Math.PI-ga;
 }
 function poseN(e,m,a,t){
+ if(m.xb)return poseX(e,m,a,t);
  const d=Math.min(6,Math.hypot(e.x-m.lx,e.y-m.ly));m.lx=e.x;m.ly=e.y;
  const dt=Math.max(0,Math.min(.05,t-(m.pt===undefined?t:m.pt)));m.pt=t;
  m.ph=(m.ph||0)+d*.075;m.amp=(m.amp||0)+((e.z>0?0:Math.min(1,d/2.2))-(m.amp||0))*.25;
@@ -39,4 +40,41 @@ function poseN(e,m,a,t){
   if(ps>0)for(const A of[m.A1,m.A2]){A.rotation.y=L(A.rotation.y,0,ps);A.rotation.z=L(A.rotation.z,3,ps);A.el.rotation.z=L(A.el.rotation.z,.15,ps)}
  }
  for(const mt of m.M)mt.emissive.setHex(e.fl>0?0xffffff:0);
+}
+
+// ---- pose do jogador Xbot ----
+const _a=new THREE.Vector3(),_b=new THREE.Vector3(),_c=new THREE.Vector3(),_q=new THREE.Quaternion(),_q2=new THREE.Quaternion(),_q3=new THREE.Quaternion();
+function aimBone(bone,child,target){   // gira o osso para que o filho aponte para o alvo (mundo)
+ bone.getWorldPosition(_a);child.getWorldPosition(_b);const from=_b.sub(_a).normalize(),to=_c.copy(target).sub(_a).normalize();
+ _q.setFromUnitVectors(from,to);bone.getWorldQuaternion(_q2);_q2.premultiply(_q);bone.parent.getWorldQuaternion(_q3);bone.quaternion.copy(_q3.invert().multiply(_q2));bone.updateMatrixWorld(true);
+}
+function ik2(up,fo,ha,T,pole){   // IK de 2 ossos (ombro-cotovelo-mão) com cotovelo para o lado do "pole"
+ const S=up.getWorldPosition(new THREE.Vector3()),E0=fo.getWorldPosition(new THREE.Vector3()),H0=ha.getWorldPosition(new THREE.Vector3());
+ const L1=S.distanceTo(E0),L2=E0.distanceTo(H0),d=T.clone().sub(S);let D=d.length();D=Math.max(.01,Math.min(L1+L2-.001,D));const dir=d.normalize();
+ const aa=(L1*L1-L2*L2+D*D)/(2*D),h=Math.sqrt(Math.max(0,L1*L1-aa*aa)),n=pole.clone().sub(dir.clone().multiplyScalar(pole.dot(dir))).normalize();
+ aimBone(up,fo,S.clone().add(dir.clone().multiplyScalar(aa)).add(n.multiplyScalar(h)));aimBone(fo,ha,T);
+}
+const XBK={up:-1.05,kn:2.1};
+function poseX(e,m,a,t){
+ const d=Math.min(6,Math.hypot(e.x-m.lx,e.y-m.ly));m.lx=e.x;m.ly=e.y;
+ const dt=Math.max(0,Math.min(.05,t-(m.pt===undefined?t:m.pt)));m.pt=t;const kk=1-Math.exp(-dt*11);
+ m.amp=(m.amp||0)+((e.z>0?0:Math.min(1,d/2.2))-(m.amp||0))*.25;
+ const dead=e.hp<=0;m.cs=(m.cs||0)+(((e.st===1&&!dead)?1:0)-(m.cs||0))*kk;m.ps=(m.ps||0)+(((e.st===2&&!dead)?1:0)-(m.ps||0))*kk;
+ const am=m.amp,run=Math.max(0,Math.min(1,(d-1.5)/1.1)),cs=m.cs,ps=m.ps,A=m.act,wk=am*(1-run),L=(x,y,k)=>x+(y-x)*k;
+ const set=(n,w)=>{if(A[n])A[n].setEffectiveWeight(w)};
+ set('sneak_pose',cs);set('idle',(1-cs)*(1-am));set('walk',(1-cs)*wk);set('run',(1-cs)*am*run);
+ if(A.walk)A.walk.timeScale=Math.max(.6,d/1.2);if(A.run)A.run.timeScale=Math.max(.8,d/2);
+ m.mx.update(dt);
+ if(cs>.01){const bb=m.root,gb=n=>bb.getObjectByName('mixamorig'+n);const hp=gb('Hips');hp.position.y-=44*cs;for(const sd of['Left','Right']){gb(sd+'UpLeg').rotateX(XBK.up*cs);gb(sd+'Leg').rotateX(XBK.kn*cs)}}   // agachar: abaixa o quadril e dobra coxa/joelho
+ const lie=dead?1:ps,g=m.g;g.position.set(e.x,e.z+(e.z>0?0:0)+5*lie,e.y);g.rotation.set(0,-a,-1.5*lie);g.scale.setScalar(1);
+ const wi=e.w===undefined?BOTW:e.w,has=!!m.gn.gs[wi];m.gn.gs.forEach((x,i)=>{if(x)x.visible=i===wi});
+ g.updateMatrixWorld(true);
+ // arma e mãos (não faz com o corpo deitado/morto: os braços ficam como a animação)
+ if(!dead){
+  const hy=L(41,30,cs);m.gn.position.set(L(9,-8,ps),L(hy,46,ps),2.9);m.gn.rotation.z=ps*1.5708;m.gn.visible=true;m.gn.updateMatrixWorld(true);
+  const side=new THREE.Vector3(0,0,1).transformDirection(g.matrixWorld);
+  const T1=m.gn.localToWorld(new THREE.Vector3(0,-.4,.5)),T2=has?m.gn.localToWorld(new THREE.Vector3(foreOf(wi),-1.6,-2)):m.gn.localToWorld(new THREE.Vector3(10,-1,-2.4));
+  const b=m.bn;ik2(b.rU,b.rF,b.rH,T1,new THREE.Vector3(0,-1,0).addScaledVector(side,.9));ik2(b.lU,b.lF,b.lH,T2,new THREE.Vector3(0,-1,0).addScaledVector(side,-.9));
+ }else m.gn.visible=false;
+ for(const mt of m.M)if(mt.emissive)mt.emissive.setHex(e.fl>0?0xffffff:0);
 }

@@ -12,7 +12,7 @@
   (function loop(){requestAnimationFrame(loop);
    const g=document.getElementById('game');if(g&&g.style.display==='block')return;
    const t=(performance.now()-t0)/1000;e.w=(typeof eqs!=='undefined'&&eqs.length)?eqs[0]:1;
-   poseN(e,m,1.57-.45+Math.sin(t*.6)*.3,t);m.ts.rotation.z=-.03+Math.sin(t*1.6)*.02;m.g.scale.setScalar(.8);m.g.position.set(0,-2+Math.sin(t*1.6)*.3,0);
+   poseN(e,m,1.57-.45+Math.sin(t*.6)*.3,t);if(!m.xb){m.ts.rotation.z=-.03+Math.sin(t*1.6)*.02;m.g.scale.setScalar(.8)}m.g.position.set(0,-2+Math.sin(t*1.6)*.3,0);
    r.render(sc,cam)})();
  }).catch(()=>{});
 })();

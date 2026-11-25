@@ -1,5 +1,6 @@
 /* CAOS BR FPS · modelo 3D do humanoide (jogador e bots): articulações encaixadas (quadril, joelho, ombro, cotovelo) */
 function humanoid(pl,shc){
+ if(pl&&CAOS.xbot)return xbotBody();
  const skin=pl?0xc08a5e:0xe59a5a,sh=pl?0x1a1b20:shc,pa=pl?0x1c1d24:0x303524,ha=0x400000,glv=0x1b1b1f;
  const g=new THREE.Group(),M=[],G2=(p,x,y,z)=>{const q=new THREE.Group();q.position.set(x,y,z);p.add(q);return q};
  const mesh=(geo,c,x,y,z,sx,sy,sz,p)=>{const o=new THREE.Mesh(geo,new THREE.MeshLambertMaterial({color:c}));o.position.set(x,y,z);o.scale.set(sx,sy,sz);o.castShadow=true;(p||g).add(o);M.push(o.material);return o};
@@ -37,4 +38,20 @@ function humanoid(pl,shc){
  const A1=arm(-9.2),A2=arm(9.2);
  const gn=G2(ts,8,13,3.6);gn.gs=gunModels(pl?null:[BOTW]);gn.gs.forEach(x=>{if(x)gn.add(x)});
  return{g,hp,ts,hd,L1,L2,A1,A2,gn,M,lx:0,ly:0};
+}
+
+// ===== jogador com o modelo Xbot (glb com esqueleto Mixamo). Animação: parado/andar/correr + agachar; braços por IK para segurar a arma =====
+const XB_H=61;   // altura do boneco no jogo (o antigo tinha ~61)
+function xbotBody(){
+ const X=CAOS.xbot,root=THREE.SkeletonUtils.clone(X.scene),M=[],g=new THREE.Group(),hold=new THREE.Group();
+ root.traverse(o=>{if(o.isMesh||o.isSkinnedMesh){o.frustumCulled=false;o.castShadow=true;if(o.material){o.material=o.material.clone();M.push(o.material)}}});
+ const mx=new THREE.AnimationMixer(root),act={};
+ X.animations.forEach(c=>{act[c.name]=mx.clipAction(c)});
+ for(const n of['idle','walk','run','sneak_pose']){if(act[n]){act[n].play();act[n].setEffectiveWeight(n==='idle'?1:0)}}
+ // o three r128 mede a malha pelo bind pose (errado p/ este modelo); a altura real do Xbot é 1,8 m com os pés em y=0 (medido pelos ossos)
+ hold.scale.setScalar(XB_H/1.8);hold.rotation.y=Math.PI/2;hold.add(root);g.add(hold);
+ const B=n=>root.getObjectByName('mixamorig'+n);
+ const gn=new THREE.Group();gn.gs=gunModels(null);gn.gs.forEach(x=>{if(x)gn.add(x)});gn.scale.setScalar(.8);g.add(gn);
+ return{xb:1,g,hold,root,mx,act,gn,M,lx:0,ly:0,
+  bn:{rU:B('RightArm'),rF:B('RightForeArm'),rH:B('RightHand'),lU:B('LeftArm'),lF:B('LeftForeArm'),lH:B('LeftHand')}};
 }
