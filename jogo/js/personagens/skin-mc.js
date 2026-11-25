@@ -42,7 +42,7 @@ function poseM(e,m,a,t){
  const wi=e.w===undefined?BOTW:e.w,has=!!m.gn.gs[wi];m.gn.gs.forEach((x,i)=>{if(x)x.visible=i===wi});
  if(!dead){
   const hy=(hipY+10*Math.cos(.3*cs))*k-1;
-  m.gn.position.set(L(20+3*cs,-2,ps),L(hy,62,ps),3);m.gn.rotation.z=ps*1.5708;m.gn.visible=true;
+  const rx=m.relax||0;m.gn.position.set(L(20+3*cs-3*rx,-2,ps),L(hy-14*rx,62,ps),3+2*rx);m.gn.rotation.z=ps*1.5708-.6*rx;m.gn.visible=true;
   g.updateMatrixWorld(true);m.gn.updateMatrixWorld(true);
   const fg=has?Math.min(foreOf(wi),5):5,T1=m.gn.localToWorld(new THREE.Vector3(0,-.4,.4)),T2=m.gn.localToWorld(new THREE.Vector3(fg,-1.4,-3.2));
   const aim=(arm,T)=>{const p=m.up.worldToLocal(T.clone()).sub(arm.position),len=p.length()||1;   // braço aponta para a mão-alvo (comprimento levemente ajustado)

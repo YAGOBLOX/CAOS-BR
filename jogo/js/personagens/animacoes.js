@@ -77,7 +77,7 @@ function poseX(e,m,a,t){
  g.updateMatrixWorld(true);
  if(!dead){
   const dropU=drop*XB_H/180,hy=41-dropU;
-  m.gn.position.set(L(10,-8,ps),L(hy,46,ps),4.4);m.gn.rotation.z=ps*1.5708;m.gn.visible=true;m.gn.updateMatrixWorld(true);
+  const rx=m.relax||0;m.gn.position.set(L(10+4*rx,-8,ps),L(hy-15*rx,46,ps),4.4+3*rx);m.gn.rotation.z=ps*1.5708-.6*rx;m.gn.visible=true;m.gn.updateMatrixWorld(true);
   const side=new THREE.Vector3(0,0,1).transformDirection(g.matrixWorld),down=new THREE.Vector3(0,-1,0);
   const fg=has?Math.min(foreOf(wi),9):8,T1=m.gn.localToWorld(new THREE.Vector3(0,-.4,.4)),T2=m.gn.localToWorld(new THREE.Vector3(fg,-1.4,-3.2));
   const pl=(sg)=>down.clone().multiplyScalar(1-ps*.7).addScaledVector(side,sg*(.9+ps*.6));   // cotovelo sempre para fora (a mão não cruza o corpo)
