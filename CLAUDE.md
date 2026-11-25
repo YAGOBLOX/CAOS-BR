@@ -111,5 +111,5 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 - Trocar de modelo: ajuste nomes dos ossos `mixamorig*` e a altura real em `xbotBody()`.
 
 ## Roupa e poses do Xbot (v20)
-- `xbClothes()` (fim de `modelos.js`): calça, botas, camisa, colete, mochila, mangas, luvas, boné e óculos presos aos OSSOS (tubos do osso até o filho). Pele em `Beta_Surface`/`Beta_Joints`. Medidas em cm (unidade local dos ossos).
+- `xbClothes()` (fim de `modelos.js`): roupa estilo samurai/oni (referência do dono): jaqueta azul com lapela rosa, calça larga roxa, faixa magenta, ataduras, sandália branca, máscara oni vermelha com chifres e coque. Peças presas aos OSSOS. Cintura fina (corpo masculino). Medidas em cm.
 - `poseX()`: andar/correr só em pé; agachado/deitado usam o parado + pose por código (sem tremer). Agachar: queda do quadril `88.8*(1-cos(1.05*cs))`. Cotovelos com pole para fora (mão não cruza o corpo); arma em z=4.4, foregrip limitado a 9.
