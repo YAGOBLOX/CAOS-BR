@@ -4,14 +4,15 @@
 (function(){
  const hero=document.getElementById('hero'),lbg=document.getElementById('lbg');if(!hero||!lbg)return;
  CAOS.loadChars().then(()=>{
-  const W=1200,H=675,R=THREE,cvs=document.createElement('canvas');cvs.id='lbg3d';
-  const r=new R.WebGLRenderer({canvas:cvs,antialias:true});r.setPixelRatio(1);r.setSize(W,H,false);r.shadowMap.enabled=true;r.shadowMap.type=R.PCFSoftShadowMap;
+  const GX=CAOS.gfx;if(GX.lb===2)return;   // Lobby 3D desligado: fica o fundo 2D
+  const LEVE=GX.lb===1,W=GX.lobW(),H=Math.round(W*9/16),R=THREE,cvs=document.createElement('canvas');cvs.id='lbg3d';
+  const r=new R.WebGLRenderer({canvas:cvs,antialias:!!GX.aa,powerPreference:'high-performance'});r.setPixelRatio(1);r.setSize(W,H,false);const SH=LEVE?0:GX.sh;r.shadowMap.enabled=SH>0;r.shadowMap.type=[0,R.BasicShadowMap,R.PCFShadowMap,R.PCFSoftShadowMap][SH]||R.PCFShadowMap;
   const sc=new R.Scene();sc.background=new R.Color(0x0b1020);sc.fog=new R.FogExp2(0x1b2342,.0012);
   const cam=new R.PerspectiveCamera(26,16/9,1,1200);const CY=31.6;
   // ---------- texturas feitas no código (painéis de metal, piso, cidade da janela, parede de armas) ----------
   let seed=11;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
-  const mk=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c};
-  const tx=(c,rx,ry,rep)=>{const t=new R.CanvasTexture(c);if(rep){t.wrapS=t.wrapT=R.RepeatWrapping;t.repeat.set(rx,ry)}t.anisotropy=4;return t};
+  const TK=GX.tk(),mk=(w,h)=>{const c=document.createElement('canvas'),k=w*h>9000?TK:1;c.width=Math.round(w*k);c.height=Math.round(h*k);if(k!==1){const gc=c.getContext.bind(c);let cx=null;c.getContext=t=>{if(!cx){cx=gc(t);cx.scale(k,k)}return cx}}return c};
+  const tx=(c,rx,ry,rep)=>{const t=new R.CanvasTexture(c);if(rep){t.wrapS=t.wrapT=R.RepeatWrapping;t.repeat.set(rx,ry)}t.anisotropy=GX.an();return t};
   function panels(base,seam,cols,rows,accent){   // devolve {map,bump}: painéis com emendas, rebites, riscos e sujeira
    const w=512,h=512,c=mk(w,h),b=mk(w,h),x=c.getContext('2d'),y=b.getContext('2d');
    x.fillStyle=base;x.fillRect(0,0,w,h);y.fillStyle='#888';y.fillRect(0,0,w,h);
@@ -81,10 +82,10 @@
   fix.forEach(f=>{neon(34,1.4,6,0xfff4dc,[f[0],RH-1.6,f[1]]);box(40,1.6,10,M('#10162b'),[f[0],RH-.8,f[1]])});
   // ---------- luzes de verdade ----------
   sc.add(new R.HemisphereLight(0x8fa6ff,0x2a1f40,.3));
-  const key=new R.SpotLight(0xfff0dc,2.1,420,.62,.55,1.2);key.position.set(0,RH-3,-80);key.target.position.set(0,6,0);key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.bias=-.0004;key.shadow.camera.near=20;key.shadow.camera.far=200;sc.add(key,key.target);
+  const key=new R.SpotLight(0xfff0dc,2.1,420,.62,.55,1.2);key.position.set(0,RH-3,-80);key.target.position.set(0,6,0);key.castShadow=SH>0;key.shadow.mapSize.set(GX.smap()||512,GX.smap()||512);key.shadow.bias=-.0004;key.shadow.camera.near=20;key.shadow.camera.far=200;sc.add(key,key.target);
   const fill=new R.DirectionalLight(0xffe2c0,.45);fill.position.set(30,70,210);sc.add(fill);        // luz suave da frente (fora de cena) para o rosto
-  const cyan=new R.PointLight(0x4fd8ff,1.1,240,1.7);cyan.position.set(-100,86,-60);sc.add(cyan);   // vem da faixa de neon ciano
-  const orange=new R.PointLight(0xff9a2e,1.1,240,1.7);orange.position.set(100,86,-60);sc.add(orange); // vem da faixa laranja
+  const cyan=new R.PointLight(0x4fd8ff,1.1,240,1.7);cyan.position.set(-100,86,-60);if(!LEVE)sc.add(cyan);   // vem da faixa de neon ciano
+  const orange=new R.PointLight(0xff9a2e,1.1,240,1.7);orange.position.set(100,86,-60);if(!LEVE)sc.add(orange); // vem da faixa laranja
   const sun=new R.PointLight(0xffa660,1.7,380,1.3);sun.position.set(0,46,ZB+30);sc.add(sun);        // luz do pôr do sol da janela (contraluz)
   const pink=new R.PointLight(0xff4fd8,.9,120,1.8);pink.position.set(0,6,12);sc.add(pink);           // brilho do anel do pedestal
   const rackL=new R.SpotLight(0xffe0b0,1.6,200,.7,.6,1.4);rackL.position.set(92,98,-130);rackL.target.position.set(114,64,-150);sc.add(rackL,rackL.target);
@@ -125,7 +126,8 @@
   hero.addEventListener('pointerdown',ev=>{drag=ev.clientX;try{hero.setPointerCapture(ev.pointerId)}catch(_){}});
   hero.addEventListener('pointermove',ev=>{if(drag===null)return;spin-=(ev.clientX-drag)*.012;drag=ev.clientX});
   const up=()=>{drag=null};hero.addEventListener('pointerup',up);hero.addEventListener('pointercancel',up);
-  (function loop(){requestAnimationFrame(loop);
+  let lt=0;(function loop(ts){requestAnimationFrame(loop);
+   const iv=(LEVE?Math.max(GX.iv(),1000/45):GX.iv())-2;if(ts-lt<iv)return;lt=ts;
    const g=document.getElementById('game');if((g&&g.style.display==='block')||document.hidden)return;
    const t=(performance.now()-t0)/1000;
    e.w=(typeof eqs!=='undefined'&&eqs.length)?eqs[0]:1;
@@ -133,7 +135,7 @@
    cam.position.set(Math.sin(t*.25)*5,24,238);cam.lookAt(0,CY,0);   // câmera balança de leve (paralaxe: perto e longe se mexem diferente)
    fls.forEach((f,i)=>{f.rotation.y=t*(.4+i*.07);f.rotation.x=t*.25;f.position.y=f.userData.y+Math.sin(t*.8+i)*2.5});
    rg.position.y=54+Math.sin(t*1.2)*2.2;rank.rotation.z=t*.7;
-   const a=dust.geometry.attributes.position;for(let i=0;i<N;i++){let y=a.getY(i)+.02;if(y>95)y=0;a.setY(i,y);a.setX(i,a.getX(i)+Math.sin(t+i)*.01)}a.needsUpdate=true;
-   r.render(sc,cam)})();
+   if(!LEVE){const a=dust.geometry.attributes.position;for(let i=0;i<N;i++){let y=a.getY(i)+.02;if(y>95)y=0;a.setY(i,y);a.setX(i,a.getX(i)+Math.sin(t+i)*.01)}a.needsUpdate=true}
+   r.render(sc,cam);CAOS.gfxTick&&CAOS.gfxTick()})();
  }).catch(err=>{console.warn('lobby 3D falhou, usando o fundo 2D',err)});
 })();

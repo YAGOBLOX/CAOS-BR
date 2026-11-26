@@ -7,7 +7,7 @@ function startGame(){
  G.p.w=eqs[0];   // começa com a 1ª arma EQUIPADA no menu ARMAS
  $('#game').style.display='block';$('#shopb').style.display=G.mode.shop?'flex':'none';buildSlots();
  const g=G;let last=performance.now();
- (function f(ts){if(G!==g)return;const dt=Math.min(.05,(ts-last)/1000);last=ts;if(!editMode)upd(dt);draw();requestAnimationFrame(f)})(last);
+ (function f(ts){if(G!==g)return;if(ts-last<CAOS.gfx.iv()-2){requestAnimationFrame(f);return}const dt=Math.min(.05,(ts-last)/1000);last=ts;if(!editMode)upd(dt);draw();requestAnimationFrame(f)})(last);
 }
 function end(win){
  if(G.over)return;G.over=1;
