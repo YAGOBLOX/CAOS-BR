@@ -134,3 +134,8 @@
 .pt.p10{left:298px;top:233px;animation-delay:-0.7s;animation-duration:6s;background:#bfe8ff}
 .pt.p11{left:341px;top:206px;animation-delay:-6.8s;animation-duration:8s;background:#ffc0e8}
 .pt.p12{left:384px;top:247px;animation-delay:-3.6s;animation-duration:8s;background:#ffc0e8}
+/* v28: lobby 3D de verdade (heroi3d.js). Com 3D ligado, esconde o fundo 2D de reserva. */
+#lbg3d{position:absolute;inset:0;width:100%;height:100%;display:block}
+#lbg.on3d>:not(canvas){display:none!important}
+#hero.is3d{pointer-events:auto;touch-action:none;cursor:grab;left:50%;top:60px;width:150px;height:310px;margin-left:-75px}
+#hero.is3d:active{cursor:grabbing}

@@ -128,3 +128,8 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 - `#rank` = espaço reservado flutuando (bloco "PATENTE") para o futuro sistema de patentes: troque `.gem` pela imagem da patente. Ainda não clicável.
 - v26: lobby com `#wall` (parede de armas AK-47/MP5/SCAR, só decoração, ícones de `img/armas/`), mais detalhes no fundo (gerado por SVG em `#lbg`), pedestal com sombra e boneco que GIRA arrastando (`heroi3d.js`: `spin`). A roupa do Xbot agora também cobre a malha `Beta_Joints` (cintura/juntas), com a escala/altura tirada da `Beta_Surface`.
 - v27: fundo do lobby mais colorido (janelão com cidade ao pôr do sol, caixas, holofotes, partículas, cores laranja/ciano/rosa/amarelo); boneco menor, em 3/4, com pose relaxada (`m.relax=1` em `heroi3d.js`: arma baixa em `poseX`/`poseM`) e giro invertido para seguir o dedo (`spin-=`).
+
+## Lobby 3D de verdade (v28)
+- `jogo/js/lobby/heroi3d.js` monta uma CENA three.js (hangar com paredes/piso/teto com textura e relevo feitos no código, spot do teto com SOMBRA, luzes coloridas de neon, luz laranja da janela, névoa, feixe de luz, poeira, parede de armas AK-47/MP5/SCAR, bloco flutuante da PATENTE `rank`, pedestal) e o boneco. Render em `#lbg3d` (canvas 1200x675, dentro de `#lbg`). Se o three/WebGL falhar, fica o fundo 2D antigo (SVG em `#lbg`) — por isso ele continua no `index.html`.
+- Arrastar em `#hero` (área transparente sobre o boneco) gira o boneco (`spin`). Tudo o mais é decoração, sem toque. `CAOS.lobby={sc,cam,r}` expõe a cena para depuração.
+- Para mexer: luzes (`key`, `cyan`, `orange`, `sun`, `rackL`), medidas da sala (`RW`,`RH`,`ZB`), arma da parede (`drawRack`, lista de 3 ids), patente (`rank`). Unidades ~ cm; o boneco tem 61 de altura, câmera em z=238.
