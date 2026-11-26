@@ -139,3 +139,34 @@
 #lbg.on3d>:not(canvas){display:none!important}
 #hero.is3d{pointer-events:auto;touch-action:none;cursor:grab;left:50%;top:60px;width:150px;height:310px;margin-left:-75px}
 #hero.is3d:active{cursor:grabbing}
+
+/* v29: BOTÕES NOVOS DO LOBBY (pacote "botoes-lobby-v2" do dono). Medidas = pacote (cqw) x 8 px (palco 800px). Só aqui; os cards (.btn) não mudam. */
+.ltop,.lleft,.lplay,.lgear{--lp:rgba(16,20,26,.82);--ll:rgba(255,255,255,.16);--lmuted:#a9b2c0;--lor:#ffa51f;--lf:"Barlow Condensed","Arial Narrow","Roboto Condensed",Impact,sans-serif;font-family:var(--lf);color:#fff}
+.ltop button,.lleft button,.lplay button,.lgear{font:inherit;color:inherit;cursor:pointer;border:0;background:none;text-transform:uppercase;margin:0}
+.ltop{position:absolute;left:4px;top:4.8px;display:flex;align-items:center;gap:6.4px}
+.lprofile{display:flex;align-items:center;gap:5.6px;height:41.6px;padding:2.4px 24px 2.4px 2.4px;background:var(--lp);border:1px solid var(--ll);clip-path:polygon(0 0,100% 0,calc(100% - 9.6px) 100%,0 100%)}
+.lava{width:36.8px;height:36.8px;background:linear-gradient(145deg,#e03a46,#5a0d18);border:1px solid #ff8a93;display:grid;place-items:center}.lava svg{width:22px;height:22px}
+.lpname{font-size:13.6px;font-weight:700;line-height:1;text-transform:none;max-width:115px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lpteam{font-size:9.6px;color:var(--lmuted);margin-top:4px;text-transform:uppercase}
+.lcur{display:flex;align-items:center;gap:4.8px;height:27.2px;padding:0 6px 0 4.8px;background:var(--lp);border:1px solid var(--ll)}
+.lcur svg{width:19.2px;height:19.2px}.lcur b{font-size:14.4px;font-weight:700;min-width:44px}
+.lgear{position:absolute;right:4px;top:4.8px;width:27.2px;height:27.2px;display:grid;place-items:center;background:var(--lp);border:1px solid var(--ll)}
+.lgear svg{width:18px;height:18px}.lgear:active{background:rgba(36,44,56,.92)}
+.lleft{position:absolute;left:4px;top:51.2px;width:120px;display:flex;flex-direction:column;gap:7.2px}
+.lbanner{position:relative;height:51.2px;overflow:hidden;text-align:left;border:1px solid rgba(255,255,255,.3)!important;background:linear-gradient(115deg,#7b3fd1 0,#4a2290 55%,#ffb400 55.5%,#ff8a00 100%)!important}
+.lbanner .gem{position:absolute;left:8px;top:4.8px;width:35.2px;height:35.2px;filter:drop-shadow(0 1.6px 2.4px rgba(0,0,0,.5))}
+.lbanner span{position:absolute;left:0;bottom:0;padding:2.4px 12.8px 2.4px 8px;font-size:12.8px;font-weight:800;font-style:italic;background:rgba(10,8,30,.7);clip-path:polygon(0 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+.lbanner i{position:absolute;right:4px;top:4px;width:9.6px;height:9.6px;border-radius:50%;background:#ff2d3d;border:1px solid #fff}
+.lside{display:flex;flex-direction:column;gap:7.2px}
+.lside button{display:flex;align-items:center;gap:6.4px;height:26.4px;padding:0 8px 0 6.4px;text-align:left;font-size:11.6px;font-weight:700;letter-spacing:.02em;background:var(--lp)!important;border:1px solid var(--ll)!important;clip-path:polygon(0 0,100% 0,100% calc(100% - 6.4px),calc(100% - 6.4px) 100%,0 100%);transition:background .12s,transform .1s}
+.lside button svg{width:17.6px;height:17.6px;flex:none;color:var(--lor)}
+.lside button:active{background:rgba(255,165,31,.22)!important;transform:translateX(2.4px)}
+.lplay{position:absolute;right:4px;bottom:7.2px;width:170.4px;display:flex;flex-direction:column;gap:4.8px}
+.lplay .pmode{display:flex;align-items:stretch;height:36.8px;background:var(--lp)!important;border:1px solid var(--ll)!important;text-align:left;width:100%}
+.pmode .txt{flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 8px;min-width:0}
+.pmode .m1{font-size:13.6px;font-weight:800;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pmode .m2{font-size:9.6px;color:var(--lmuted);margin-top:2.4px;text-transform:none}.pmode small{font-size:inherit}.pmode small[style*="hidden"]{display:none}
+.pmode .ico{width:33.6px;display:grid;place-items:center;background:#3a4250;border-left:1px solid var(--ll)}.pmode .ico svg{width:20.8px;height:20.8px;color:#fff}
+.pmode:active .ico{background:#4d586a}
+.lplay .pstart{height:35.2px;font-size:24px;font-weight:800;letter-spacing:.03em;color:#1a1306!important;background:linear-gradient(180deg,#ffe85a 0,#ffd21e 45%,#f19a00 100%)!important;border:1px solid #8a5a00!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.6);clip-path:polygon(9.6px 0,100% 0,100% 100%,0 100%);transition:filter .12s,transform .08s}
+.pstart:active{transform:scale(.97);filter:brightness(1.07)}
