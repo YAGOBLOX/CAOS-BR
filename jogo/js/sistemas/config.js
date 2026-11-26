@@ -16,21 +16,5 @@ function applyCfg(){
  at('#jmp',52,80,d);at('#cro',52,115,d);at('#prn',52,150,d);at('#aimb',52,185,d);at('#rld',50,100,fS/2+120);
  setTimeout(()=>{if(typeof applyLay==='function')applyLay()},0);
 }
-function openCfg(){
- const R=(l,k,a,b,st)=>`<div class="cr"><span>${l}</span><input type="range" data-k="${k}" min="${a}" max="${b}" step="${st}" value="${S[k]}"><b>${S[k]}</b></div>`;
- const O=(l,k,o)=>`<div class="cr"><span>${l}</span><select data-k="${k}">${o.map(([v,n])=>`<option value="${v}"${String(S[k])===String(v)?' selected':''}>${n}</option>`).join('')}</select></div>`;
- open('<h2>CONFIGURAÇÕES</h2><div class="cr"><span>Nome</span><input type="text" id="nm" maxlength="12" value="'+$('#nick').textContent+'"></div><button class="btn" id="gfxb">GRÁFICOS (SOMBRA, TEXTURA, FPS…)</button><div class="cs">SENSIBILIDADE</div>'+
-  R('Câmera','sens',.3,2.5,.05)+R('Câmera com zoom (x Câmera)','zs',.2,1.5,.05)+R('Vertical (cima/baixo)','vs',.2,2.5,.05)+O('Inversor vertical','inv',[[0,'Normal'],[1,'Invertido']])+R('Grudar na mira','asst',0,1,.05)+
-  '<div class="cs">HUD</div>'+R('Opacidade do HUD','hudAlpha',.2,1,.05)+O('Minimapa','mini',[[1,'Ligado'],[0,'Desligado']])+R('Botão atirar: tamanho','fS',56,130,2)+R('Botão atirar: dist. da direita','fR',8,300,2)+R('Botão atirar: dist. de baixo','fB',8,200,2)+
-  '<button class="btn" id="eh">EDITAR POSIÇÃO DOS BOTÕES</button><button class="btn" id="rs">RESTAURAR PADRÃO</button>');
- card.querySelectorAll('[data-k]').forEach(el=>el.oninput=el.onchange=()=>{
-  const v=isNaN(+el.value)?el.value:+el.value;S[el.dataset.k]=v;
-  if(el.type==='range')el.nextElementSibling.textContent=v;
-  saveCfg();applyCfg();
- });
- $('#nm').oninput=()=>{const v=$('#nm').value.trim().toUpperCase()||'PLAYER_01';$('#nick').textContent=v;try{localStorage.setItem('nick',v)}catch(e){}};
- $('#gfxb').onclick=()=>openGfx();
- $('#rs').onclick=()=>{Object.assign(S,DEF);saveCfg();resetLay();openCfg()};
- $('#eh').onclick=()=>{if(!G){$('#eh').textContent='ENTRE NUMA PARTIDA PRIMEIRO';return}ov.classList.remove('on');setEdit(true)};
-}
+function openCfg(){openPanel('ctl')}   // painel em painel-config.js
 $('#gear').onclick=openCfg;applyCfg();

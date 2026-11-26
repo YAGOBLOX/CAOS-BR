@@ -3,7 +3,7 @@ function shoot(e,a,dm,o,ty,d){const h0=(e.z||0)+(e.st===2?10:e.st===1?26:36);G.b
 // ===== mira / raio da câmera =====
 function camRay(){
  const SM=a=>{const h=G.p.hs===undefined?(G.p.st||0):G.p.hs,i=Math.min(1,Math.floor(h)),f=h-i;return a[i]+(a[i+1]-a[i])*f};   // altura da câmera suave entre em pé/agachado/deitado
- const p=G.p,c=Math.cos(ang),s=Math.sin(ang),dd=zoom?60:78,sh=zoom?10:20,dh=dd*Math.cos(pit),st=p.st||0,z=p.z||0;
+ const p=G.p,c=Math.cos(ang),s=Math.sin(ang),dd=(zoom?60:78)*CAOS.gfx.cdm(),sh=zoom?10:20,dh=dd*Math.cos(pit),st=p.st||0,z=p.z||0;
  const o={x:cl(p.x-c*dh-s*sh,25,W-25),y:Math.max(10,SM([52,40,26])+z*.8-dd*Math.sin(pit)),z:cl(p.y-s*dh+c*sh,25,H-25)};
  const t={x:p.x+c*300-s*sh,y:SM([40,30,18])+z*.6+Math.tan(pit)*300,z:p.y+s*300+c*sh};
  {// câmera não atravessa parede: encurta o recuo até antes do 1º obstáculo

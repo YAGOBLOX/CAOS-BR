@@ -4,15 +4,15 @@
 (function(){
  const hero=document.getElementById('hero'),lbg=document.getElementById('lbg');if(!hero||!lbg)return;
  CAOS.loadChars().then(()=>{
-  const GX=CAOS.gfx;if(GX.lb===2)return;   // Lobby 3D desligado: fica o fundo 2D
+  const GX=CAOS.gfx;if(GX.lb===0)return;   // Lobby 3D desligado: fica o fundo 2D
   const LEVE=GX.lb===1,W=GX.lobW(),H=Math.round(W*9/16),R=THREE,cvs=document.createElement('canvas');cvs.id='lbg3d';
-  const r=new R.WebGLRenderer({canvas:cvs,antialias:!!GX.aa,powerPreference:'high-performance'});r.setPixelRatio(1);r.setSize(W,H,false);const SH=LEVE?0:GX.sh;r.shadowMap.enabled=SH>0;r.shadowMap.type=[0,R.BasicShadowMap,R.PCFShadowMap,R.PCFSoftShadowMap][SH]||R.PCFShadowMap;
+  const r=new R.WebGLRenderer({canvas:cvs,antialias:!!GX.aa,powerPreference:'high-performance'});r.setPixelRatio(1);r.setSize(W,H,false);const SH=LEVE?0:GX.sh;r.shadowMap.enabled=SH>0;r.shadowMap.type=[0,R.PCFShadowMap,R.PCFShadowMap,R.PCFSoftShadowMap][SH]||R.PCFShadowMap;
   const sc=new R.Scene();sc.background=new R.Color(0x0b1020);sc.fog=new R.FogExp2(0x1b2342,.0012);
   const cam=new R.PerspectiveCamera(26,16/9,1,1200);const CY=31.6;
   // ---------- texturas feitas no código (painéis de metal, piso, cidade da janela, parede de armas) ----------
   let seed=11;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
-  const TK=GX.tk(),mk=(w,h)=>{const c=document.createElement('canvas'),k=w*h>9000?TK:1;c.width=Math.round(w*k);c.height=Math.round(h*k);if(k!==1){const gc=c.getContext.bind(c);let cx=null;c.getContext=t=>{if(!cx){cx=gc(t);cx.scale(k,k)}return cx}}return c};
-  const tx=(c,rx,ry,rep)=>{const t=new R.CanvasTexture(c);if(rep){t.wrapS=t.wrapT=R.RepeatWrapping;t.repeat.set(rx,ry)}t.anisotropy=GX.an();return t};
+  const mk=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c};
+  const tx=(c,rx,ry,rep)=>{const t=new R.CanvasTexture(c);if(rep){t.wrapS=t.wrapT=R.RepeatWrapping;t.repeat.set(rx,ry)}t.anisotropy=4;return t};
   function panels(base,seam,cols,rows,accent){   // devolve {map,bump}: painéis com emendas, rebites, riscos e sujeira
    const w=512,h=512,c=mk(w,h),b=mk(w,h),x=c.getContext('2d'),y=b.getContext('2d');
    x.fillStyle=base;x.fillRect(0,0,w,h);y.fillStyle='#888';y.fillRect(0,0,w,h);
@@ -25,7 +25,7 @@
    for(let k=0;k<70;k++){x.strokeStyle=`rgba(255,255,255,${rnd()*.07})`;x.lineWidth=1;x.beginPath();const sx=rnd()*w,sy=rnd()*h;x.moveTo(sx,sy);x.lineTo(sx+rnd()*50-25,sy+rnd()*8-4);x.stroke()}
    for(let k=0;k<1400;k++){x.fillStyle=`rgba(0,0,0,${rnd()*.12})`;x.fillRect(rnd()*w,rnd()*h,1+rnd()*2,1+rnd()*2);y.fillStyle=`rgba(${rnd()<.5?0:255},${rnd()<.5?0:255},${rnd()<.5?0:255},.06)`;y.fillRect(rnd()*w,rnd()*h,2,2)}
    const g=x.createLinearGradient(0,h*.7,0,h);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(0,0,0,.35)');x.fillStyle=g;x.fillRect(0,h*.7,w,h*.3);
-   return{c,b}}
+   CAOS.texLite(c);CAOS.texLite(b);return{c,b}}
   function mat(P,rx,ry,o){const m=new R.MeshStandardMaterial(Object.assign({map:tx(P.c,rx,ry,1),bumpMap:tx(P.b,rx,ry,1),bumpScale:1.2,roughness:.62,metalness:.35},o||{}));return m}
   const WL=panels('#3a4668','#0d1224',4,1,'#ff9a2e'),WR=panels('#36425f','#0d1224',4,1,'#4fd8ff'),FL=panels('#2c3552','#0a0e1c',2,2),CE=panels('#252d49','#070a14',4,4),BK=panels('#303c5c','#0c1122',6,3);
   // janela: cidade ao pôr do sol (desenhada com céu, sol, prédios em camadas e janelas acesas)
