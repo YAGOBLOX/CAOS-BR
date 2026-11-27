@@ -1,7 +1,8 @@
 /* CAOS BR FPS · modelos 3D das armas em GLB (pasta modelos/armas/<id>.glb). Carrega SOB DEMANDA (só quando a arma aparece na mão).
    O jogo usa: +x = cano, +y = cima, origem = mão. Cada GLB é girado/escalado/centralizado para ocupar a mesma caixa do modelo que ele substituiu (tabela abaixo).
    b = [xmin,xmax,ymin,ymax] da caixa em unidades do jogo · ry = giro em Y (rad) que leva a FRENTE do GLB para +x · cut = peças a ignorar (nome contém) */
-const GUNGLB={
+const GUNGLB={gs:1.3, /* escala geral das armas GLB (proporção com o boneco) */
+
  m4a1:{b:[-6.6,23.4,-5.7,3.5],ry:1.5708,cut:['556x45']}   /* cut: bala solta que veio no modelo */,
  scar:{b:[-6.6,23.4,-5.2,3.2],ry:1.5708},
  ak47:{b:[-6.2,21.9,-5.0,3.0],ry:1.5708},
@@ -20,7 +21,7 @@ const GUNGLB={
   const b=new THREE.Box3().setFromObject(root),sz=b.getSize(new THREE.Vector3()),c=b.getCenter(new THREE.Vector3());
   const k=(S.b[1]-S.b[0])/sz.x,ho=new THREE.Group();ho.add(root);root.scale.setScalar(k);
   root.position.set((S.b[0]+S.b[1])/2-c.x*k,(S.b[2]+S.b[3])/2-c.y*k,-c.z*k);
-  return ho;
+  ho.scale.setScalar(GUNGLB.gs);return ho;
  }
  // devolve uma Promise do modelo pronto (ou null se falhar). Cada chamada usa uma cópia leve (geometria/material compartilhados)
  CAOS.gunGlb=id=>{
@@ -28,6 +29,6 @@ const GUNGLB={
   return (cache[id]||(cache[id]=new Promise(ok=>{
    const t=setTimeout(()=>ok(null),30000);
    try{new THREE.GLTFLoader().load('modelos/armas/'+id+'.glb?v='+CAOS.ver,g=>{clearTimeout(t);try{ok(prep(g.scene,id))}catch(e){console.warn('[arma '+id+']',e);ok(null)}},undefined,()=>{clearTimeout(t);ok(null)})}catch(e){clearTimeout(t);ok(null)}
-  }))).then(h=>h&&h.clone(true));
+  }))).then(h=>{if(!h)delete cache[id];return h&&h.clone(true)});
  };
 })();

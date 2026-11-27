@@ -34,7 +34,7 @@ function gunModels(only){
   const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(p,3));geo.setAttribute('color',new THREE.BufferAttribute(c,3));geo.setIndex(d.i);
   const fl=geo.toNonIndexed();fl.computeVertexNormals();const o=new THREE.Mesh(fl,gm);o.castShadow=true;g.add(o)};
  // armas em GLB: o arquivo só é baixado/montado quando a arma aparece na mão (g.userData.need() é chamado por animacoes.js/skin-mc.js)
- const glb=(g,id)=>{let on=0;g.userData.need=()=>{if(on)return;on=1;CAOS.gunGlb(id).then(h=>{if(h)g.add(h)})}};
+ const glb=(g,id)=>{let on=0;g.userData.need=()=>{if(on)return;on=1;CAOS.gunGlb(id).then(h=>{if(h)g.add(h);else setTimeout(()=>{on=0},4000)})}};
  return WP.map((w,i)=>{if(only&&!only.includes(i))return null;if(w.hide&&i!==1)return null;const g=new THREE.Group();
   if(defs[i])defs[i](g);else if(w.m&&GUNGLB[w.m])glb(g,w.m);else if(w.m&&typeof GUNMESH!=='undefined'&&GUNMESH[w.m])meshGun(g,GUNMESH[w.m],w.m);
   g.visible=false;return g});

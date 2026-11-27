@@ -1,7 +1,7 @@
 /* CAOS BR FPS · animação/pose do humanoide (andar, agachar, deitar, pular, morrer). a = para onde o CORPO olha */
 // comprimento da mão da frente por arma (ponto de apoio da mão esquerda no cano)
 const FORE={};
-function foreOf(i){if(FORE[i]!==undefined)return FORE[i];const w=WP[i];let r=13;if(w&&w.m&&typeof GUNGLB!=='undefined'&&GUNGLB[w.m])r=Math.max(4,Math.min(15,GUNGLB[w.m].b[1]*.5));else if(w&&w.m&&typeof GUNMESH!=='undefined'&&GUNMESH[w.m]){let mx=0;const v=GUNMESH[w.m].v;for(let k=0;k<v.length;k+=3)mx=Math.max(mx,v[k]);r=Math.max(4,Math.min(15,mx/20*.5))}return FORE[i]=r}
+function foreOf(i){if(FORE[i]!==undefined)return FORE[i];const w=WP[i];let r=13;if(w&&w.m&&typeof GUNGLB!=='undefined'&&GUNGLB[w.m])r=Math.max(4,Math.min(15,GUNGLB[w.m].b[1]*.5*GUNGLB.gs));else if(w&&w.m&&typeof GUNMESH!=='undefined'&&GUNMESH[w.m]){let mx=0;const v=GUNMESH[w.m].v;for(let k=0;k<v.length;k+=3)mx=Math.max(mx,v[k]);r=Math.max(4,Math.min(15,mx/20*.5))}return FORE[i]=r}
 // IK de 2 ossos: leva a mão até (tx,ty,tz) (espaço do tronco). Ombro em (0,21,sz)
 function armIK(A,sz,tx,ty,tz){
  const L1=12,L2=13,dx=tx,dy=ty-21,dz=tz-sz,r=Math.hypot(dx,dz);let D=Math.max(7,Math.min(L1+L2-.2,Math.hypot(r,dy)));
