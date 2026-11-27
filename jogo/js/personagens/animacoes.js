@@ -13,11 +13,11 @@ function poseN(e,m,a,t){
  if(m.xb)return poseX(e,m,a,t);
  const d=Math.min(6,Math.hypot(e.x-m.lx,e.y-m.ly));m.lx=e.x;m.ly=e.y;
  const dt=Math.max(0,Math.min(.05,t-(m.pt===undefined?t:m.pt)));m.pt=t;
- m.ph=(m.ph||0)+d*.075;m.amp=(m.amp||0)+((e.z>0?0:Math.min(1,d/2.2))-(m.amp||0))*.25;
+ m.ph=(m.ph||0)+d*.075;m.amp=(m.amp||0)+((e.z>(e.gz||0)+.5?0:Math.min(1,d/2.2))-(m.amp||0))*.25;
  const dead=e.hp<=0,kk=1-Math.exp(-dt*11);
  // agachar/deitar suaves: cs (0..1 agachado) e ps (0..1 deitado) andam até o alvo
  m.cs=(m.cs||0)+(((e.st===1&&!dead)?1:0)-(m.cs||0))*kk;m.ps=(m.ps||0)+(((e.st===2&&!dead)?1:0)-(m.ps||0))*kk;
- const cs=m.cs,ps=m.ps,ph=m.ph,am=m.amp,air=e.z>1&&!dead,S=Math.sin,C=Math.cos,L=(x,y,k)=>x+(y-x)*k;
+ const cs=m.cs,ps=m.ps,ph=m.ph,am=m.amp,air=e.z>(e.gz||0)+1&&!dead,S=Math.sin,C=Math.cos,L=(x,y,k)=>x+(y-x)*k;
  let a1=S(ph)*.9*am,k1=-Math.max(0,C(ph))*1.1*am,a2=S(ph+3.14)*.9*am,k2=-Math.max(0,C(ph+3.14))*1.1*am,lean=-.1*am;
  // alvo agachado e deitado, misturados pelo quanto já chegou
  a1=L(a1,1.35+S(ph)*.3*am,cs);a2=L(a2,1.35-S(ph)*.3*am,cs);k1=L(k1,-1.9,cs);k2=L(k2,-1.9,cs);lean=L(lean,-.35,cs);
@@ -59,7 +59,7 @@ const XBK={up:-1.05,kn:2.1};
 function poseX(e,m,a,t){
  const d=Math.min(6,Math.hypot(e.x-m.lx,e.y-m.ly));m.lx=e.x;m.ly=e.y;
  const dt=Math.max(0,Math.min(.05,t-(m.pt===undefined?t:m.pt)));m.pt=t;const kk=1-Math.exp(-dt*11);
- m.amp=(m.amp||0)+((e.z>0?0:Math.min(1,d/2.2))-(m.amp||0))*.25;m.ph=(m.ph||0)+d*.09;
+ m.amp=(m.amp||0)+((e.z>(e.gz||0)+.5?0:Math.min(1,d/2.2))-(m.amp||0))*.25;m.ph=(m.ph||0)+d*.09;
  const dead=e.hp<=0;m.cs=(m.cs||0)+(((e.st===1&&!dead)?1:0)-(m.cs||0))*kk;m.ps=(m.ps||0)+(((e.st===2&&!dead)?1:0)-(m.ps||0))*kk;
  const am=m.amp,run=Math.max(0,Math.min(1,(d-1.5)/1.1)),cs=m.cs,ps=m.ps,A=m.act,L=(x,y,k)=>x+(y-x)*k;
  // animação de andar/correr só em pé (agachado e deitado usam o parado + pose por código; sem tremer)
@@ -77,7 +77,8 @@ function poseX(e,m,a,t){
  g.updateMatrixWorld(true);
  if(!dead){
   const dropU=drop*XB_H/180,hy=41-dropU;
-  const rx=m.relax||0;m.gn.position.set(L(10+4*rx,-8,ps),L(hy-15*rx,46,ps),4.4+3*rx);m.gn.rotation.z=ps*1.5708-.6*rx;m.gn.visible=true;m.gn.updateMatrixWorld(true);
+  const rx=m.relax||0;const lg=has&&GUNGLB[WP[wi].m]?Math.max(0,Math.min(1,(GUNGLB[WP[wi].m].b[1]-12)/12)):.3;   // 0 pistola ... 1 fuzil comprido
+  m.gn.position.set(L(10+rx*(-4-3*lg),-1,ps),L(hy-15*rx-rx*2*lg,66,ps),4.4+3*rx);m.gn.rotation.z=ps*1.5708-rx*(.75+.25*lg);m.gn.visible=true;m.gn.updateMatrixWorld(true);
   const side=new THREE.Vector3(0,0,1).transformDirection(g.matrixWorld),down=new THREE.Vector3(0,-1,0);
   const fg=has?Math.min(foreOf(wi),9):8,T1=m.gn.localToWorld(new THREE.Vector3(0,-.4,.4)),T2=m.gn.localToWorld(new THREE.Vector3(fg,-1.4,-3.2));
   const pl=(sg)=>down.clone().multiplyScalar(1-ps*.7).addScaledVector(side,sg*(.9+ps*.6));   // cotovelo sempre para fora (a mão não cruza o corpo)

@@ -1,7 +1,7 @@
 /* CAOS BR FPS · início da partida, fim, mortes e atualização por quadro (upd) */
 function startGame(){
  const mode=CAOS.modes[CAOS.sel.mode],map=CAOS.maps[CAOS.sel.map];
- CAOS.map=map;W=map.size[0];H=map.size[1];WALLH=map.wallHeight||70;
+ CAOS.map=map;W=map.size[0];H=map.size[1];WALLH=map.wallHeight||70;CAOS.lv=map.lv||null;
  G={mode,map,train:!!mode.flags.train,range:!!mode.flags.range,kills:0,p:mk(map.playerSpawn[0],map.playerSpawn[1]),dmg:0,st:{h:0,t:0,m:0},hist:[],fx:[],b:null,kits:map.kits.map(([x,y])=>({x,y,t:0})),bl:[],over:0,t:0,emo:0};
  T=null;walls=map.walls();G.bs=mode.createBots(G,map);G.b=G.bs[0];jx=jy=0;fire=false;joy=null;aim=null;pit=0;
  G.p.w=eqs[0];   // começa com a 1ª arma EQUIPADA no menu ARMAS
@@ -27,7 +27,7 @@ function upd(dt){
   ang+=((keys.ArrowRight?1:0)-(keys.ArrowLeft?1:0))*2.2*dt;pit=cp(pit+((keys.ArrowUp?1:0)-(keys.ArrowDown?1:0))*1.2*dt);
   const c=Math.cos(ang),s=Math.sin(ang),sp=[170,105,50][p.st];
   const k=Math.min(1,dt*(mx||my?14:18));p.vx=(p.vx||0)+((-my*c-mx*s)*sp-(p.vx||0))*k;p.vy=(p.vy||0)+((-my*s+mx*c)*sp-(p.vy||0))*k;if(mv(p,p.vx*dt,0)===0)p.vx=0;if(mv(p,0,p.vy*dt)===0)p.vy=0;
-  p.vz-=900*dt;p.z+=p.vz*dt;if(p.z<=0){p.z=0;p.vz=0}
+  grav(p,dt)
   assist(g,dt);p.cd-=dt;
   p.hs=(p.hs===undefined?p.st:p.hs)+(p.st-(p.hs===undefined?p.st:p.hs))*Math.min(1,dt*10);
   // corpo independente da câmera: vira (suave) para onde anda; ao atirar/mirar vira para a mira
@@ -40,16 +40,16 @@ function upd(dt){
   else if((fire||fb)&&p.cd<=0){const w=WP[p.w];if(!w.fist)p.am[p.w]--;for(let i=0;i<w.pel;i++)shootAim(w);p.cd=w.cd;if(!w.fist&&p.am[p.w]<=0)p.rl=w.rl}
   for(const k of g.kits){k.t-=dt;if(k.t<=0)for(const e of[p,g.b])if(e.hp>0&&e.hp<e.mx&&Math.hypot(e.x-k.x,e.y-k.y)<22){e.hp=Math.min(e.mx,e.hp+40);k.t=12}}
   for(const q of g.bs)if(q.hp<=0&&q.rs>0){q.rs-=dt;if(q.rs<=0){if(q.hx!=null){q.x=q.hx;q.y=q.hy}else{const sq=spawnPt();q.x=sq[0];q.y=sq[1]}q.hp=200}}
-  for(const q of g.bs){if(q.hp<=0)continue;if(!g.range&&hitW(q.x,q.y,12)){const sq=spawnPt();q.x=sq[0];q.y=sq[1]}   // árvore/pedra colocada depois pode cair em cima do bot: tira ele de dentro
+  for(const q of g.bs){if(q.hp<=0)continue;if(!g.range&&hitW(q.x,q.y,12,q.z)){const sq=spawnPt();q.x=sq[0];q.y=sq[1]}   // árvore/pedra colocada depois pode cair em cima do bot: tira ele de dentro
    if(g.range){q.a=Math.atan2(p.y-q.y,p.x-q.x);continue}
    const d=Math.hypot(p.x-q.x,p.y-q.y),a=Math.atan2(p.y-q.y,p.x-q.x),los=see(q,p);
    // --- esquiva: pula ou agacha de vez em quando; mais ainda quando o jogador está mirando/atirando nele ---
    q.dd=(q.dd===undefined?Math.random():q.dd)-dt;
    if(q.dd<=0){q.dd=.7+Math.random()*1.5;if(los&&d<650&&p.hp>0){let df=Math.atan2(q.y-p.y,q.x-p.x)-ang;df=Math.abs(Math.atan2(Math.sin(df),Math.cos(df)));
      const prob=(df<.2?(fire||fb?.8:.5):.2);
-     if(Math.random()<prob){if(Math.random()<.5&&q.z===0)q.vz=290;else{q.st=1;q.cr=.7+Math.random()*.6}}}}
+     if(Math.random()<prob){if(Math.random()<.5&&onGnd(q))q.vz=290;else{q.st=1;q.cr=.7+Math.random()*.6}}}}
    if(q.cr>0){q.cr-=dt;if(q.cr<=0)q.st=0}
-   q.vz-=900*dt;q.z+=q.vz*dt;if(q.z<=0){q.z=0;q.vz=0}
+   grav(q,dt)
    // --- movimento: velocidade suave, sem grudar nos outros bots ---
    q.bst-=dt;if(q.bst<=0){q.bst=.8+Math.random()*1.2;q.bsd=Math.random()<.5?1:-1}
    let bx,by;

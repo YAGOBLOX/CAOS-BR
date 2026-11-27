@@ -29,7 +29,7 @@ function mcBody(sk){
 function poseM(e,m,a,t){
  const d=Math.min(6,Math.hypot(e.x-m.lx,e.y-m.ly));m.lx=e.x;m.ly=e.y;
  const dt=Math.max(0,Math.min(.05,t-(m.pt===undefined?t:m.pt)));m.pt=t;const kk=1-Math.exp(-dt*11);
- m.amp=(m.amp||0)+((e.z>0?0:Math.min(1,d/2.2))-(m.amp||0))*.25;m.ph=(m.ph||0)+d*.09;
+ m.amp=(m.amp||0)+((e.z>(e.gz||0)+.5?0:Math.min(1,d/2.2))-(m.amp||0))*.25;m.ph=(m.ph||0)+d*.09;
  const dead=e.hp<=0;m.cs=(m.cs||0)+(((e.st===1&&!dead)?1:0)-(m.cs||0))*kk;m.ps=(m.ps||0)+(((e.st===2&&!dead)?1:0)-(m.ps||0))*kk;
  const am=m.amp,cs=m.cs,ps=m.ps,L=(x,y,k)=>x+(y-x)*k,k=m.k,g=m.g,Th=.4*cs;
  // pernas: balançam ao andar; agachado ficam dobradas para frente e o corpo abaixa e inclina

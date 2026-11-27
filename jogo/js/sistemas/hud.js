@@ -33,14 +33,11 @@ function draw(){
  if(w.fist){cx.font='28px sans-serif';cx.textAlign='center';cx.fillText('✊',752,42);cx.textAlign='left'}
  else if(w.ic){if(!w.img){w.img=new Image();w.img.src=w.ic}if(w.img.complete&&w.img.naturalWidth){const k=Math.min(72/w.img.naturalWidth,30/w.img.naturalHeight);cx.drawImage(w.img,716,14,w.img.naturalWidth*k,w.img.naturalHeight*k)}}
  else gun(722,22,p.w,'#ddd');
- if(S.mini){const k=Math.min(126/W,150/H),mw=W*k,mh=H*k;cx.save();cx.translate(10,50);
-  cx.fillStyle='#0a0720d0';cx.fillRect(0,0,mw,mh);cx.fillStyle='#7a4fd0';
-  for(const[a,z,ww,hh]of walls)if(a>=0&&z>=0&&a<W&&z<H)cx.fillRect(a*k,z*k,Math.max(1,ww*k),Math.max(1,hh*k));
-  cx.fillStyle='#2fcf5a';for(const q of G.kits)if(q.t<=0)cx.fillRect(q.x*k-1.5,q.y*k-1.5,3,3);
-  cx.fillStyle='#ff4040';for(const q of G.bs)if(q.hp>0){cx.beginPath();cx.arc(q.x*k,q.y*k,2.6,0,6.28);cx.fill()}
-  const px=p.x*k,py=p.y*k;cx.strokeStyle='#ffe81a';cx.lineWidth=2;cx.beginPath();cx.moveTo(px,py);cx.lineTo(px+Math.cos(ang)*9,py+Math.sin(ang)*9);cx.stroke();
-  cx.fillStyle='#ffe81a';cx.beginPath();cx.arc(px,py,3.2,0,6.28);cx.fill();
-  cx.strokeStyle='#9d8cff';cx.lineWidth=2;cx.strokeRect(1,1,mw-2,mh-2);cx.restore()}
+ if(S.mini){cx.save();cx.translate(46,92);   // v34: bússola simples (seta branca = para onde você olha; N = topo do mapa)
+  cx.fillStyle='#0a0720a0';cx.beginPath();cx.arc(0,0,32,0,6.28);cx.fill();cx.strokeStyle='#ffffff55';cx.lineWidth=2;cx.stroke();
+  cx.fillStyle='#ffc21a';cx.font='bold 10px sans-serif';cx.textAlign='center';cx.fillText('N',0,-20);
+  cx.fillStyle='#ff4040';for(const q of G.bs)if(q.hp>0){const dx=q.x-p.x,dy=q.y-p.y,d=Math.hypot(dx,dy);if(d<700&&d>1){const r=Math.min(26,d/700*26);cx.beginPath();cx.arc(dx/d*r,dy/d*r,2.2,0,6.28);cx.fill()}}
+  cx.rotate(ang);cx.fillStyle='#fff';cx.beginPath();cx.moveTo(11,0);cx.lineTo(-7,-7);cx.lineTo(-3,0);cx.lineTo(-7,7);cx.closePath();cx.fill();cx.restore()}
  drawCh();
  if(joy){cx.strokeStyle='#fff6';cx.lineWidth=3;cx.beginPath();cx.arc(joy.x,joy.y,45,0,6.28);cx.stroke();
   cx.fillStyle='#fff6';cx.beginPath();cx.arc(joy.x+jx*45,joy.y+jy*45,20,0,6.28);cx.fill()}

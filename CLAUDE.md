@@ -154,3 +154,10 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 - Clocktower agora em escala **34** por unidade do modelo (boneco ≈ 39 u/m), mundo 2006x3383. Colisão refeita do modelo com células finas de 0,5 (17 u, sem arredondar para o lado "bloqueado"): 158 retângulos, sem paredes fantasmas; spawns/kits em áreas livres e alcançáveis (testado por flood-fill com `hitW`).
 - LIMITAÇÃO: o motor é plano (altura única `WALLH`, sem altura de chão). Escadas/andares do modelo seguem fora do alcance; para isso seria preciso altura de chão por região e altura por retângulo em `hitW/hitWH`.
 - Armas GLB: escala geral `GUNGLB.gs` (1,3) em `armas-glb.js` (também usada em `foreOf`). Invisibilidade: se o GLB falhava ao carregar, `need()` nunca tentava de novo; agora tenta de novo após 4 s e o cache falho é descartado.
+
+## Chão por camadas, escadas, bússola e gráficos (v34/v35)
+- **Escadas/andares**: mapas com `map.lv` (só o clocktower) usam chão por camadas (`movimento.js`: `flr/gnd/grav/onGnd`, `hitW(x,y,r,z)`, `hitWH` por altura). `z` das entidades agora é ALTURA ABSOLUTA (0 = nível principal); `e.gz` = chão sob o pé. Passo máx. 18 u (`PASSO`), vão livre mín. 51 u (`VAO`), queda máx. 70 u. Dados em `modelos/mapas/clocktower.bin` (gerado do GLB por script de bake fora do projeto: células de 0,5 do modelo = 17 u; por célula: altura `lh`, vão `lc`, espessura do sólido `lt`). Mapas planos continuam com retângulos em `walls` e `z` relativo ao chão 0. Pular muros/janelas baixos funciona pelo mesmo sistema (pulo 47 u).
+- Câmera/visão/balas usam `hitWH` com altura real quando há `CAOS.lv`.
+- **Minimapa** virou BÚSSOLA (círculo com N, seta branca = direção, pontos vermelhos = bots próximos) em `hud.js`. Título "CAOS BR FPS" do lobby removido (`.logo`).
+- **Gráficos**: `texLite` não altera mais textura nenhuma (a qualidade só mexe em sombra, resolução, FPS, distância, lobby). Padrão = MÉDIA (`gv:3`).
+- Arma no lobby (`m.relax`) e deitado (`poseX`): posição por comprimento da arma (`lg` em `poseX`); deitado a arma fica à frente da cabeça, não nas costas.

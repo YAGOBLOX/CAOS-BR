@@ -2,13 +2,13 @@
    as versões mais leves usam a MESMA textura com menos contraste, até ficar lisa (cor em degradê). Menu em painel-config.js */
 (function(){
  const PRE={
-  minima:{sh:0,res:0,tx:0,aa:1,fps:45,lb:1,cd:1},
-  baixa: {sh:1,res:1,tx:1,aa:1,fps:45,lb:1,cd:1},
-  media: {sh:2,res:2,tx:2,aa:1,fps:60,lb:2,cd:1},
+  minima:{sh:0,res:0,tx:3,aa:1,fps:45,lb:1,cd:1},
+  baixa: {sh:1,res:1,tx:3,aa:1,fps:45,lb:1,cd:1},
+  media: {sh:2,res:2,tx:3,aa:1,fps:45,lb:2,cd:1},
   alta:  {sh:3,res:3,tx:3,aa:1,fps:60,lb:2,cd:1}
  };
  let g=null;try{g=JSON.parse(localStorage.getItem('gfx')||'null')}catch(e){}
- if(!g||g.gv!==2){g=Object.assign({gv:2,pre:'minima',fl:0},PRE.minima);try{localStorage.setItem('gfx',JSON.stringify(g))}catch(e){}}   // começa no MÍNIMO
+ if(!g||g.gv!==3){g=Object.assign({gv:3,pre:'media',fl:0},PRE.media);try{localStorage.setItem('gfx',JSON.stringify(g))}catch(e){}}   // começa no MÍNIMO
  CAOS.gfx=g;CAOS.GPRE=PRE;
  g.save=()=>{try{localStorage.setItem('gfx',JSON.stringify(g))}catch(e){}};
  const cap=()=>Math.max(1,Math.min(devicePixelRatio||1,2));
@@ -18,7 +18,8 @@
  g.iv=()=>1000/g.fps;                                     // intervalo mínimo entre quadros
  g.cdm=()=>[1,1.3,1.6][g.cd]||1;                          // distância da câmera (multiplicador)
  // textura mais leve: mesma imagem, menos contraste (1 baixa, 2 média); 0 = lisa em degradê suave. Tamanho nunca muda.
- CAOS.texLite=function(c){const lv=g.tx;if(lv>=3)return c;
+ CAOS.texLite=function(c){return c};   // v34: textura NUNCA é alterada pela qualidade
+ CAOS.texLiteOld=function(c){const lv=g.tx;if(lv>=3)return c;
   const x=c.getContext('2d');let s=c,w=c.width,h=c.height;
   while(w>16){w=Math.max(16,w>>1);h=Math.max(16,h>>1);const t=document.createElement('canvas');t.width=w;t.height=h;t.getContext('2d').drawImage(s,0,0,w,h);s=t}
   const d=s.getContext('2d').getImageData(0,0,w,h).data;let r=0,gg=0,b=0;const n=w*h;
