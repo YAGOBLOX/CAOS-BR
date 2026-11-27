@@ -80,9 +80,13 @@ function poseX(e,m,a,t){
   const rx=m.relax||0;const lg=has&&GUNGLB[WP[wi].m]?Math.max(0,Math.min(1,(GUNGLB[WP[wi].m].b[1]-12)/12)):.3;   // 0 pistola ... 1 fuzil comprido
   m.gn.position.set(L(10+rx*(-4-3*lg),-1,ps),L(hy-15*rx-rx*2*lg,66,ps),4.4+3*rx);m.gn.rotation.z=ps*1.5708-rx*(.75+.25*lg);m.gn.visible=true;m.gn.updateMatrixWorld(true);
   const side=new THREE.Vector3(0,0,1).transformDirection(g.matrixWorld),down=new THREE.Vector3(0,-1,0);
-  const fg=has?Math.min(foreOf(wi),9):8,T1=m.gn.localToWorld(new THREE.Vector3(0,-.4,.4)),T2=m.gn.localToWorld(new THREE.Vector3(fg,-1.4,-3.2));
+  let fg=has?Math.min(foreOf(wi),9):8,T1=m.gn.localToWorld(new THREE.Vector3(0,-.4,.4)),T2=m.gn.localToWorld(new THREE.Vector3(fg,-1.4,-3.2));
+  if(!has){   // PUNHO: guarda de boxe; ao socar, a mão da vez estica para a frente (sem arma, sem rastro de tiro)
+   const k=e.pn>0?Math.sin(Math.PI*Math.min(1,1-e.pn/.3)):0,P=(x,y,z)=>m.gn.localToWorld(new THREE.Vector3(x,y,z));
+   T1=P(3+(e.pa?0:20)*k,2.5,3.4);T2=P(3+(e.pa?20:0)*k,2,-3.4)}
   const pl=(sg)=>down.clone().multiplyScalar(1-ps*.7).addScaledVector(side,sg*(.9+ps*.6));   // cotovelo sempre para fora (a mão não cruza o corpo)
   const b=m.bn;ik2(b.rU,b.rF,b.rH,T1,pl(1));ik2(b.lU,b.lF,b.lH,T2,pl(-1));
  }else m.gn.visible=false;
+ if(has&&!dead){const g=m.gn.gs[wi],Lm=(w=>w&&w.m&&GUNGLB[w.m]?GUNGLB[w.m].b[1]*GUNGLB.gs:16)(WP[wi]);if(g){g.updateMatrixWorld(true);const v=g.localToWorld(new THREE.Vector3(Lm,.3,0));e.mz={x:v.x,y:v.z,h:v.y,t}}}   // boca do cano (para a bala sair dela)
  for(const mt of m.M)if(mt.emissive)mt.emissive.setHex(e.fl>0?0xffffff:0);
 }

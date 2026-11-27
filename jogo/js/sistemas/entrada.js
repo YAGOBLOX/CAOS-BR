@@ -4,14 +4,14 @@ const fbt=$('#fbtn');
 function pos(e){const r=cv.getBoundingClientRect();return rot?[(e.clientY-r.top)/r.height*800,(r.right-e.clientX)/r.width*450]:[(e.clientX-r.left)/r.width*800,(e.clientY-r.top)/r.height*450]}
 cv.addEventListener('pointerdown',e=>{if(!G)return;const[x,y]=pos(e);cv.setPointerCapture(e.pointerId);
  if(e.pointerType==='mouse'){aim=e.pointerId;fire=true;return}
- if(x<400&&!joy)joy={id:e.pointerId,x,y};else if(aim===null){aim=e.pointerId;lx=x;ly=y}});
+ if(x<400&&!joy){joy={id:e.pointerId,x:105,y:355};joyUpd(x,y)}else if(aim===null){aim=e.pointerId;lx=x;ly=y}});
 cv.addEventListener('pointermove',e=>{if(!G)return;const[x,y]=pos(e);
  if(e.pointerType==='mouse'){if(e.buttons){ang+=e.movementX*.006*sn();pit=cp(pit-e.movementY*.005*S.vs*sn()*(S.inv?-1:1))}return}
  if(joy&&e.pointerId===joy.id){   // analógico: a bolinha anda até 45; passou disso, a base SEGUE o dedo
   let dx=x-joy.x,dy=y-joy.y;const l=Math.hypot(dx,dy);
-  if(l>45){const k=(l-45)/l;joy.x=cl(joy.x+dx*k,50,380);joy.y=cl(joy.y+dy*k,110,425);dx=x-joy.x;dy=y-joy.y}
   const m=Math.hypot(dx,dy)/45;jx=m>1?dx/(m*45):dx/45;jy=m>1?dy/(m*45):dy/45}
  else if(e.pointerId===aim){ang+=(x-lx)*.008*sn();pit=cp(pit-(y-ly)*.006*S.vs*sn()*(S.inv?-1:1));lx=x;ly=y}});
+function joyUpd(x,y){const dx=x-joy.x,dy=y-joy.y,m=Math.hypot(dx,dy)/45;jx=m>1?dx/(m*45):dx/45;jy=m>1?dy/(m*45):dy/45}
 const up=e=>{if(joy&&e.pointerId===joy.id){joy=null;jx=jy=0}if(e.pointerId===aim){aim=null;fire=false}};
 cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
 tap('#wsw',swp);tap('#rld',rel);tap('#jmp',jump);tap('#cro',()=>stance(1));tap('#prn',()=>stance(2));

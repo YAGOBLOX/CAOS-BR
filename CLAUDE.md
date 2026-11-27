@@ -161,3 +161,10 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 - **Minimapa** virou BÚSSOLA (círculo com N, seta branca = direção, pontos vermelhos = bots próximos) em `hud.js`. Título "CAOS BR FPS" do lobby removido (`.logo`).
 - **Gráficos**: `texLite` não altera mais textura nenhuma (a qualidade só mexe em sombra, resolução, FPS, distância, lobby). Padrão = MÉDIA (`gv:3`).
 - Arma no lobby (`m.relax`) e deitado (`poseX`): posição por comprimento da arma (`lg` em `poseX`); deitado a arma fica à frente da cabeça, não nas costas.
+
+## v36: escala do mapa, analógico fixo, câmera/mira, soco, boca do cano
+- Clocktower: `SC=48` (`K=SC/34`); o `.bin` fica em escala 34 e é multiplicado por `K` ao carregar (`lv.cs`, `lv.k`; `lh/lc/lt` ×K). Passo/vão/queda do chão por camadas escalam com `lv.k`; o pulo escala com √K (altura ×K) para as janelas continuarem alcançáveis. Spawns/kits/size/fog já estão ×K em `mapa.js`.
+- Analógico de andar: base FIXA em (105,355), a bolinha só anda até 45 (`entrada.js`, `joyUpd`); não segue mais o dedo.
+- Mira em lugar alto: `camRay()` usava `z*.8` na câmera e `z*.6` no alvo (a mira descia com a altura). Agora o chão (`p.gz`) sobe igual nos dois e só o pulo é amortecido. Câmera não atravessa o chão (`flb()` = chão abaixo de um ponto) e `aimTrace` marcha o raio com `hitWH/flb` quando há `CAOS.lv`.
+- Soco: `p.pn`/`p.pa` (timer e mão da vez) animam a guarda de boxe em `poseX`; a bala do punho tem `fi:1` (invisível, só causa dano).
+- Tiro: a bala sai da BOCA do cano (`e.mz`, calculado em `poseX` com `GUNGLB[..].b[1]*gs`) em direção ao ponto mirado.

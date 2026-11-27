@@ -34,7 +34,7 @@ function draw3d(){
  T.mbs.forEach((m,i)=>{const q=G.bs[i];m.g.visible=!!q&&(q.hp>0||q.rs===undefined||q.rs>2.2);if(q)poseN(q,m,q.a||0,t)});
  T.kits.forEach((o,i)=>{o.visible=G.kits[i].t<=0;o.rotation.y=t*2;o.position.y=14+Math.sin(t*3)*3});
  while(T.bl.length<G.bl.length){const s=new THREE.Mesh(T.bg||(T.bg=new THREE.BoxGeometry(1,1,1)),T.bm||(T.bm=new THREE.MeshBasicMaterial({color:0xffe9a0})));T.sc.add(s);T.bl.push(s)}
- T.bl.forEach((s,i)=>{const q=G.bl[i];s.visible=!!q;if(q){s.position.set(q.x,q.h,q.y);s.scale.set(q.th||1.4,q.th||1.4,q.ln||14);s.lookAt(q.x+q.vx,q.h+q.vh,q.y+q.vy)}});
+ T.bl.forEach((s,i)=>{const q=G.bl[i];s.visible=!!q&&!q.fi;if(q){s.position.set(q.x,q.h,q.y);s.scale.set(q.th||1.4,q.th||1.4,q.ln||14);s.lookAt(q.x+q.vx,q.h+q.vh,q.y+q.vy)}});
  T.dl.target.position.set(p.x,0,p.y);T.dl.position.set(p.x-300,700,p.y-250);const R=camRay();T.cam.fov+=((zoom?42:72)-T.cam.fov)*.25;T.cam.updateProjectionMatrix();
  T.cam.position.set(R.o.x,R.o.y,R.o.z);T.cam.lookAt(R.t.x,R.t.y,R.t.z);
  T.r.render(T.sc,T.cam);CAOS.gfxTick&&CAOS.gfxTick();

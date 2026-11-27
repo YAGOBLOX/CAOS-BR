@@ -20,7 +20,7 @@ function end(win){
 }
 function die(t){if(t===G.p)end(false);else{G.kills++;t.rs=3;if(G.mode.endOnKill)end(true)}}
 function upd(dt){
- const g=G,p=g.p;g.t+=dt;p.fl-=dt;g.bs.forEach(q=>q.fl-=dt);
+ const g=G,p=g.p;g.t+=dt;p.fl-=dt;if(p.pn>0)p.pn-=dt;g.bs.forEach(q=>q.fl-=dt);
  if(!g.over){
   let mx=jx+(keys.d?1:0)-(keys.a?1:0),my=jy+(keys.s?1:0)-(keys.w?1:0);
   const l=Math.hypot(mx,my);if(l>1){mx/=l;my/=l}
@@ -37,7 +37,7 @@ function upd(dt){
    if(tg!==null){const df=Math.atan2(Math.sin(tg-p.fa),Math.cos(tg-p.fa));p.fa+=df*Math.min(1,dt*(aimN?13:9))}}
   if(p.rl>0){p.rl-=dt;if(p.rl<=0)p.am[p.w]=WP[p.w].mag}
   else if(p.am[p.w]<=0)p.rl=WP[p.w].rl;
-  else if((fire||fb)&&p.cd<=0){const w=WP[p.w];if(!w.fist)p.am[p.w]--;for(let i=0;i<w.pel;i++)shootAim(w);p.cd=w.cd;if(!w.fist&&p.am[p.w]<=0)p.rl=w.rl}
+  else if((fire||fb)&&p.cd<=0){const w=WP[p.w];if(!w.fist)p.am[p.w]--;for(let i=0;i<w.pel;i++)shootAim(w);if(w.fist){G.bl[G.bl.length-1].fi=1;p.pn=.3;p.pa=!p.pa}p.cd=w.cd;if(!w.fist&&p.am[p.w]<=0)p.rl=w.rl}
   for(const k of g.kits){k.t-=dt;if(k.t<=0)for(const e of[p,g.b])if(e.hp>0&&e.hp<e.mx&&Math.hypot(e.x-k.x,e.y-k.y)<22){e.hp=Math.min(e.mx,e.hp+40);k.t=12}}
   for(const q of g.bs)if(q.hp<=0&&q.rs>0){q.rs-=dt;if(q.rs<=0){if(q.hx!=null){q.x=q.hx;q.y=q.hy}else{const sq=spawnPt();q.x=sq[0];q.y=sq[1]}q.hp=200}}
   for(const q of g.bs){if(q.hp<=0)continue;if(!g.range&&hitW(q.x,q.y,12,q.z)){const sq=spawnPt();q.x=sq[0];q.y=sq[1]}   // árvore/pedra colocada depois pode cair em cima do bot: tira ele de dentro

@@ -1,9 +1,11 @@
 /* CAOS BR FPS · colisão, movimento, visão, pulo e agachar */
 /* v34: CHÃO POR CAMADAS (mapas com CAOS.lv: escadas, pontes, andares). Cada célula de 17u tem camadas de chão: altura lh, vão livre lc, espessura do sólido acima lt.
    Anda-se para onde existe camada com altura ≤ z+PASSO (e não mais que 70 abaixo). Mapas sem CAOS.lv continuam planos (retângulos em walls). */
-const PASSO=18,VAO=51;
-function lcell(x,y){const m=CAOS.lv,i=Math.floor(x/17),j=Math.floor(y/17);return(!m||i<0||j<0||i>=m.nx||j>=m.nz)?-1:j*m.nx+i}
-function flr(x,y,z){const c=lcell(x,y);if(c<0)return null;const m=CAOS.lv;let b=null;for(let l=m.idx[c];l<m.idx[c+1];l++){const h=m.lh[l];if(m.lc[l]>=VAO&&h<=z+PASSO&&h>=z-70&&(b===null||h>b))b=h}return b}
+const PASSO0=18,VAO0=51;
+const PK=()=>CAOS.lv.k||1;
+function lcell(x,y){const m=CAOS.lv,i=m&&Math.floor(x/m.cs),j=m&&Math.floor(y/m.cs);return(!m||i<0||j<0||i>=m.nx||j>=m.nz)?-1:j*m.nx+i}
+function flr(x,y,z){const c=lcell(x,y);if(c<0)return null;const m=CAOS.lv;let b=null;for(let l=m.idx[c];l<m.idx[c+1];l++){const h=m.lh[l];if(m.lc[l]>=VAO0*(m.k||1)&&h<=z+PASSO0*(m.k||1)&&h>=z-70*(m.k||1)&&(b===null||h>b))b=h}return b}
+function flb(x,y,z){const c=lcell(x,y);if(c<0)return null;const m=CAOS.lv;let b=null;for(let l=m.idx[c];l<m.idx[c+1];l++){const h=m.lh[l];if(h<=z&&(b===null||h>b))b=h}return b}
 function gnd(e){if(!CAOS.lv)return 0;const f=flr(e.x,e.y,e.z||0);if(f!==null)e.gz=f;return e.gz||0}
 function grav(e,dt){const g=gnd(e);e.vz-=900*dt;e.z+=e.vz*dt;if(e.z<g){e.z=(e.vz<=0&&g-e.z<=30)?Math.min(g,e.z+420*dt):g;if(e.vz<0)e.vz=0}}
 const onGnd=e=>e.z<=gnd(e)+.5;
@@ -16,5 +18,5 @@ function hitWH(x,y,h){
  for(const[a,b,w,l]of walls){if(x>a&&x<a+w&&y>b&&y<b+l&&h<((a<0||b<0||a>=W||b>=H)?22:WALLH))return 1}return 0}
 function mv(e,dx,dy){let m=0;if(dx&&!hitW(e.x+dx,e.y,13,e.z)){e.x+=dx;m=1}if(dy&&!hitW(e.x,e.y+dy,13,e.z)){e.y+=dy;m=1}return m}
 function see(a,b){const d=Math.hypot(b.x-a.x,b.y-a.y),n=Math.ceil(d/10);for(let i=1;i<n;i++){const u=i/n,x=a.x+(b.x-a.x)*u,y=a.y+(b.y-a.y)*u;if(CAOS.lv?hitWH(x,y,(a.z||0)+30+((b.z||0)-(a.z||0))*u):hitW(x,y,2))return 0}return 1}
-function jump(){if(G&&!G.over&&onGnd(G.p)){G.p.vz=300;G.p.st=0}}
+function jump(){if(G&&!G.over&&onGnd(G.p)){G.p.vz=300*Math.sqrt(CAOS.lv?CAOS.lv.k||1:1);G.p.st=0}}
 function stance(n){if(G&&!G.over)G.p.st=G.p.st===n?0:n}
