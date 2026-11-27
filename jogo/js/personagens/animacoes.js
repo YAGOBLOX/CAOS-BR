@@ -69,9 +69,11 @@ function poseX(e,m,a,t){
  m.mx.update(dt);
  const bb=m.root,gb=n=>bb.getObjectByName('mixamorig'+n);
  // corpo masculino: quadril/cintura mais estreitos (Hips .8 em X); ombros e pernas voltam ao tamanho normal
- {const w=.72;gb('Hips').scale.x=w;gb('Spine2').scale.x=1/w;gb('LeftUpLeg').scale.x=1/w;gb('RightUpLeg').scale.x=1/w}
+ {const w=m.nw||.72;gb('Hips').scale.x=w;gb('Spine2').scale.x=1/w;gb('LeftUpLeg').scale.x=1/w;gb('RightUpLeg').scale.x=1/w}
  const drop=88.8*(1-Math.cos(1.05*cs));   // queda do quadril (cm) para os pés ficarem no chão
  if(cs>.005){gb('Hips').position.y-=drop;const sw=Math.sin(m.ph*2)*.4*am;for(const sd of['Left','Right']){const sg=sd==='Left'?1:-1;gb(sd+'UpLeg').rotateX(XBK.up*cs+sg*sw*cs);gb(sd+'Leg').rotateX(XBK.kn*cs-Math.max(0,sg*sw)*.8*cs)}}
+ {const jj=(e.z>(e.gz||0)+3&&!dead)?(e.vt>0?.95:.5):0;m.jj=(m.jj||0)+(jj-(m.jj||0))*Math.min(1,kk*1.6);   // pulo: joelhos dobrados; sobre janela/muro: pernas bem recolhidas e tronco inclinado
+  if(m.jj>.01){const q=m.jj;gb('LeftUpLeg').rotateX(XBK.up*q*.9);gb('LeftLeg').rotateX(XBK.kn*q*.8);gb('RightUpLeg').rotateX(XBK.up*q*.55);gb('RightLeg').rotateX(XBK.kn*q*.6);if(e.vt>0)gb('Spine').rotateX(.3*q)}}
  const lie=dead?1:ps,g=m.g;g.position.set(e.x,e.z+5*lie,e.y);g.rotation.set(0,-a,-1.5*lie);g.scale.setScalar(1);
  const wi=e.w===undefined?BOTW:e.w,has=!!m.gn.gs[wi];m.gn.gs.forEach((x,i)=>{if(x){x.visible=i===wi;if(i===wi&&x.userData.need)x.userData.need()}});
  g.updateMatrixWorld(true);

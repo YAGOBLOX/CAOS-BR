@@ -46,7 +46,8 @@ const XB_H=61;   // altura do boneco no jogo (o antigo tinha ~61)
 function xbotBody(){
  const X=CAOS.xbot,root=THREE.SkeletonUtils.clone(X.scene),M=[],g=new THREE.Group(),hold=new THREE.Group();
  root.traverse(o=>{if(o.isMesh||o.isSkinnedMesh){o.frustumCulled=false;o.castShadow=true;if(o.material){o.material=o.material.clone();M.push(o.material)}}});
- xbClothes(root,M);
+ const sk=CAOS.skinCur&&CAOS.skinCur(),glbOk=sk&&sk.glb&&CAOS.skinGlb&&CAOS.skinGlb[sk.id];
+ if(glbOk){try{xbGlbSkin(root,M,sk)}catch(e){console.warn('[skin glb]',e);xbClothes(root,M)}}else xbClothes(root,M);
  const mx=new THREE.AnimationMixer(root),act={};
  X.animations.forEach(c=>{act[c.name]=mx.clipAction(c)});
  for(const n of['idle','walk','run','sneak_pose']){if(act[n]){act[n].play();act[n].setEffectiveWeight(n==='idle'?1:0)}}
@@ -54,7 +55,7 @@ function xbotBody(){
  hold.scale.setScalar(XB_H/1.8);hold.rotation.y=Math.PI/2;hold.add(root);g.add(hold);
  const B=n=>root.getObjectByName('mixamorig'+n);
  const gn=new THREE.Group();gn.gs=gunModels(null);gn.gs.forEach(x=>{if(x)gn.add(x)});gn.scale.setScalar(.8);g.add(gn);
- return{xb:1,g,hold,root,mx,act,gn,M,lx:0,ly:0,
+ return{xb:1,nw:glbOk?1:0,g,hold,root,mx,act,gn,M,lx:0,ly:0,
   bn:{rU:B('RightArm'),rF:B('RightForeArm'),rH:B('RightHand'),lU:B('LeftArm'),lF:B('LeftForeArm'),lH:B('LeftHand')}};
 }
 
@@ -116,4 +117,42 @@ function xbClothes(root,M){
   const a=put(hd,new THREE.ConeGeometry(2,8,10),0x2e2420,sg*8.2,23,6,1,1,1);a.rotation.z=-sg*.35;
   const b=put(hd,new THREE.ConeGeometry(1.5,6,10),0x2e2420,sg*10.8,28,6,1,1,1);b.rotation.z=-sg*.8;
  }
+}
+
+
+// ===== skin em GLB SEM esqueleto (ex.: GOJO): a malha é ligada ao esqueleto do Xbot por TRANSFERÊNCIA DE PESOS (vértice mais próximo do corpo do Xbot) =====
+// 1) a malha (pose A, braços caídos) é escalada para a altura do Xbot e os braços são girados até a horizontal (T-pose, igual ao Xbot) e esticados até o comprimento do braço do Xbot;
+// 2) cada vértice copia índice/peso dos ossos do vértice do Xbot mais perto; 3) vira SkinnedMesh no mesmo esqueleto (anda, corre, agacha, deita e segura arma como o Xbot).
+function xbGlbSkin(root,M,sk){
+ const src=CAOS.skinGlb[sk.id];root.updateMatrixWorld(true);
+ const srcs=[];root.traverse(o=>{if(o.isSkinnedMesh)srcs.push(o)});
+ const sm=srcs.find(o=>/Surface/.test(o.name))||srcs[0],SP=sm.geometry.attributes.position,SI=sm.geometry.attributes.skinIndex,SW=sm.geometry.attributes.skinWeight,n=SP.count;
+ let y0=1e9,y1=-1e9,tip=0;for(let i=0;i<n;i++){const y=SP.getY(i);if(y<y0)y0=y;if(y>y1)y1=y;tip=Math.max(tip,Math.abs(SP.getX(i)))}
+ const H=y1-y0,inv=new THREE.Matrix4().copy(sm.matrixWorld).invert(),bp=nm=>{const b=root.getObjectByName('mixamorig'+nm);return b.getWorldPosition(new THREE.Vector3()).applyMatrix4(inv)};
+ const ku=Math.abs(bp('LeftArm').y)>H*5?.01:1,shX=Math.abs(bp('LeftArm').x)*ku,shY=bp('LeftArm').y*ku;   // (osso pode vir em cm e a malha em m)
+ // grade espacial do corpo do Xbot
+ const cs=H/45,gr=new Map(),key=(x,y,z)=>Math.floor(x/cs)+','+Math.floor(y/cs)+','+Math.floor(z/cs);
+ for(let i=0;i<n;i++){const k=key(SP.getX(i),SP.getY(i),SP.getZ(i));let a=gr.get(k);if(!a)gr.set(k,a=[]);a.push(i)}
+ const near=(x,y,z)=>{const cx=Math.floor(x/cs),cy=Math.floor(y/cs),cz=Math.floor(z/cs);
+  for(let r=1;r<=8;r++){let b=-1,bd=1e18;for(let a=-r;a<=r;a++)for(let c=-r;c<=r;c++)for(let d=-r;d<=r;d++){if(Math.max(Math.abs(a),Math.abs(c),Math.abs(d))!==r&&r>1)continue;const l=gr.get((cx+a)+','+(cy+c)+','+(cz+d));if(!l)continue;for(const i of l){const q=(SP.getX(i)-x)**2+(SP.getY(i)-y)**2+(SP.getZ(i)-z)**2;if(q<bd){bd=q;b=i}}}
+   if(b>=0)return b}return 0};
+ src.updateMatrixWorld(true);
+ const GH=6.74,f=H/GH,PX=.78,PY=5.45,AL=3.52-PX,ANG=0.974,cA=Math.cos(ANG),sA=Math.sin(ANG),r=(tip-shX)/(AL*f),dyS=shY-(y0+(PY+.015)*f);
+ const sst=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t)};
+ src.traverse(o=>{if(!o.isMesh)return;
+  const g=o.geometry.clone();g.applyMatrix4(o.matrixWorld);const P=g.attributes.position,m=P.count,idx=new Uint16Array(m*4),wt=new Float32Array(m*4),arm=/0034/.test(o.name);
+  for(let i=0;i<m;i++){
+   let x=P.getX(i),y=P.getY(i),z=P.getZ(i);
+   if(arm){const sg=x<0?-1:1,ax=Math.abs(x),w=sst(.55,1.05,ax)*(y<5.8?1:0);
+    if(w>0){const dx=ax-PX,dy=y-PY,a=ANG*w,ca=Math.cos(a),sa=Math.sin(a);let nx=dx*ca-dy*sa,ny=dx*sa+dy*ca;if(nx>0)nx=nx*(1+(r*f/f-1)*w*1);x=sg*(PX+nx);y=PY+ny}}   // gira (e depois estica) o braço
+   const X=x*f,Y=y0+(y+.015)*f+0,Z=(z+.06)*f;
+   P.setXYZ(i,X,Y,Z);
+   const j=near(X,Y,Z);for(let k=0;k<4;k++){idx[i*4+k]=SI.getComponent?SI.getComponent(j,k):SI.array[j*4+k];wt[i*4+k]=SW.array[j*4+k]}
+  }
+  g.setAttribute('skinIndex',new THREE.BufferAttribute(idx,4));g.setAttribute('skinWeight',new THREE.BufferAttribute(wt,4));
+  const mm=o.material,tx=mm.map;if(tx)tx.encoding=THREE.LinearEncoding;
+  const mat=new THREE.MeshLambertMaterial({map:tx||null,color:mm.color,skinning:true,side:mm.side,transparent:mm.transparent,opacity:mm.opacity,alphaTest:mm.alphaTest||0});M.push(mat);
+  const cl=new THREE.SkinnedMesh(g,mat);cl.position.copy(sm.position);cl.quaternion.copy(sm.quaternion);cl.scale.copy(sm.scale);
+  sm.parent.add(cl);cl.bind(sm.skeleton,sm.bindMatrix);cl.frustumCulled=false;cl.castShadow=true});
+ srcs.forEach(o=>{o.visible=false});
 }

@@ -168,3 +168,8 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 - Mira em lugar alto: `camRay()` usava `z*.8` na câmera e `z*.6` no alvo (a mira descia com a altura). Agora o chão (`p.gz`) sobe igual nos dois e só o pulo é amortecido. Câmera não atravessa o chão (`flb()` = chão abaixo de um ponto) e `aimTrace` marcha o raio com `hitWH/flb` quando há `CAOS.lv`.
 - Soco: `p.pn`/`p.pa` (timer e mão da vez) animam a guarda de boxe em `poseX`; a bala do punho tem `fi:1` (invisível, só causa dano).
 - Tiro: a bala sai da BOCA do cano (`e.mz`, calculado em `poseX` com `GUNGLB[..].b[1]*gs`) em direção ao ponto mirado.
+
+## v38: skin GOJO (GLB sem esqueleto) e pose de pulo
+- Skin com campo `glb` em `CAOS.SKINS` (ex.: `gojo`, `modelos/skins/gojo.glb`): `CAOS.loadSkinTex()` baixa o GLB (`CAOS.skinGlb[id]`) e `xbotBody()` chama `xbGlbSkin()` (fim de `modelos.js`): a malha é escalada para a altura do Xbot, os braços (pose A) são girados até a horizontal e esticados até o braço do Xbot, e cada vértice COPIA os pesos do vértice do Xbot mais próximo → vira `SkinnedMesh` no MESMO esqueleto (anda/corre/agacha/deita/segura arma como o Xbot). Corpo do Xbot fica `visible=false`. `m.nw=1` desliga o afinamento de cintura (`poseX`). Se falhar, cai na roupa Oni.
+- Para nova skin GLB sem esqueleto: pose em A com braços caídos ~56° da vertical, ombro em (x=.78,y=5.45) e altura 6,74 (constantes `PX,PY,GH,ANG` em `xbGlbSkin`; ajuste para o modelo novo). Frente = +z.
+- Animações: só as do Xbot (idle/walk/run) + código. Não há download de animações (sem rede). Pulo: `m.jj` em `poseX` (joelhos dobrados); `p.vt` (loop.js) marca pulo por cima de parede/janela → pernas recolhidas e tronco inclinado.

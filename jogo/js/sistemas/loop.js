@@ -27,7 +27,7 @@ function upd(dt){
   ang+=((keys.ArrowRight?1:0)-(keys.ArrowLeft?1:0))*2.2*dt;pit=cp(pit+((keys.ArrowUp?1:0)-(keys.ArrowDown?1:0))*1.2*dt);
   const c=Math.cos(ang),s=Math.sin(ang),sp=[170,105,50][p.st];
   const k=Math.min(1,dt*(mx||my?14:18));p.vx=(p.vx||0)+((-my*c-mx*s)*sp-(p.vx||0))*k;p.vy=(p.vy||0)+((-my*s+mx*c)*sp-(p.vy||0))*k;if(mv(p,p.vx*dt,0)===0)p.vx=0;if(mv(p,0,p.vy*dt)===0)p.vy=0;
-  grav(p,dt)
+  grav(p,dt);{const fa=p.fa===undefined?ang:p.fa;p.vt=(!onGnd(p)&&CAOS.lv&&hitWH(p.x+Math.cos(fa)*32,p.y+Math.sin(fa)*32,p.z+25))?.35:Math.max(0,(p.vt||0)-dt)}   // vt = pulando por cima de parede/janela
   assist(g,dt);p.cd-=dt;
   p.hs=(p.hs===undefined?p.st:p.hs)+(p.st-(p.hs===undefined?p.st:p.hs))*Math.min(1,dt*10);
   // corpo independente da câmera: vira (suave) para onde anda; ao atirar/mirar vira para a mira

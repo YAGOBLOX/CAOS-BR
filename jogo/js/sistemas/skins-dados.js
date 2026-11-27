@@ -7,7 +7,8 @@
    A skin escolhida fica em localStorage 'sk' = {s:id da skin, o:[ids comprados]}. Nunca reordene/apague ids que já foram usados. */
 CAOS.SKINS=[
  {id:'oni',n:'SAMURAI ONI',tipo:'xbot',pv:'img/skins/oni.png',pr:0},
- {id:'skin1',n:'SKIN 1',tipo:'mc',tex:'img/skins/skin1.png',pr:0}
+ {id:'skin1',n:'SKIN 1',tipo:'mc',tex:'img/skins/skin1.png',pr:0},
+ {id:'gojo',n:'GOJO',tipo:'xbot',glb:'modelos/skins/gojo.glb',pv:'img/skins/gojo.png',pr:0}   /* modelo GLB sem esqueleto: o código liga ele ao esqueleto do Xbot (xbGlbSkin em modelos.js) */
 ];
 (function(){
  let sel='oni',ownS=[];
@@ -16,9 +17,10 @@ CAOS.SKINS=[
  const save=()=>{try{localStorage.setItem('sk',JSON.stringify({s:sel,o:ownS}))}catch(e){}};
  const have=s=>!(s.pr>0)||ownS.includes(s.id);   // FUTURO: preço > 0 só vale depois de comprada (ownS)
  CAOS.skinCur=()=>CAOS.SKINS.find(s=>s.id===sel)||CAOS.SKINS[0];
- CAOS.skinTex={};
+ CAOS.skinTex={};CAOS.skinGlb={};
  // carrega a imagem da skin escolhida (precisa do three.js). Se falhar, o jogo usa o modelo Xbot.
  CAOS.loadSkinTex=()=>{const s=CAOS.skinCur();
+  if(s.glb&&!CAOS.skinGlb[s.id]&&typeof THREE!=='undefined'&&THREE.GLTFLoader)return new Promise(ok=>{const t=setTimeout(ok,25000);new THREE.GLTFLoader().load(s.glb+'?v='+CAOS.ver,g=>{clearTimeout(t);CAOS.skinGlb[s.id]=g.scene;ok()},undefined,()=>{clearTimeout(t);ok()})});
   if(s.tipo!=='mc'||CAOS.skinTex[s.id]||typeof THREE==='undefined')return Promise.resolve();
   return new Promise(ok=>new THREE.TextureLoader().load(s.tex+'?v='+CAOS.ver,t=>{
    t.magFilter=t.minFilter=THREE.NearestFilter;t.generateMipmaps=false;
