@@ -1,37 +1,36 @@
-# CAOS BR FPS — estrutura modular (ainda fora do site)
+# CAOS BR FPS — jogo (estado após a limpeza v41)
 
 Abra `index.html` direto no navegador para testar (precisa de internet só para o three.js).
 
-## Pastas
+## O que existe agora
+Só o **lobby** e o **boneco principal** (o primeiro modelo simples do jogo). No lobby ficam o perfil, as moedas, o boneco 3D no pedestal (arraste para girar) e o botão **DECOLAR** — que por enquanto só mostra o aviso "EM BREVE", porque ainda não há mapas.
+
 ```
-index.html              lobby (só o essencial carrega aqui)
-css/                    base, lobby, overlay, jogo
+index.html              lobby
+css/                    base, lobby, overlay (janela de aviso)
 js/
-  carregamento/         manifesto.js (lista de mapas/modos/arquivos) + carregador.js (carrega sob demanda)
-  lobby/                lobby.js (perfil, amigos, menus, escolha de modo/mapa, DECOLAR)
-  sistemas/             utils, estado, config, economia/loja, layout-hud   (carregam no lobby)
-                        movimento, entidades, combate, loop, entrada, hud, render3d   (carregam ao jogar)
-  personagens/          skins.js, modelos.js, modelos-armas.js, armas-3d.js, armas-glb.js, animacoes.js
-  mapas/<id>/mapa.js    um mapa por pasta (ilha, estande) + _modelo
-  modos/<id>/modo.js    um modo por pasta (treino, solo1v1, estande) + _modelo
+  carregamento/         manifesto.js (arquivos do boneco) + carregador.js (carrega three.js e o boneco em 2º plano)
+  lobby/                lobby.js (perfil e DECOLAR) + heroi3d.js (cena 3D do lobby)
+  sistemas/             utils (fit() esticado — NÃO MEXER), overlay, graficos (valores fixos),
+                        armas-dados (lista WP), economia (moedas e arma equipada, só leitura)
+  personagens/          modelos.js (boneco simples), animacoes.js (poseN), modelos-armas.js,
+                        armas-3d.js, armas-glb.js
+  lib/GLTFLoader.js     carrega as armas em GLB
+modelos/armas/          armas em GLB   ·   img/armas/   ícones das armas
 ```
 
-## O que carrega e quando
-- **Lobby:** só 10 arquivos pequenos. Nenhum mapa, modo, personagem ou three.js.
-- **Ao clicar DECOLAR:** three.js + sistemas da partida + personagens + **somente o mapa e o modo escolhidos**.
-- Trocar de mapa/modo depois baixa só o que ainda não foi carregado.
+## Removido na limpeza (continua no histórico do git)
+- **Skins/modelos:** Xbot, roupa Oni, Gojo, boneco de blocos (Minecraft), menu SKINS, soldado dos bots.
+- **Sistemas:** configurações (painel, sensibilidade, editor de HUD, gráficos ajustáveis), loja, novidades, escolha de modo/mapa.
+- **Mapas e modos:** ilha, deserto, estande, clocktower (com `.glb`/`.bin`), treino, solo 1v1, estande.
+- **Bots** e todo o motor da partida (movimento, combate, loop, entrada/toque, HUD, render 3D do mapa).
 
-## Adicionar um MAPA
-1. Copie `js/mapas/_modelo` para `js/mapas/<id>`.
-2. Edite `mapa.js` (paredes, spawns, kits, céu, chão).
-3. Em `carregamento/manifesto.js`, adicione em `maps` e coloque o id em `maps:[...]` dos modos que podem usá-lo.
+Para recuperar qualquer parte, procure o commit anterior à "Limpa o jogo" no histórico do git.
 
-## Adicionar um MODO
-1. Copie `js/modos/_modelo` para `js/modos/<id>`.
-2. Edite `modo.js` (`createBots`, `shop`, `allWeapons`, `endOnKill`, `hudTitle`).
-3. Em `manifesto.js`, adicione em `modes` com a lista de mapas permitidos.
+## Próximas etapas
+1. Reformular o lobby.
+2. Só depois, criar os mapas (e o motor da partida volta junto com eles).
 
-## Pendências conhecidas (para expandir depois)
-- `flags:{train/range}` ainda ativam trechos do HUD/fim de partida escritos para os 3 modos atuais (painel de dano do ESTANDE em `sistemas/hud.js`, texto de derrota em `loop.js`). Ideal: mover para dentro de cada modo.
-- Cores do jogador/bots (pele, calça, cabelo) ainda estão fixas em `personagens/modelos.js`; só as camisas dos bots estão em `skins.js`.
-- Menus "Loja/Passe/Eventos/Amigos" continuam como no original (placeholders).
+## Regras que continuam valendo
+- O jogo é **deitado (800×450)** e a tela é **esticada** para preencher tudo (`fit()` em `js/sistemas/utils.js`, escala `sx` ≠ `sy`). Não volte para escala uniforme.
+- Cache: ao atualizar, mude o `?v=` do `index.html` e o `ver` em `js/carregamento/manifesto.js`.

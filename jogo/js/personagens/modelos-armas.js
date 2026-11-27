@@ -1,5 +1,4 @@
 /* CAOS BR FPS · modelos 3D das armas */
-const BOTW=WP.findIndex(w=>w.id==='m4a1');   // arma que os bots seguram
 function gunModels(only){
  const mt=c=>new THREE.MeshLambertMaterial({color:c}),dk=mt(0x23252b),md=mt(0x3b3f48),wd=mt(0x6b4a2a),ac=mt(0x9aa0aa),gl=new THREE.MeshLambertMaterial({color:0x4aa8ff,emissive:0x0a2a50});
  const bg=new THREE.BoxGeometry(1,1,1),cg=new THREE.CylinderGeometry(.5,.5,1,14);
@@ -33,9 +32,9 @@ function gunModels(only){
   for(let k=0;k<d.v.length/3;k++){const x=d.v[k*3],y=d.v[k*3+1],z=d.v[k*3+2],q=colr(mn,d.c?d.c[k]:0,x,y,z),sh=1+((x*7+y*13)%9-4)*.012;c[k*3]=q[0]*sh;c[k*3+1]=q[1]*sh;c[k*3+2]=q[2]*sh}
   const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(p,3));geo.setAttribute('color',new THREE.BufferAttribute(c,3));geo.setIndex(d.i);
   const fl=geo.toNonIndexed();fl.computeVertexNormals();const o=new THREE.Mesh(fl,gm);o.castShadow=true;g.add(o)};
- // armas em GLB: o arquivo só é baixado/montado quando a arma aparece na mão (g.userData.need() é chamado por animacoes.js/skin-mc.js)
+ // armas em GLB: o arquivo só é baixado/montado quando a arma aparece na mão (g.userData.need() é chamado por animacoes.js)
  const glb=(g,id)=>{let on=0;g.userData.need=()=>{if(on)return;on=1;CAOS.gunGlb(id).then(h=>{if(h)g.add(h);else setTimeout(()=>{on=0},4000)})}};
- return WP.map((w,i)=>{if(only&&!only.includes(i))return null;if(w.hide&&i!==1)return null;const g=new THREE.Group();
+ return WP.map((w,i)=>{if(only&&!only.includes(i))return null;if(w.hide)return null;const g=new THREE.Group();
   if(defs[i])defs[i](g);else if(w.m&&GUNGLB[w.m])glb(g,w.m);else if(w.m&&typeof GUNMESH!=='undefined'&&GUNMESH[w.m])meshGun(g,GUNMESH[w.m],w.m);
   g.visible=false;return g});
 }

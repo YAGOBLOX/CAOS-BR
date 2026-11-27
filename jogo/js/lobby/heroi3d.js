@@ -1,10 +1,10 @@
-/* CAOS BR FPS · LOBBY 3D (three.js carrega em segundo plano; se falhar, fica o fundo 2D de #lbg e o boneco de papel)
+/* CAOS BR FPS · LOBBY 3D (three.js carrega em segundo plano; se falhar, fica só o degradê escuro de #lbg)
    Cena real: hangar com paredes/piso/teto com textura e relevo, luzes de verdade (spot do teto com SOMBRA, luzes de neon coloridas,
    luz laranja da janela), névoa, feixes de luz, poeira, parede de armas, bloco da PATENTE e o boneco no pedestal (arraste para girar). Nada aqui é clicável além do giro. */
 (function(){
  const hero=document.getElementById('hero'),lbg=document.getElementById('lbg');if(!hero||!lbg)return;
  CAOS.loadChars().then(()=>{
-  const GX=CAOS.gfx;if(GX.lb===0)return;   // Lobby 3D desligado: fica o fundo 2D
+  const GX=CAOS.gfx;if(GX.lb===0)return;   // Lobby 3D desligado: fica só o degradê
   const LEVE=GX.lb===1,W=GX.lobW(),H=Math.round(W*9/16),R=THREE,cvs=document.createElement('canvas');cvs.id='lbg3d';
   const r=new R.WebGLRenderer({canvas:cvs,antialias:!!GX.aa,powerPreference:'high-performance'});r.setPixelRatio(1);r.setSize(W,H,false);const SH=LEVE?0:GX.sh;r.shadowMap.enabled=SH>0;r.shadowMap.type=[0,R.PCFShadowMap,R.PCFShadowMap,R.PCFSoftShadowMap][SH]||R.PCFShadowMap;
   const sc=new R.Scene();sc.background=new R.Color(0x0b1020);sc.fog=new R.FogExp2(0x1b2342,.0012);
@@ -116,9 +116,10 @@
   const N=90,pp=new Float32Array(N*3);for(let i=0;i<N;i++){pp[i*3]=(rnd()-.5)*160;pp[i*3+1]=rnd()*95;pp[i*3+2]=-250+rnd()*300}
   const pg=new R.BufferGeometry();pg.setAttribute('position',new R.BufferAttribute(pp,3));const dust=new R.Points(pg,new R.PointsMaterial({map:DOT,size:2.2,color:0xffe2b0,transparent:true,opacity:.7,blending:R.AdditiveBlending,depthWrite:false}));sc.add(dust);
   // ---------- boneco ----------
-  let m=humanoid(1);sc.add(m.g);window.heroRefresh=()=>{sc.remove(m.g);m=humanoid(1);m.g.traverse(o=>{if(o.isMesh)o.castShadow=true});sc.add(m.g)};
+  const W0=eqs[0];   // arma que o boneco segura (a equipada); só ela é montada
+  const m=humanoid([W0]);sc.add(m.g);
   m.g.traverse(o=>{if(o.isMesh)o.castShadow=true});
-  const e={x:0,y:0,z:0,hp:200,st:0,fl:0,w:1};
+  const e={x:0,y:0,z:0,hp:200,st:0,fl:0,w:W0};
   CAOS.lobby={sc,cam,r};
   let t0=performance.now(),spin=0,drag=null;
   hero.classList.add('is3d');lbg.classList.add('on3d');lbg.insertBefore(cvs,lbg.firstChild);
@@ -128,14 +129,13 @@
   const up=()=>{drag=null};hero.addEventListener('pointerup',up);hero.addEventListener('pointercancel',up);
   let lt=0;(function loop(ts){requestAnimationFrame(loop);
    const iv=(LEVE?Math.max(GX.iv(),1000/45):GX.iv())-2;if(ts-lt<iv)return;lt=ts;
-   const g=document.getElementById('game');if((g&&g.style.display==='block')||document.hidden)return;
+   if(document.hidden)return;
    const t=(performance.now()-t0)/1000;
-   e.w=(typeof eqs!=='undefined'&&eqs.length)?eqs[0]:1;
    m.relax=1;poseN(e,m,.95+spin+(drag===null?Math.sin(t*.5)*.1:0),t);m.g.rotation.x=.05+Math.sin(t*.9)*.015;m.g.position.set(0,4.4+Math.sin(t*1.6)*.15,0);
    cam.position.set(Math.sin(t*.25)*5,24,238);cam.lookAt(0,CY,0);   // câmera balança de leve (paralaxe: perto e longe se mexem diferente)
    fls.forEach((f,i)=>{f.rotation.y=t*(.4+i*.07);f.rotation.x=t*.25;f.position.y=f.userData.y+Math.sin(t*.8+i)*2.5});
    rg.position.y=54+Math.sin(t*1.2)*2.2;rank.rotation.z=t*.7;
    if(!LEVE){const a=dust.geometry.attributes.position;for(let i=0;i<N;i++){let y=a.getY(i)+.02;if(y>95)y=0;a.setY(i,y);a.setX(i,a.getX(i)+Math.sin(t+i)*.01)}a.needsUpdate=true}
    r.render(sc,cam);CAOS.gfxTick&&CAOS.gfxTick()})();
- }).catch(err=>{console.warn('lobby 3D falhou, usando o fundo 2D',err)});
+ }).catch(err=>{console.warn('lobby 3D falhou, ficou só o degradê',err)});
 })();

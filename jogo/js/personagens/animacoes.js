@@ -1,4 +1,5 @@
-/* CAOS BR FPS · animação/pose do humanoide (andar, agachar, deitar, pular, morrer). a = para onde o CORPO olha */
+/* CAOS BR FPS · animação/pose do boneco simples (andar, agachar, deitar, pular, morrer). a = para onde o CORPO olha.
+   As poses do Xbot e do boneco de blocos foram removidas na limpeza (v41). */
 // comprimento da mão da frente por arma (ponto de apoio da mão esquerda no cano)
 const FORE={};
 function foreOf(i){if(FORE[i]!==undefined)return FORE[i];const w=WP[i];let r=13;if(w&&w.m&&typeof GUNGLB!=='undefined'&&GUNGLB[w.m])r=Math.max(4,Math.min(15,GUNGLB[w.m].b[1]*.5*GUNGLB.gs));else if(w&&w.m&&typeof GUNMESH!=='undefined'&&GUNMESH[w.m]){let mx=0;const v=GUNMESH[w.m].v;for(let k=0;k<v.length;k+=3)mx=Math.max(mx,v[k]);r=Math.max(4,Math.min(15,mx/20*.5))}return FORE[i]=r}
@@ -9,8 +10,6 @@ function armIK(A,sz,tx,ty,tz){
  A.rotation.set(0,Math.atan2(-dz,dx),Math.atan2(r,-dy)-al);A.el.rotation.z=Math.PI-ga;
 }
 function poseN(e,m,a,t){
- if(m.mc)return poseM(e,m,a,t);
- if(m.xb)return poseX(e,m,a,t);
  const d=Math.min(6,Math.hypot(e.x-m.lx,e.y-m.ly));m.lx=e.x;m.ly=e.y;
  const dt=Math.max(0,Math.min(.05,t-(m.pt===undefined?t:m.pt)));m.pt=t;
  m.ph=(m.ph||0)+d*.075;m.amp=(m.amp||0)+((e.z>(e.gz||0)+.5?0:Math.min(1,d/2.2))-(m.amp||0))*.25;
@@ -29,7 +28,7 @@ function poseN(e,m,a,t){
  m.g.position.set(e.x,e.z+6*lie,e.y);m.g.scale.setScalar(.8);m.g.rotation.set(0,-a,-1.5*lie);
  m.hp.position.y=hipY;m.ts.rotation.z=lean;m.hd.rotation.z=L(-lean*.7,.9,ps);
  m.L1.t.rotation.z=a1;m.L1.k.rotation.z=k1;m.L2.t.rotation.z=a2;m.L2.k.rotation.z=k2;
- const wi=e.w===undefined?BOTW:e.w,has=!!m.gn.gs[wi];
+ const wi=e.w,has=!!m.gn.gs[wi];
  // arma na altura do ombro/peito alto, à frente do colete (não dentro do peito)
  m.gn.position.set(L(11,0,ps),L(15.5+(cs>.5?0:S(ph*2)*.5*am),56,ps),L(3.6,6,ps));
  m.gn.gs.forEach((x,i)=>{if(x){x.visible=i===wi;if(i===wi&&x.userData.need)x.userData.need()}});m.gn.rotation.z=ps*1.57;
@@ -41,54 +40,4 @@ function poseN(e,m,a,t){
   if(ps>0)for(const A of[m.A1,m.A2]){A.rotation.y=L(A.rotation.y,0,ps);A.rotation.z=L(A.rotation.z,3,ps);A.el.rotation.z=L(A.el.rotation.z,.15,ps)}
  }
  for(const mt of m.M)mt.emissive.setHex(e.fl>0?0xffffff:0);
-}
-
-// ---- pose do jogador Xbot ----
-const _a=new THREE.Vector3(),_b=new THREE.Vector3(),_c=new THREE.Vector3(),_q=new THREE.Quaternion(),_q2=new THREE.Quaternion(),_q3=new THREE.Quaternion();
-function aimBone(bone,child,target){   // gira o osso para que o filho aponte para o alvo (mundo)
- bone.getWorldPosition(_a);child.getWorldPosition(_b);const from=_b.sub(_a).normalize(),to=_c.copy(target).sub(_a).normalize();
- _q.setFromUnitVectors(from,to);bone.getWorldQuaternion(_q2);_q2.premultiply(_q);bone.parent.getWorldQuaternion(_q3);bone.quaternion.copy(_q3.invert().multiply(_q2));bone.updateMatrixWorld(true);
-}
-function ik2(up,fo,ha,T,pole){   // IK de 2 ossos (ombro-cotovelo-mão) com cotovelo para o lado do "pole"
- const S=up.getWorldPosition(new THREE.Vector3()),E0=fo.getWorldPosition(new THREE.Vector3()),H0=ha.getWorldPosition(new THREE.Vector3());
- const L1=S.distanceTo(E0),L2=E0.distanceTo(H0),d=T.clone().sub(S);let D=d.length();D=Math.max(.01,Math.min(L1+L2-.001,D));const dir=d.normalize();
- const aa=(L1*L1-L2*L2+D*D)/(2*D),h=Math.sqrt(Math.max(0,L1*L1-aa*aa)),n=pole.clone().sub(dir.clone().multiplyScalar(pole.dot(dir))).normalize();
- aimBone(up,fo,S.clone().add(dir.clone().multiplyScalar(aa)).add(n.multiplyScalar(h)));aimBone(fo,ha,T);
-}
-const XBK={up:-1.05,kn:2.1};
-function poseX(e,m,a,t){
- const d=Math.min(6,Math.hypot(e.x-m.lx,e.y-m.ly));m.lx=e.x;m.ly=e.y;
- const dt=Math.max(0,Math.min(.05,t-(m.pt===undefined?t:m.pt)));m.pt=t;const kk=1-Math.exp(-dt*11);
- m.amp=(m.amp||0)+((e.z>(e.gz||0)+.5?0:Math.min(1,d/2.2))-(m.amp||0))*.25;m.ph=(m.ph||0)+d*.09;
- const dead=e.hp<=0;m.cs=(m.cs||0)+(((e.st===1&&!dead)?1:0)-(m.cs||0))*kk;m.ps=(m.ps||0)+(((e.st===2&&!dead)?1:0)-(m.ps||0))*kk;
- const am=m.amp,run=Math.max(0,Math.min(1,(d-1.5)/1.1)),cs=m.cs,ps=m.ps,A=m.act,L=(x,y,k)=>x+(y-x)*k;
- // animação de andar/correr só em pé (agachado e deitado usam o parado + pose por código; sem tremer)
- const mv=am*(1-Math.max(cs,ps)),set=(n,w)=>{if(A[n])A[n].setEffectiveWeight(w)};
- set('sneak_pose',0);set('idle',1-mv);set('walk',mv*(1-run));set('run',mv*run);
- if(A.walk)A.walk.timeScale=Math.max(.6,d/1.2);if(A.run)A.run.timeScale=Math.max(.8,d/2);
- m.mx.update(dt);
- const bb=m.root,gb=n=>bb.getObjectByName('mixamorig'+n);
- // corpo masculino: quadril/cintura mais estreitos (Hips .8 em X); ombros e pernas voltam ao tamanho normal
- {const w=m.nw||.72;gb('Hips').scale.x=w;gb('Spine2').scale.x=1/w;gb('LeftUpLeg').scale.x=1/w;gb('RightUpLeg').scale.x=1/w}
- const drop=88.8*(1-Math.cos(1.05*cs));   // queda do quadril (cm) para os pés ficarem no chão
- if(cs>.005){gb('Hips').position.y-=drop;const sw=Math.sin(m.ph*2)*.4*am;for(const sd of['Left','Right']){const sg=sd==='Left'?1:-1;gb(sd+'UpLeg').rotateX(XBK.up*cs+sg*sw*cs);gb(sd+'Leg').rotateX(XBK.kn*cs-Math.max(0,sg*sw)*.8*cs)}}
- {const jj=(e.z>(e.gz||0)+3&&!dead)?(e.vt>0?.95:.5):0;m.jj=(m.jj||0)+(jj-(m.jj||0))*Math.min(1,kk*1.6);   // pulo: joelhos dobrados; sobre janela/muro: pernas bem recolhidas e tronco inclinado
-  if(m.jj>.01){const q=m.jj;gb('LeftUpLeg').rotateX(XBK.up*q*.9);gb('LeftLeg').rotateX(XBK.kn*q*.8);gb('RightUpLeg').rotateX(XBK.up*q*.55);gb('RightLeg').rotateX(XBK.kn*q*.6);if(e.vt>0)gb('Spine').rotateX(.3*q)}}
- const lie=dead?1:ps,g=m.g;g.position.set(e.x,e.z+5*lie,e.y);g.rotation.set(0,-a,-1.5*lie);g.scale.setScalar(1);
- const wi=e.w===undefined?BOTW:e.w,has=!!m.gn.gs[wi];m.gn.gs.forEach((x,i)=>{if(x){x.visible=i===wi;if(i===wi&&x.userData.need)x.userData.need()}});
- g.updateMatrixWorld(true);
- if(!dead){
-  const dropU=drop*XB_H/180,hy=41-dropU;
-  const rx=m.relax||0;const lg=has&&GUNGLB[WP[wi].m]?Math.max(0,Math.min(1,(GUNGLB[WP[wi].m].b[1]-12)/12)):.3;   // 0 pistola ... 1 fuzil comprido
-  m.gn.position.set(L(10+rx*(-4-3*lg),-1,ps),L(hy-15*rx-rx*2*lg,66,ps),4.4+3*rx);m.gn.rotation.z=ps*1.5708-rx*(.75+.25*lg);m.gn.visible=true;m.gn.updateMatrixWorld(true);
-  const side=new THREE.Vector3(0,0,1).transformDirection(g.matrixWorld),down=new THREE.Vector3(0,-1,0);
-  let fg=has?Math.min(foreOf(wi),9):8,T1=m.gn.localToWorld(new THREE.Vector3(0,-.4,.4)),T2=m.gn.localToWorld(new THREE.Vector3(fg,-1.4,-3.2));
-  if(!has){   // PUNHO: guarda de boxe; ao socar, a mão da vez estica para a frente (sem arma, sem rastro de tiro)
-   const k=e.pn>0?Math.sin(Math.PI*Math.min(1,1-e.pn/.3)):0,P=(x,y,z)=>m.gn.localToWorld(new THREE.Vector3(x,y,z));
-   const hy=m.gn.position.y;T1=m.g.localToWorld(new THREE.Vector3(13+(e.pa?0:24)*k,hy+8,5.5));T2=m.g.localToWorld(new THREE.Vector3(13+(e.pa?24:0)*k,hy+6,-5.5))}   // guarda: mãos na frente do peito/queixo
-  const pl=(sg)=>down.clone().multiplyScalar(1-ps*.7).addScaledVector(side,sg*(.9+ps*.6));   // cotovelo sempre para fora (a mão não cruza o corpo)
-  const b=m.bn;ik2(b.rU,b.rF,b.rH,T1,pl(1));ik2(b.lU,b.lF,b.lH,T2,pl(-1));
- }else m.gn.visible=false;
- if(has&&!dead){const g=m.gn.gs[wi],Lm=(w=>w&&w.m&&GUNGLB[w.m]?GUNGLB[w.m].b[1]*GUNGLB.gs:16)(WP[wi]);if(g){g.updateMatrixWorld(true);const v=g.localToWorld(new THREE.Vector3(Lm,.3,0));e.mz={x:v.x,y:v.z,h:v.y,t}}}   // boca do cano (para a bala sair dela)
- for(const mt of m.M)if(mt.emissive)mt.emissive.setHex(e.fl>0?0xffffff:0);
 }
