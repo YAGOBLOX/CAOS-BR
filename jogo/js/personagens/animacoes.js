@@ -1,7 +1,7 @@
 /* CAOS BR FPS · animação/pose do humanoide (andar, agachar, deitar, pular, morrer). a = para onde o CORPO olha */
 // comprimento da mão da frente por arma (ponto de apoio da mão esquerda no cano)
 const FORE={};
-function foreOf(i){if(FORE[i]!==undefined)return FORE[i];const w=WP[i];let r=13;if(w&&w.m&&typeof GUNMESH!=='undefined'&&GUNMESH[w.m]){let mx=0;const v=GUNMESH[w.m].v;for(let k=0;k<v.length;k+=3)mx=Math.max(mx,v[k]);r=Math.max(4,Math.min(15,mx/20*.5))}return FORE[i]=r}
+function foreOf(i){if(FORE[i]!==undefined)return FORE[i];const w=WP[i];let r=13;if(w&&w.m&&typeof GUNGLB!=='undefined'&&GUNGLB[w.m])r=Math.max(4,Math.min(15,GUNGLB[w.m].b[1]*.5));else if(w&&w.m&&typeof GUNMESH!=='undefined'&&GUNMESH[w.m]){let mx=0;const v=GUNMESH[w.m].v;for(let k=0;k<v.length;k+=3)mx=Math.max(mx,v[k]);r=Math.max(4,Math.min(15,mx/20*.5))}return FORE[i]=r}
 // IK de 2 ossos: leva a mão até (tx,ty,tz) (espaço do tronco). Ombro em (0,21,sz)
 function armIK(A,sz,tx,ty,tz){
  const L1=12,L2=13,dx=tx,dy=ty-21,dz=tz-sz,r=Math.hypot(dx,dz);let D=Math.max(7,Math.min(L1+L2-.2,Math.hypot(r,dy)));
@@ -32,7 +32,7 @@ function poseN(e,m,a,t){
  const wi=e.w===undefined?BOTW:e.w,has=!!m.gn.gs[wi];
  // arma na altura do ombro/peito alto, à frente do colete (não dentro do peito)
  m.gn.position.set(L(11,0,ps),L(15.5+(cs>.5?0:S(ph*2)*.5*am),56,ps),L(3.6,6,ps));
- m.gn.gs.forEach((x,i)=>{if(x)x.visible=i===wi});m.gn.rotation.z=ps*1.57;
+ m.gn.gs.forEach((x,i)=>{if(x){x.visible=i===wi;if(i===wi&&x.userData.need)x.userData.need()}});m.gn.rotation.z=ps*1.57;
  if(dead){m.A1.rotation.set(0,0,2.4);m.A2.rotation.set(0,0,2.4);m.A1.el.rotation.z=m.A2.el.rotation.z=.3}
  else{
   const p=m.gn.position;
@@ -73,7 +73,7 @@ function poseX(e,m,a,t){
  const drop=88.8*(1-Math.cos(1.05*cs));   // queda do quadril (cm) para os pés ficarem no chão
  if(cs>.005){gb('Hips').position.y-=drop;const sw=Math.sin(m.ph*2)*.4*am;for(const sd of['Left','Right']){const sg=sd==='Left'?1:-1;gb(sd+'UpLeg').rotateX(XBK.up*cs+sg*sw*cs);gb(sd+'Leg').rotateX(XBK.kn*cs-Math.max(0,sg*sw)*.8*cs)}}
  const lie=dead?1:ps,g=m.g;g.position.set(e.x,e.z+5*lie,e.y);g.rotation.set(0,-a,-1.5*lie);g.scale.setScalar(1);
- const wi=e.w===undefined?BOTW:e.w,has=!!m.gn.gs[wi];m.gn.gs.forEach((x,i)=>{if(x)x.visible=i===wi});
+ const wi=e.w===undefined?BOTW:e.w,has=!!m.gn.gs[wi];m.gn.gs.forEach((x,i)=>{if(x){x.visible=i===wi;if(i===wi&&x.userData.need)x.userData.need()}});
  g.updateMatrixWorld(true);
  if(!dead){
   const dropU=drop*XB_H/180,hy=41-dropU;

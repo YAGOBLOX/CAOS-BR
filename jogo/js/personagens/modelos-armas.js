@@ -20,17 +20,11 @@ function gunModels(only){
  const C={poly:H(0x1d1f23),gun:H(0x3b414c),blue:H(0x2c3340),steel:H(0xaab2bb),nick:H(0xd2d6da),wood:H(0x7b4a22),wood2:H(0x9a6232),dwood:H(0x4e2f16),tan:H(0xa68b5b),olive:H(0x4d5a37),brass:H(0xc9a24a),lens:H(0x4aa8ff),rust:H(0x5b3a22),ivory:H(0xd9cfb0)};
  const colr=(m,c,x,y,z)=>{
   switch(m){
-   case 'm4a1':return c===2?C.steel:(y<-25?C.poly:(x>170?C.blue:C.gun));
-   case 'scar':return c===2?C.steel:(y<-25?C.poly:C.tan);
-   case 'mp5':return c===2?C.steel:(y<-30?C.poly:(x>40?C.blue:C.gun));
    case 'm249':return c===2?C.steel:(y<-45||x<-60?C.olive:C.gun);
-   case 'ak47':return c===1?C.wood:(c===2?C.steel:(y<-40?C.rust:(x>140&&y<18&&y>-38?C.wood2:C.blue)));
    case 'awm':return c===2?(y>35?C.blue:C.steel):(x<60?C.olive:(y<-30?C.olive:C.gun));
    case 'dragunov':return c===1?(x>150?C.wood2:C.wood):(c===2?C.steel:C.blue);
    case 'rpg7':return c===1?C.wood:(c===2?(x>380?C.olive:C.olive):(x<-130?C.gun:C.blue));
-   case 'remington870':return c===2?C.blue:(x>60&&y>-40?C.wood:C.poly);
    case 'espingarda':return c===1?C.wood:(c===2?C.steel:C.blue);
-   case 'm1911':return c===1?C.dwood:(c===2?C.steel:C.gun);
    case 'peacemaker':return c===1?C.ivory:(c===2?C.nick:C.gun);
   }
   return [C.poly,C.wood,C.steel][c||0];
@@ -39,7 +33,9 @@ function gunModels(only){
   for(let k=0;k<d.v.length/3;k++){const x=d.v[k*3],y=d.v[k*3+1],z=d.v[k*3+2],q=colr(mn,d.c?d.c[k]:0,x,y,z),sh=1+((x*7+y*13)%9-4)*.012;c[k*3]=q[0]*sh;c[k*3+1]=q[1]*sh;c[k*3+2]=q[2]*sh}
   const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(p,3));geo.setAttribute('color',new THREE.BufferAttribute(c,3));geo.setIndex(d.i);
   const fl=geo.toNonIndexed();fl.computeVertexNormals();const o=new THREE.Mesh(fl,gm);o.castShadow=true;g.add(o)};
+ // armas em GLB: o arquivo só é baixado/montado quando a arma aparece na mão (g.userData.need() é chamado por animacoes.js/skin-mc.js)
+ const glb=(g,id)=>{let on=0;g.userData.need=()=>{if(on)return;on=1;CAOS.gunGlb(id).then(h=>{if(h)g.add(h)})}};
  return WP.map((w,i)=>{if(only&&!only.includes(i))return null;if(w.hide&&i!==1)return null;const g=new THREE.Group();
-  if(defs[i])defs[i](g);else if(w.m&&typeof GUNMESH!=='undefined'&&GUNMESH[w.m])meshGun(g,GUNMESH[w.m],w.m);
+  if(defs[i])defs[i](g);else if(w.m&&GUNGLB[w.m])glb(g,w.m);else if(w.m&&typeof GUNMESH!=='undefined'&&GUNMESH[w.m])meshGun(g,GUNMESH[w.m],w.m);
   g.visible=false;return g});
 }

@@ -20,6 +20,7 @@
   if(!mo||!ma) throw new Error('Modo/mapa inexistente: '+modeId+' / '+mapId);
   await Promise.all([script(M.three),seq(M.game),seq(M.characters),seq(ma.files),seq(mo.files)]);
   await CAOS.loadXbot();await CAOS.loadSkinTex();
+  if(CAOS.maps[mapId]&&CAOS.maps[mapId].preload)await CAOS.maps[mapId].preload();   // mapas com modelo GLB baixam o arquivo aqui (só ao escolher o mapa)
   if(!CAOS.maps[mapId]||!CAOS.modes[modeId]) throw new Error('Arquivo do mapa/modo não registrou '+mapId+'/'+modeId);
  };
 })();

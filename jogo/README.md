@@ -11,7 +11,7 @@ js/
   lobby/                lobby.js (perfil, amigos, menus, escolha de modo/mapa, DECOLAR)
   sistemas/             utils, estado, config, economia/loja, layout-hud   (carregam no lobby)
                         movimento, entidades, combate, loop, entrada, hud, render3d   (carregam ao jogar)
-  personagens/          skins.js, modelos.js, modelos-armas.js, animacoes.js   (legado.js = antigo, não carrega)
+  personagens/          skins.js, modelos.js, modelos-armas.js, armas-3d.js, armas-glb.js, animacoes.js
   mapas/<id>/mapa.js    um mapa por pasta (ilha, estande) + _modelo
   modos/<id>/modo.js    um modo por pasta (treino, solo1v1, estande) + _modelo
 ```

@@ -33,7 +33,7 @@ function draw(){
  if(w.fist){cx.font='28px sans-serif';cx.textAlign='center';cx.fillText('✊',752,42);cx.textAlign='left'}
  else if(w.ic){if(!w.img){w.img=new Image();w.img.src=w.ic}if(w.img.complete&&w.img.naturalWidth){const k=Math.min(72/w.img.naturalWidth,30/w.img.naturalHeight);cx.drawImage(w.img,716,14,w.img.naturalWidth*k,w.img.naturalHeight*k)}}
  else gun(722,22,p.w,'#ddd');
- if(S.mini){const mw=126,k=mw/W,mh=H*k;cx.save();cx.translate(10,50);
+ if(S.mini){const k=Math.min(126/W,150/H),mw=W*k,mh=H*k;cx.save();cx.translate(10,50);
   cx.fillStyle='#0a0720d0';cx.fillRect(0,0,mw,mh);cx.fillStyle='#7a4fd0';
   for(const[a,z,ww,hh]of walls)if(a>=0&&z>=0&&a<W&&z<H)cx.fillRect(a*k,z*k,Math.max(1,ww*k),Math.max(1,hh*k));
   cx.fillStyle='#2fcf5a';for(const q of G.kits)if(q.t<=0)cx.fillRect(q.x*k-1.5,q.y*k-1.5,3,3);

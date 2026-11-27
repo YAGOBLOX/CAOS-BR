@@ -9,15 +9,15 @@ function init3(){
  const c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d');
  M.drawFloor(g);CAOS.texLite(c);
  const tx=new THREE.CanvasTexture(c);tx.wrapS=tx.wrapT=THREE.RepeatWrapping;tx.repeat.set(W/160,H/160);tx.anisotropy=4;
- const flr=new THREE.Mesh(new THREE.PlaneGeometry(W,H),new THREE.MeshLambertMaterial({map:tx}));
- flr.rotation.x=-Math.PI/2;flr.position.set(W/2,0,H/2);flr.receiveShadow=true;sc.add(flr);
- const wt=new THREE.Mesh(new THREE.PlaneGeometry(8000,8000),new THREE.MeshLambertMaterial({color:M.waterColor||0x1e78c8}));wt.rotation.x=-Math.PI/2;wt.position.set(W/2,-3,H/2);sc.add(wt);
- const sd=new THREE.Mesh(new THREE.PlaneGeometry(W+160,H+160),new THREE.MeshLambertMaterial({color:0xd8c58f}));sd.rotation.x=-Math.PI/2;sd.position.set(W/2,-1,H/2);sc.add(sd);
+ const flr=M.noFloor?null:new THREE.Mesh(new THREE.PlaneGeometry(W,H),new THREE.MeshLambertMaterial({map:tx}));
+ if(flr){flr.rotation.x=-Math.PI/2;flr.position.set(W/2,0,H/2);flr.receiveShadow=true;sc.add(flr)}
+ const wt=new THREE.Mesh(new THREE.PlaneGeometry(8000,8000),new THREE.MeshLambertMaterial({color:M.waterColor||0x1e78c8}));wt.rotation.x=-Math.PI/2;wt.position.set(W/2,M.waterY!==undefined?M.waterY:-3,H/2);sc.add(wt);
+ if(!M.noFloor){const sd=new THREE.Mesh(new THREE.PlaneGeometry(W+160,H+160),new THREE.MeshLambertMaterial({color:0xd8c58f}));sd.rotation.x=-Math.PI/2;sd.position.set(W/2,-1,H/2);sc.add(sd)}
  
  const mt=f=>{const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');f(g);CAOS.texLite(c);const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=4;return t};
  const BR=mt(g=>{g.fillStyle='#c9bba5';g.fillRect(0,0,128,128);for(let y=0;y<8;y++)for(let x=0;x<5;x++){g.fillStyle=['#a4553a','#96482f','#b0633f','#8e4a33'][(x+y*3)%4];g.fillRect(x*32-(y%2?16:0)+1,y*16+1,30,14)}});
  const CN=mt(g=>{g.fillStyle='#b9b2a0';g.fillRect(0,0,128,128);for(let i=0;i<500;i++){g.fillStyle=i%2?'#a39c8a':'#c8c1b0';g.fillRect(Math.random()*128,Math.random()*128,2,2)}});
- for(const[a,z,w,h]of walls){
+ for(const[a,z,w,h]of (M.hideWalls?[]:walls)){
   const bw=a<0||z<0||a>=W||z>=H,hh=bw?M.boundaryHeight:(M.wallHeight||70),bd=bw,tw=(bd?CN:BR).clone();tw.needsUpdate=true;tw.repeat.set(Math.max(w,h)/64,hh/64);const side=new THREE.MeshLambertMaterial({map:tw}),top=new THREE.MeshLambertMaterial({color:bd?0xb5aa90:0x7a7770}),m=new THREE.Mesh(new THREE.BoxGeometry(w,hh,h),[side,side,top,top,side,side]);m.castShadow=m.receiveShadow=true;m.position.set(a+w/2,hh/2,z+h/2);sc.add(m);
   
  }

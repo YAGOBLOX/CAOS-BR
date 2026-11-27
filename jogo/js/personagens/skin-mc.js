@@ -39,7 +39,7 @@ function poseM(e,m,a,t){
  m.legR.position.y=m.legL.position.y=hipY;m.up.position.y=hipY+Math.abs(Math.sin(m.ph*3.2))*.3*am;m.up.rotation.x=.3*cs;
  m.head.rotation.x=-.25*cs;
  const lie=dead?1:ps;g.position.set(e.x,e.z+4*lie,e.y);g.rotation.set(0,-a,-1.5*lie);g.scale.setScalar(1);
- const wi=e.w===undefined?BOTW:e.w,has=!!m.gn.gs[wi];m.gn.gs.forEach((x,i)=>{if(x)x.visible=i===wi});
+ const wi=e.w===undefined?BOTW:e.w,has=!!m.gn.gs[wi];m.gn.gs.forEach((x,i)=>{if(x){x.visible=i===wi;if(i===wi&&x.userData.need)x.userData.need()}});
  if(!dead){
   const hy=(hipY+10*Math.cos(.3*cs))*k-1;
   const rx=m.relax||0;m.gn.position.set(L(20+3*cs-3*rx,-2,ps),L(hy-14*rx,62,ps),3+2*rx);m.gn.rotation.z=ps*1.5708-.6*rx;m.gn.visible=true;
