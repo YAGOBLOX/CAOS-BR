@@ -18,7 +18,7 @@
    if(grp&&M.lv)return Promise.resolve();
    // chão por camadas (escadas/andares): arquivo binário gerado do modelo (ver CLAUDE.md v34)
    const lvP=M.lv?Promise.resolve():fetch('modelos/mapas/clocktower.bin?v='+CAOS.ver).then(r=>r.arrayBuffer()).then(b=>{const u=new Uint32Array(b,0,3),nx=u[0],nz=u[1],n=u[2],o=12+4*(nx*nz+1);
-    const sc=a=>a.map(v=>Math.round(v*K));M.lv={nx,nz,cs:17*K,k:K,idx:new Uint32Array(b,12,nx*nz+1),lh:sc(new Int16Array(b,o,n)),lc:sc(new Int16Array(b,o+2*n,n)),lt:sc(new Int16Array(b,o+4*n,n))}});
+    const sc=a=>a.map(v=>Math.round(v*K));M.lv={nx,nz,cs:8.5*K,k:K,idx:new Uint32Array(b,12,nx*nz+1),lh:sc(new Int16Array(b,o,n)),lc:sc(new Int16Array(b,o+2*n,n)),lt:sc(new Int16Array(b,o+4*n,n))}});
    if(grp)return lvP;
    return pend||(pend=lvP.then(()=>new Promise((ok,fail)=>{
     const t=setTimeout(()=>{pend=null;fail(new Error('O mapa demorou demais para carregar. Verifique a internet e tente de novo.'))},60000);

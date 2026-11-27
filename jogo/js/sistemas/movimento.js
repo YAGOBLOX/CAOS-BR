@@ -11,7 +11,7 @@ function grav(e,dt){const g=gnd(e);e.vz-=900*dt;e.z+=e.vz*dt;if(e.z<g){e.z=(e.vz
 const onGnd=e=>e.z<=gnd(e)+.5;
 function hitW(x,y,r,z){
  for(const[a,b,w,h]of walls){const nx=cl(x,a,a+w),ny=cl(y,b,b+h);if((x-nx)**2+(y-ny)**2<r*r)return 1}
- if(CAOS.lv){z=z||0;const q=Math.min(r,10)*.8;return(flr(x,y,z)===null||flr(x+q,y,z)===null||flr(x-q,y,z)===null||flr(x,y+q,z)===null||flr(x,y-q,z)===null)?1:0}
+ if(CAOS.lv){z=z||0;const q=Math.min(r,10)*.6;return(flr(x,y,z)===null||flr(x+q,y,z)===null||flr(x-q,y,z)===null||flr(x,y+q,z)===null||flr(x,y-q,z)===null)?1:0}
  return 0}
 function hitWH(x,y,h){
  if(CAOS.lv){const c=lcell(x,y);if(c<0)return h<22?1:0;const m=CAOS.lv;for(let l=m.idx[c];l<m.idx[c+1];l++){const b=m.lh[l]+m.lc[l];if(h>=b&&h<=b+m.lt[l]+8)return 1}return 0}

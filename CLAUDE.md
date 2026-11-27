@@ -173,3 +173,8 @@ Mensagens curtas em português, no imperativo (ex.: "Corrige tela esticada no ce
 - Skin com campo `glb` em `CAOS.SKINS` (ex.: `gojo`, `modelos/skins/gojo.glb`): `CAOS.loadSkinTex()` baixa o GLB (`CAOS.skinGlb[id]`) e `xbotBody()` chama `xbGlbSkin()` (fim de `modelos.js`): a malha é escalada para a altura do Xbot, os braços (pose A) são girados até a horizontal e esticados até o braço do Xbot, e cada vértice COPIA os pesos do vértice do Xbot mais próximo → vira `SkinnedMesh` no MESMO esqueleto (anda/corre/agacha/deita/segura arma como o Xbot). Corpo do Xbot fica `visible=false`. `m.nw=1` desliga o afinamento de cintura (`poseX`). Se falhar, cai na roupa Oni.
 - Para nova skin GLB sem esqueleto: pose em A com braços caídos ~56° da vertical, ombro em (x=.78,y=5.45) e altura 6,74 (constantes `PX,PY,GH,ANG` em `xbGlbSkin`; ajuste para o modelo novo). Frente = +z.
 - Animações: só as do Xbot (idle/walk/run) + código. Não há download de animações (sem rede). Pulo: `m.jj` em `poseX` (joelhos dobrados); `p.vt` (loop.js) marca pulo por cima de parede/janela → pernas recolhidas e tronco inclinado.
+
+## v40: ajustes da skin GOJO e colisão mais fina
+- `xbGlbSkin`: pesos copiados só do MESMO lado (pernas não se misturam); barra do casaco usa só o osso do quadril (não abre feito saia); as pernas do Gojo são recentralizadas no eixo das pernas do Xbot (faixas de altura `NB`), senão ficavam abertas em "A".
+- Colisão do clocktower refeita com células de 0,25 do modelo (`cs:8.5*K` em `mapa.js`, `.bin` de ~1 MB; passo de amostragem 0,1) e sondas de colisão menores (`.6*r`): menos espaço entre personagem e parede.
+- Guarda do punho: alvos das mãos em coordenadas do corpo (`m.g.localToWorld`).

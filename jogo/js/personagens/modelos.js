@@ -131,11 +131,17 @@ function xbGlbSkin(root,M,sk){
  const H=y1-y0,inv=new THREE.Matrix4().copy(sm.matrixWorld).invert(),bp=nm=>{const b=root.getObjectByName('mixamorig'+nm);return b.getWorldPosition(new THREE.Vector3()).applyMatrix4(inv)};
  const ku=Math.abs(bp('LeftArm').y)>H*5?.01:1,shX=Math.abs(bp('LeftArm').x)*ku,shY=bp('LeftArm').y*ku;   // (osso pode vir em cm e a malha em m)
  // grade espacial do corpo do Xbot
- const cs=H/45,gr=new Map(),key=(x,y,z)=>Math.floor(x/cs)+','+Math.floor(y/cs)+','+Math.floor(z/cs);
- for(let i=0;i<n;i++){const k=key(SP.getX(i),SP.getY(i),SP.getZ(i));let a=gr.get(k);if(!a)gr.set(k,a=[]);a.push(i)}
- const near=(x,y,z)=>{const cx=Math.floor(x/cs),cy=Math.floor(y/cs),cz=Math.floor(z/cs);
-  for(let r=1;r<=8;r++){let b=-1,bd=1e18;for(let a=-r;a<=r;a++)for(let c=-r;c<=r;c++)for(let d=-r;d<=r;d++){if(Math.max(Math.abs(a),Math.abs(c),Math.abs(d))!==r&&r>1)continue;const l=gr.get((cx+a)+','+(cy+c)+','+(cz+d));if(!l)continue;for(const i of l){const q=(SP.getX(i)-x)**2+(SP.getY(i)-y)**2+(SP.getZ(i)-z)**2;if(q<bd){bd=q;b=i}}}
+ const cs=H/45,gr=[new Map(),new Map(),new Map()],key=(x,y,z)=>Math.floor(x/cs)+','+Math.floor(y/cs)+','+Math.floor(z/cs),cmx=Math.abs;
+ for(let i=0;i<n;i++){const x=SP.getX(i),k=key(x,SP.getY(i),SP.getZ(i));for(const gi of[2,x>=0?1:0]){let a=gr[gi].get(k);if(!a)gr[gi].set(k,a=[]);a.push(i)}}
+ // lado: 0/1 = só vértices do mesmo lado (pernas não se misturam), 2 = qualquer
+ const near=(x,y,z,side)=>{const G=gr[side],cx=Math.floor(x/cs),cy=Math.floor(y/cs),cz=Math.floor(z/cs);
+  for(let r=1;r<=8;r++){let b=-1,bd=1e18;for(let a=-r;a<=r;a++)for(let c=-r;c<=r;c++)for(let d=-r;d<=r;d++){if(Math.max(cmx(a),cmx(c),cmx(d))!==r&&r>1)continue;const l=G.get((cx+a)+','+(cy+c)+','+(cz+d));if(!l)continue;for(const i of l){const q=(SP.getX(i)-x)**2+(SP.getY(i)-y)**2+(SP.getZ(i)-z)**2;if(q<bd){bd=q;b=i}}}
    if(b>=0)return b}return 0};
+ const bones=sm.skeleton.bones,hipsI=bones.findIndex(b=>/Hips$/.test(b.name)),legI=new Set();bones.forEach((b,i)=>{if(/(UpLeg|Leg|Foot|Toe)/.test(b.name)&&!/Arm/.test(b.name))legI.add(i)});
+ // centro (|x| médio) das pernas do Xbot por faixa de altura: as pernas do GOJO (afastadas na pose original) são trazidas para o mesmo eixo
+ const NB=14,bx=new Float32Array(NB),bc=new Float32Array(NB),top=y0+H*.6;
+ for(let i=0;i<n;i++){const y=SP.getY(i);if(y<top){const b=Math.min(NB-1,Math.floor((y-y0)/(top-y0)*NB));bx[b]+=Math.abs(SP.getX(i));bc[b]++}}
+ for(let b=0;b<NB;b++)bx[b]=bc[b]?bx[b]/bc[b]:0;
  src.updateMatrixWorld(true);
  const GH=6.74,f=H/GH,PX=.78,PY=5.45,AL=3.52-PX,ANG=0.974,cA=Math.cos(ANG),sA=Math.sin(ANG),r=(tip-shX)/(AL*f),dyS=shY-(y0+(PY+.015)*f);
  const sst=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t)};
@@ -147,7 +153,16 @@ function xbGlbSkin(root,M,sk){
     if(w>0){const dx=ax-PX,dy=y-PY,a=ANG*w,ca=Math.cos(a),sa=Math.sin(a);let nx=dx*ca-dy*sa,ny=dx*sa+dy*ca;if(nx>0)nx=nx*(1+(r*f/f-1)*w*1);x=sg*(PX+nx);y=PY+ny}}   // gira (e depois estica) o braço
    const X=x*f,Y=y0+(y+.015)*f+0,Z=(z+.06)*f;
    P.setXYZ(i,X,Y,Z);
-   const j=near(X,Y,Z);for(let k=0;k<4;k++){idx[i*4+k]=SI.getComponent?SI.getComponent(j,k):SI.array[j*4+k];wt[i*4+k]=SW.array[j*4+k]}
+  }
+  if(/0027/.test(o.name)){   // calça/pernas: centraliza cada faixa de altura no eixo da perna do Xbot
+   const gx=new Float32Array(NB),gc=new Float32Array(NB);for(let i=0;i<m;i++){const y=P.getY(i);if(y<top){const b=Math.min(NB-1,Math.floor((y-y0)/(top-y0)*NB));gx[b]+=Math.abs(P.getX(i));gc[b]++}}
+   const dl=new Float32Array(NB);for(let b=0;b<NB;b++)dl[b]=gc[b]?(bx[b]-gx[b]/gc[b]):0;
+   for(let i=0;i<m;i++){const y=P.getY(i),x=P.getX(i);if(y>=top)continue;const u=Math.max(0,Math.min(NB-1.001,(y-y0)/(top-y0)*NB-.5)),b0=Math.floor(u),d=dl[b0]+(dl[b0+1]-dl[b0])*(u-b0),fd=y>y0+H*.5?Math.max(0,1-(y-y0-H*.5)/(H*.1)):1,sg=x<0?-1:1;P.setX(i,sg*Math.max(.004,Math.abs(x)+d*fd))}
+  }
+  for(let i=0;i<m;i++){const X=P.getX(i),Y=P.getY(i),Z=P.getZ(i),tl=/0034/.test(o.name)&&Math.abs(X)<H*.22&&Y<y0+H*.62;
+   const low=Y<y0+H*.5,j=near(X,Y,Z,low&&Math.abs(X)>H*.012?(X>=0?1:0):2);
+   for(let k=0;k<4;k++){let b=SI.array[j*4+k];if(tl&&legI.has(b))b=hipsI;   // barra do casaco acompanha o quadril (não abre feito saia)
+    idx[i*4+k]=b;wt[i*4+k]=SW.array[j*4+k]}
   }
   g.setAttribute('skinIndex',new THREE.BufferAttribute(idx,4));g.setAttribute('skinWeight',new THREE.BufferAttribute(wt,4));
   const mm=o.material,tx=mm.map;if(tx)tx.encoding=THREE.LinearEncoding;

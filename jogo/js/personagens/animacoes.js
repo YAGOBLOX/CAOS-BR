@@ -85,7 +85,7 @@ function poseX(e,m,a,t){
   let fg=has?Math.min(foreOf(wi),9):8,T1=m.gn.localToWorld(new THREE.Vector3(0,-.4,.4)),T2=m.gn.localToWorld(new THREE.Vector3(fg,-1.4,-3.2));
   if(!has){   // PUNHO: guarda de boxe; ao socar, a mão da vez estica para a frente (sem arma, sem rastro de tiro)
    const k=e.pn>0?Math.sin(Math.PI*Math.min(1,1-e.pn/.3)):0,P=(x,y,z)=>m.gn.localToWorld(new THREE.Vector3(x,y,z));
-   T1=P(3+(e.pa?0:20)*k,2.5,3.4);T2=P(3+(e.pa?20:0)*k,2,-3.4)}
+   const hy=m.gn.position.y;T1=m.g.localToWorld(new THREE.Vector3(13+(e.pa?0:24)*k,hy+8,5.5));T2=m.g.localToWorld(new THREE.Vector3(13+(e.pa?24:0)*k,hy+6,-5.5))}   // guarda: mãos na frente do peito/queixo
   const pl=(sg)=>down.clone().multiplyScalar(1-ps*.7).addScaledVector(side,sg*(.9+ps*.6));   // cotovelo sempre para fora (a mão não cruza o corpo)
   const b=m.bn;ik2(b.rU,b.rF,b.rH,T1,pl(1));ik2(b.lU,b.lF,b.lH,T2,pl(-1));
  }else m.gn.visible=false;
