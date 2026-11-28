@@ -1,4 +1,4 @@
-# CAOS BR FPS — jogo (v43: lobby corrigido + carregamento real)
+# CAOS BR FPS — jogo (v44: tela de carregamento nova)
 
 Abra `index.html` direto no navegador para testar (precisa de internet só para o three.js).
 
@@ -11,9 +11,11 @@ Só o **lobby** e o **boneco principal** (o primeiro modelo simples do jogo). No
 - Se o three.js/WebGL falhar, fica a própria imagem como fundo (CSS de `#lbg`).
 - Para ajustar o boneco: `CZ` em `heroi3d.js`; área de arrastar: `#hero` em `css/lobby.css`.
 
-## Carregamento de verdade (v43)
-- `js/lobby/partida.js`: lista `CAOS.partida.tarefas` (`{nome,peso,run}`; hoje motor 3D/boneco e a arma equipada) e `CAOS.entrarNaPartida(fim)`. Mapas/modos futuros devem **registrar suas tarefas ali**.
-- `js/lobby/transicao.js`: `CAOS.transicao({progresso,pronto,fim,minimo,maximo})`. Aparece ao clicar DECOLAR, fica em loop (novas rajadas, furos antigos somem) e só sai quando tudo carregou, passou o mínimo (3,2 s) e a barra chegou a 100%. Falha de uma tarefa não trava. Tempo máximo 25 s (sai com `fim(false)`).
+## Tela de carregamento (v44)
+- Aparece ao clicar DECOLAR (não mostra o jogo direto). `js/lobby/transicao.js`: canvas 2D 800x450 (desenhado em 1,5x) com cena em loop: dois soldados atrás de barreiras trocando tiros + dois duelistas ao fundo (profundidade), skyline com paralaxe, rastros, clarão no cano, cápsulas, fumaça, faíscas, marcas de bala, brasas, título com glitch e **rachaduras de vidro** que surgem conforme o progresso (5 rachaduras). Embaixo: barra inclinada e segmentada com porcentagem, nome do recurso que carrega e dica.
+- `CAOS.transicao({progresso,pronto,texto,fim,minimo,maximo})`: só sai quando tudo carregou, passou o mínimo (3,8 s) e a barra chegou a 100%. Falha de tarefa não trava. Máximo 25 s (`fim(false)`). Tudo é desenhado por código (sem imagens).
+- `js/lobby/partida.js`: tarefas de carregamento `{nome,peso,run,liberar?,p?}` (hoje: motor 3D/boneco e arma equipada). **Preparado para mapas, ainda sem implementar:** `CAOS.partida.extra()` devolverá só as tarefas do mapa escolhido e `CAOS.partida.descarregar()` chama o `liberar` do mapa anterior ao trocar.
+- Para mudar cores/tempos: cenário em `transicao.js` (bloco "cenário parado"), soldados em `S`/`soldier()`, dicas em `TIPS`.
 
 ```
 index.html              lobby
