@@ -3,14 +3,14 @@
 .btn:active{transform:scale(.96);background:#3e3763}
 .btn i{font-style:normal;font-size:14px}
 .ver{position:absolute;right:10px;bottom:0;font-size:7px;color:#caa13b}
-#hero{position:absolute;left:50%;top:60px;width:150px;height:310px;margin-left:-75px;pointer-events:none}   /* área de arrastar do boneco 3D (vazia; o boneco é desenhado em #lbg3d) */
+#hero{position:absolute;left:50%;top:168px;width:130px;height:214px;margin-left:-65px;pointer-events:none}   /* área de arrastar do boneco 3D (vazia; o boneco é desenhado em #lbg3d) */
 
 /* FUNDO DO LOBBY: só um degradê escuro enquanto o lobby 3D carrega (nada de desenho 2D antigo); a cena 3D entra com fade. */
-#lbg{position:absolute;inset:0;pointer-events:none;overflow:hidden;background:radial-gradient(ellipse at 50% 55%,#2a1a4d 0,#150c2b 55%,#0b0614 100%)}
+#lbg{position:absolute;inset:0;pointer-events:none;overflow:hidden;background:#150c2b url(../img/lobby/fundo.jpg?v=42) center/100% 100% no-repeat}   /* a imagem aparece na hora; a cena 3D (igual a ela) entra por cima */
 /* v28: lobby 3D de verdade (heroi3d.js). */
 #lbg3d{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .45s}
 #lbg.on3d #lbg3d{opacity:1}
-#hero.is3d{pointer-events:auto;touch-action:none;cursor:grab;left:50%;top:60px;width:150px;height:310px;margin-left:-75px}
+#hero.is3d{pointer-events:auto;touch-action:none;cursor:grab}
 #hero.is3d:active{cursor:grabbing}
 
 /* v29: lobby no estilo do pacote "botoes-lobby-v2" do dono (v41: só perfil, moedas e DECOLAR). Medidas = pacote (cqw) x 8 px (palco 800px). */
@@ -26,3 +26,6 @@
 .lplay{position:absolute;right:4px;bottom:7.2px;width:170.4px;display:flex;flex-direction:column;gap:4.8px}
 .lplay .pstart{height:35.2px;font-size:24px;font-weight:800;letter-spacing:.03em;color:#1a1306!important;background:linear-gradient(180deg,#ffe85a 0,#ffd21e 45%,#f19a00 100%)!important;border:1px solid #8a5a00!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.6);clip-path:polygon(9.6px 0,100% 0,100% 100%,0 100%);transition:filter .12s,transform .08s}
 .pstart:active{transform:scale(.97);filter:brightness(1.07)}
+
+/* transição do DECOLAR (canvas 2D por cima do lobby; ver js/lobby/transicao.js) */
+#trans{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:9;pointer-events:all}
