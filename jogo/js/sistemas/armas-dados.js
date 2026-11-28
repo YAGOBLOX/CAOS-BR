@@ -34,4 +34,4 @@ const WP=[
  // ===== punho: sempre disponível, sem munição =====
  {id:'punho',n:'PUNHO',em:'✊',fist:1,cd:.45,dm:20,mag:999,pel:1,sp:0,rl:0,life:.07,pr:0,d:'Corpo a corpo'}
 ];
-const FIST=WP.findIndex(w=>w.fist);
+

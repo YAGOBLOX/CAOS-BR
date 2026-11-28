@@ -127,6 +127,6 @@
     snow.geometry.attributes.position.needsUpdate=true}
    r.render(sc,cam);
    if(!shown){shown=true;lbg.classList.add('on3d');CAOS.lobbyOk&&CAOS.lobbyOk()}   // a imagem de fundo (CSS) dá lugar à cena 3D sem "pulo": as duas são iguais
-   CAOS.gfxTick&&CAOS.gfxTick()})();
+   })();
  }).catch(err=>{console.warn('lobby 3D falhou, ficou só a imagem de fundo',err);CAOS.lobbyOk&&CAOS.lobbyOk()});
 })();
