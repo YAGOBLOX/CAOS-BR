@@ -1,4 +1,4 @@
-# CAOS BR FPS — jogo (v45: botões do lobby + carregamento ligado ao JOGAR do site)
+# CAOS BR FPS — jogo (v46: botões do lobby ajustados)
 
 Abra `index.html` direto no navegador para testar (precisa de internet só para o three.js).
 
@@ -14,7 +14,8 @@ Só o **lobby** e o **boneco principal** (o primeiro modelo simples do jogo). No
 ## Botões do lobby (v45)
 - Recriados da imagem de botões do dono. Moldura em CSS (`.gb`, fim de `css/lobby.css`; medidas em px do palco 800x450) + ícones recortados da imagem em `img/ui/*.png` (fundo transparente). Markup em `#ui` do `index.html`.
 - Perfil (avatar, nome, LV), moedas e diamantes (com **+**), 4 ícones no topo (amigos, mensagens com selo, configurações, conexão), menu da esquerda (COFRE, LOJA, MISSÕES, EVENTOS, AMIGOS), chat embaixo e DECOLAR. A barra escura do topo segue o mockup.
-- **Só visual por enquanto:** todos abrem um aviso "em breve" (`lobby.js`). Valores de exemplo do mockup: `LV. 32`, diamantes `100`, texto do chat. O nome vem do `localStorage` (`nick`) e as moedas de `economia.js`. Ids que o JS usa: `#nick`, `#coins`, `#go`.
+- v46: botões menores e mais juntos (barra do topo com 40 px); **sem indicação de nível** (sem sistema de nick/nível ainda); **chat vazio** (só moldura e ícone); selo vermelho das cartas **escondido por padrão** — `CAOS.avisoCartas(qtd)` (em `lobby.js`) mostra/esconde quando existir sistema de mensagens.
+- **Só visual por enquanto:** todos abrem um aviso "em breve" (`lobby.js`). Diamantes `100` é valor de exemplo do mockup. O nome vem do `localStorage` (`nick`) e as moedas de `economia.js`. Ids que o JS usa: `#nick`, `#coins`, `#go`.
 
 ## Tela de carregamento (v44/v45)
 - **Quem aciona é o botão verde JOGAR do SITE**: ele cria o iframe do jogo; ao abrir, `lobby.js` chama `CAOS.iniciarJogo()` e a animação cobre o jogo até tudo estar pronto, depois revela o lobby. DECOLAR (amarelo, dentro do jogo) não tem relação com ela.

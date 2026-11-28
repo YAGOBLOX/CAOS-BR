@@ -7,9 +7,9 @@
 <title>Caos BR FPS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/base.css?v=45">
-<link rel="stylesheet" href="css/lobby.css?v=45">
-<link rel="stylesheet" href="css/overlay.css?v=45">
+<link rel="stylesheet" href="css/base.css?v=46">
+<link rel="stylesheet" href="css/lobby.css?v=46">
+<link rel="stylesheet" href="css/overlay.css?v=46">
 </head>
 <body>
 <div id="wrap"><div id="stage">
@@ -17,37 +17,37 @@
  <div id="hero"></div>
  <div id="ui">
   <div class="utop"></div>
-  <div class="gb prof" data-p="Perfil"><img class="av" src="img/ui/avatar.png" alt=""><div class="pn"><b id="nick">JOGADOR_01</b><i>CAOS BR</i></div><span class="lv">LV. 32</span></div>
+  <div class="gb prof" data-p="Perfil"><img class="av" src="img/ui/avatar.png" alt=""><div class="pn"><b id="nick">JOGADOR_01</b><i>CAOS BR</i></div></div>
   <div class="gb cur c1" data-p="Moedas"><img src="img/ui/moeda.png" alt=""><b id="coins">21130</b><i class="plus"></i></div>
   <div class="gb cur c2" data-p="Diamantes"><img src="img/ui/diamante.png" alt=""><b>100</b><i class="plus"></i></div>
   <button class="gb ib i1" data-p="Amigos" aria-label="Amigos"><img src="img/ui/amigos2.png" alt=""></button>
-  <button class="gb ib i2" data-p="Mensagens" aria-label="Mensagens"><img src="img/ui/mail.png" alt=""><em class="bdg">1</em></button>
+  <button class="gb ib i2" data-p="Mensagens" aria-label="Mensagens"><img src="img/ui/mail.png" alt=""><em class="bdg" id="bdgMail" hidden></em></button>
   <button class="gb ib i3" data-p="Configurações" aria-label="Configurações"><img src="img/ui/gear.png" alt=""></button>
   <button class="gb ib i4" data-p="Conexão" aria-label="Conexão"><img src="img/ui/wifi.png" alt=""></button>
   <nav class="umenu">
-   <button class="gb mb" data-p="Cofre" style="top:116px"><img src="img/ui/cofre.png" alt=""><span>COFRE</span><svg viewBox="0 0 10 14"><path d="M2.5 2l5 5-5 5"/></svg></button>
-   <button class="gb mb" data-p="Loja" style="top:162px"><img src="img/ui/loja.png" alt=""><span>LOJA</span><svg viewBox="0 0 10 14"><path d="M2.5 2l5 5-5 5"/></svg></button>
-   <button class="gb mb" data-p="Missões" style="top:209px"><img src="img/ui/missoes.png" alt=""><span>MISSÕES</span><svg viewBox="0 0 10 14"><path d="M2.5 2l5 5-5 5"/></svg></button>
-   <button class="gb mb" data-p="Eventos" style="top:255px"><img src="img/ui/eventos.png" alt=""><span>EVENTOS</span><svg viewBox="0 0 10 14"><path d="M2.5 2l5 5-5 5"/></svg></button>
-   <button class="gb mb" data-p="Amigos" style="top:300px"><img src="img/ui/amigos.png" alt=""><span>AMIGOS</span><svg viewBox="0 0 10 14"><path d="M2.5 2l5 5-5 5"/></svg></button>
+   <button class="gb mb" data-p="Cofre" style="top:104px"><img src="img/ui/cofre.png" alt=""><span>COFRE</span><svg viewBox="0 0 10 14"><path d="M2.5 2l5 5-5 5"/></svg></button>
+   <button class="gb mb" data-p="Loja" style="top:142px"><img src="img/ui/loja.png" alt=""><span>LOJA</span><svg viewBox="0 0 10 14"><path d="M2.5 2l5 5-5 5"/></svg></button>
+   <button class="gb mb" data-p="Missões" style="top:180px"><img src="img/ui/missoes.png" alt=""><span>MISSÕES</span><svg viewBox="0 0 10 14"><path d="M2.5 2l5 5-5 5"/></svg></button>
+   <button class="gb mb" data-p="Eventos" style="top:218px"><img src="img/ui/eventos.png" alt=""><span>EVENTOS</span><svg viewBox="0 0 10 14"><path d="M2.5 2l5 5-5 5"/></svg></button>
+   <button class="gb mb" data-p="Amigos" style="top:256px"><img src="img/ui/amigos.png" alt=""><span>AMIGOS</span><svg viewBox="0 0 10 14"><path d="M2.5 2l5 5-5 5"/></svg></button>
   </nav>
-  <button class="gb chat" data-p="Chat"><span class="ci"><img src="img/ui/chat.png" alt=""></span><span class="ct"><u>[Mundo]</u> NOBRU: Bora jogar?</span></button>
+  <button class="gb chat" data-p="Chat"><span class="ci"><img src="img/ui/chat.png" alt=""></span></button>
   <div class="dec"><button id="go" class="decb"><span class="dk"><img src="img/ui/logo.png" alt=""></span><b>DECOLAR</b></button></div>
  </div>
  <div class="ver">BETA 1.0.0</div>
  <div class="ov" id="ov"><div class="card" id="card"></div></div>
 </div></div>
 <!-- Só o essencial do lobby carrega aqui. three.js e o boneco são carregados em segundo plano (carregamento/carregador.js). -->
-<script src="js/sistemas/utils.js?v=45"></script>
-<script src="js/carregamento/manifesto.js?v=45"></script>
-<script src="js/carregamento/carregador.js?v=45"></script>
-<script src="js/sistemas/overlay.js?v=45"></script>
-<script src="js/sistemas/graficos.js?v=45"></script>
-<script src="js/sistemas/armas-dados.js?v=45"></script>
-<script src="js/sistemas/economia.js?v=45"></script>
-<script src="js/lobby/transicao.js?v=45"></script>
-<script src="js/lobby/partida.js?v=45"></script>
-<script src="js/lobby/lobby.js?v=45"></script>
-<script src="js/lobby/heroi3d.js?v=45"></script>
+<script src="js/sistemas/utils.js?v=46"></script>
+<script src="js/carregamento/manifesto.js?v=46"></script>
+<script src="js/carregamento/carregador.js?v=46"></script>
+<script src="js/sistemas/overlay.js?v=46"></script>
+<script src="js/sistemas/graficos.js?v=46"></script>
+<script src="js/sistemas/armas-dados.js?v=46"></script>
+<script src="js/sistemas/economia.js?v=46"></script>
+<script src="js/lobby/transicao.js?v=46"></script>
+<script src="js/lobby/partida.js?v=46"></script>
+<script src="js/lobby/lobby.js?v=46"></script>
+<script src="js/lobby/heroi3d.js?v=46"></script>
 </body>
 </html>
