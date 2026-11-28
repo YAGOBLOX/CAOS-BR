@@ -17,6 +17,11 @@ Só o **lobby** e o **boneco principal** (o primeiro modelo simples do jogo). No
 - v46: botões menores e mais juntos (barra do topo com 40 px); **sem indicação de nível** (sem sistema de nick/nível ainda); **chat vazio** (só moldura e ícone); selo vermelho das cartas **escondido por padrão** — `CAOS.avisoCartas(qtd)` (em `lobby.js`) mostra/esconde quando existir sistema de mensagens.
 - **Só visual por enquanto:** todos abrem um aviso "em breve" (`lobby.js`). Diamantes `100` é valor de exemplo do mockup. O nome vem do `localStorage` (`nick`) e as moedas de `economia.js`. Ids que o JS usa: `#nick`, `#coins`, `#go`.
 
+## Música e configurações (v49)
+- `audio/espirito-natalino.mp3` toca no lobby assim que o jogo abre (`CAOS.musica.iniciar()` em `lobby.js`), em **loop sem pausa** (`js/sistemas/musica.js`, Web Audio: o silêncio das pontas é cortado do loop e há um limitador contra estouro). Se o navegador bloquear o som, começa no 1º toque.
+- Engrenagem do lobby → painel **CONFIGURAÇÕES** (`js/lobby/config.js`, `css/config.css`; abas à esquerda, aba "Configurações Gerais"): **Música do lobby** (faixa "Espírito Natalino") e **Volume da música** 0–100%. Em **0%** a música para e o áudio é liberado da memória. Salvo em `localStorage` `mus`.
+- Nova faixa: MP3 em `audio/` + uma linha em `FAIXAS` (musica.js).
+
 ## Tela de carregamento (v44/v45)
 - **Quem aciona é o botão verde JOGAR do SITE**: ele cria o iframe do jogo; ao abrir, `lobby.js` chama `CAOS.iniciarJogo()` e a animação cobre o jogo até tudo estar pronto, depois revela o lobby. DECOLAR (amarelo, dentro do jogo) não tem relação com ela.
 - `js/lobby/transicao.js`: canvas 2D 800x450 (desenhado em 1,5x) com cena em loop: dois soldados atrás de barreiras trocando tiros + dois duelistas ao fundo, skyline com paralaxe, rastros, clarão no cano, cápsulas, fumaça, faíscas, marcas de bala, brasas, título com glitch e **rachaduras de vidro** que surgem conforme o progresso. Embaixo: barra inclinada e segmentada com porcentagem, nome do recurso que carrega e dica.
