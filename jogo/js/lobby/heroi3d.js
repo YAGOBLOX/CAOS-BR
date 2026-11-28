@@ -126,7 +126,7 @@
    if(snow){const sd=snow.userData.sd;for(let i=0;i<NS;i++){const d=sd[i*3];let y=sp[i*3+1]-sd[i*3+1]*dt;if(y<HE-.38*d)y=HE+.46*d;sp[i*3+1]=y;sp[i*3]+=Math.sin(t*.8+sd[i*3+2])*dt*3}
     snow.geometry.attributes.position.needsUpdate=true}
    r.render(sc,cam);
-   if(!shown){shown=true;lbg.classList.add('on3d')}   // a imagem de fundo (CSS) dá lugar à cena 3D sem "pulo": as duas são iguais
+   if(!shown){shown=true;lbg.classList.add('on3d');CAOS.lobbyOk&&CAOS.lobbyOk()}   // a imagem de fundo (CSS) dá lugar à cena 3D sem "pulo": as duas são iguais
    CAOS.gfxTick&&CAOS.gfxTick()})();
- }).catch(err=>{console.warn('lobby 3D falhou, ficou só a imagem de fundo',err)});
+ }).catch(err=>{console.warn('lobby 3D falhou, ficou só a imagem de fundo',err);CAOS.lobbyOk&&CAOS.lobbyOk()});
 })();

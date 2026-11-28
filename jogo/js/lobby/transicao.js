@@ -3,7 +3,8 @@
    (mais dois duelistas ao fundo), rastros se cruzando, clarão no cano, cápsulas, fumaça, faíscas, marcas nas barreiras, céu/skyline com
    paralaxe, brasas, título "CAOS BR FPS" com glitch, RACHADURAS de vidro que surgem conforme o progresso e barra inclinada embaixo.
    Só sai quando: pronto() é verdadeiro E passou o tempo mínimo E a barra chegou a 100%. Nunca antes; tempo máximo → fim(false).
-   Uso: CAOS.transicao({progresso:()=>0..1, pronto:()=>bool, texto:()=>'o que está carregando', fim:ok=>{}, minimo, maximo}) → {cancelar()}.
+   Uso: CAOS.transicao({progresso:()=>0..1, pronto:()=>bool, texto:()=>'o que está carregando', fim:ok=>{}, minimo, maximo, abertura:true, pausar:true}) → {cancelar()}.
+   abertura:false = começa direto na cena (sem as faixas de neon); pausar:false = não pausa o lobby 3D por baixo (precisa desenhar o 1º quadro).
    Quem decide o que é "carregar" é js/lobby/partida.js. Sem imagens, sem áudio, sem bibliotecas. */
 CAOS.transicao=function(o){
  o=o||{};const st=document.getElementById('stage');
@@ -156,12 +157,13 @@ CAOS.transicao=function(o){
  }
 
  // ---------- laço principal ----------
+ const OFF=o.abertura===false?.38:0;   // pula a abertura (as faixas) quando a tela abre sozinha ao iniciar o jogo
  let t0=null,tp=0,disp=0,te=null,cancel=false,tLento=0,gt=-9,shk=-9,flh=-9,tipI=-1;
  const TIPS=['USE A COBERTURA: PAREDE BOA VALE MAIS QUE VIDA EXTRA','RECARREGUE ANTES DE AVANÇAR, NÃO NO MEIO DO TIROTEO','MIRE NA CABEÇA, MAS NUNCA PARE DE SE MOVER','QUEM ATIRA SEM MIRAR REVELA ONDE ESTÁ','NÃO FIQUE PARADO: O CAOS NÃO ESPERA'];
  function frame(ts){
   if(cancel)return;
   if(t0===null){t0=ts;tp=ts}
-  const t=(ts-t0)/1000,dt=Math.min(.1,(ts-tp)/1000);tp=ts;
+  const t=(ts-t0)/1000+OFF,dt=Math.min(.1,(ts-tp)/1000);tp=ts;
   // ---- estado do carregamento ----
   const ok=!!pronto(),real=Math.max(0,Math.min(1,+prog()||0));
   const alvo=ok?1:Math.min(.96,Math.max(real*.94,disp))+(disp<.94?dt*.015:0);
@@ -169,11 +171,11 @@ CAOS.transicao=function(o){
   if(!ok&&disp>.96)disp=.96;
   if(te===null&&ok&&t>=MIN&&disp>.985)te=t;
   if(te===null&&t>=MAX){te=t;tLento=1}
-  if(t>.45&&CAOS.lobby)CAOS.lobby.paused=true;   // a tela já está coberta: poupa a GPU para o carregamento
+  if(t>.45&&o.pausar!==false&&CAOS.lobby)CAOS.lobby.paused=true;   // a tela já está coberta: poupa a GPU para o carregamento
   x.setTransform(RES,0,0,RES,0,0);x.clearRect(0,0,W,H);
 
   // ---- abertura: faixas de neon fecham a tela (0 → .38 s) ----
-  if(t<.4){
+  if(t<.4&&!OFF){
    const c=ease(lin(t,0,.38)),SL=140,xe=W/2+70,xl=-260+(xe+260)*c,xr=W+260+(xe-W-260)*c;
    x.fillStyle='rgba(8,5,16,'+(.98*Math.min(1,c*1.5))+')';
    x.beginPath();x.moveTo(-80,0);x.lineTo(xl,0);x.lineTo(xl-SL,H);x.lineTo(-80,H);x.fill();
@@ -287,7 +289,7 @@ CAOS.transicao=function(o){
    x.textAlign='center';x.font='600 12px '+FONT;try{x.letterSpacing='2px'}catch(e){}x.globalAlpha=a*Math.min(1,ph/.12,(1-ph)/.12)*.8;x.fillStyle='#d9c8a8';x.fillText('DICA · '+TIPS[ix%TIPS.length],W/2,438);
    try{x.letterSpacing='0px'}catch(e){}x.globalAlpha=1}
   // clarão de entrada
-  {const f=1-lin(ti,0,.45);if(f>0){x.fillStyle='rgba(255,226,170,'+f*.9+')';x.fillRect(0,0,W,H)}
+  {const f=1-lin(ti,0,.45);if(f>0){x.fillStyle=OFF?'rgba(7,4,15,'+f+')':'rgba(255,226,170,'+f*.9+')';x.fillRect(0,0,W,H)}
    const fk=1-lin(t-flh,0,.14);if(fk>0&&nCr>0){x.fillStyle='rgba(255,255,255,'+fk*.25+')';x.fillRect(0,0,W,H)}}
   // ---- saída: clarão e some ----
   if(te!==null){

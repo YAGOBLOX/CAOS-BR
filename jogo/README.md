@@ -1,9 +1,9 @@
-# CAOS BR FPS — jogo (v44: tela de carregamento nova)
+# CAOS BR FPS — jogo (v45: botões do lobby + carregamento ligado ao JOGAR do site)
 
 Abra `index.html` direto no navegador para testar (precisa de internet só para o three.js).
 
 ## O que existe agora
-Só o **lobby** e o **boneco principal** (o primeiro modelo simples do jogo). No lobby ficam o perfil, as moedas, o boneco 3D no centro do salão (arraste para girar) e o botão **DECOLAR**, que abre a **tela de carregamento** (faixas de neon, rajada de tiros, clarão, título e barra) e, por enquanto, termina com o aviso "EM BREVE", porque ainda não há mapas.
+Só o **lobby** e o **boneco principal** (o primeiro modelo simples do jogo). No lobby ficam o perfil, as moedas, o boneco 3D no centro do salão (arraste para girar) e o botão **DECOLAR**, que por enquanto só mostra o aviso "EM BREVE" (ainda não há partidas). **O DECOLAR não dispara a tela de carregamento.**
 
 ## Lobby novo (v42, corrigido na v43)
 - Reproduz a imagem de referência do dono (salão de natal sci‑fi). `js/lobby/heroi3d.js` monta a cena: câmera 3D **igual à da imagem** + ~20 camadas de geometria 3D (céu, paisagem, varanda, piso, teto, paredes, pilar da bandeira, pódio, escada, presentes, tela, árvores, chapéu) com a textura `img/lobby/fundo.jpg` projetada **por pixel num shader** (*projective texture mapping*; a v42 calculava por vértice e distorcia piso/teto/guirlandas). Na posição inicial a tela fica idêntica à imagem; a câmera balança de leve e cada camada se move na sua profundidade.
@@ -11,11 +11,16 @@ Só o **lobby** e o **boneco principal** (o primeiro modelo simples do jogo). No
 - Se o three.js/WebGL falhar, fica a própria imagem como fundo (CSS de `#lbg`).
 - Para ajustar o boneco: `CZ` em `heroi3d.js`; área de arrastar: `#hero` em `css/lobby.css`.
 
-## Tela de carregamento (v44)
-- Aparece ao clicar DECOLAR (não mostra o jogo direto). `js/lobby/transicao.js`: canvas 2D 800x450 (desenhado em 1,5x) com cena em loop: dois soldados atrás de barreiras trocando tiros + dois duelistas ao fundo (profundidade), skyline com paralaxe, rastros, clarão no cano, cápsulas, fumaça, faíscas, marcas de bala, brasas, título com glitch e **rachaduras de vidro** que surgem conforme o progresso (5 rachaduras). Embaixo: barra inclinada e segmentada com porcentagem, nome do recurso que carrega e dica.
-- `CAOS.transicao({progresso,pronto,texto,fim,minimo,maximo})`: só sai quando tudo carregou, passou o mínimo (3,8 s) e a barra chegou a 100%. Falha de tarefa não trava. Máximo 25 s (`fim(false)`). Tudo é desenhado por código (sem imagens).
-- `js/lobby/partida.js`: tarefas de carregamento `{nome,peso,run,liberar?,p?}` (hoje: motor 3D/boneco e arma equipada). **Preparado para mapas, ainda sem implementar:** `CAOS.partida.extra()` devolverá só as tarefas do mapa escolhido e `CAOS.partida.descarregar()` chama o `liberar` do mapa anterior ao trocar.
-- Para mudar cores/tempos: cenário em `transicao.js` (bloco "cenário parado"), soldados em `S`/`soldier()`, dicas em `TIPS`.
+## Botões do lobby (v45)
+- Recriados da imagem de botões do dono. Moldura em CSS (`.gb`, fim de `css/lobby.css`; medidas em px do palco 800x450) + ícones recortados da imagem em `img/ui/*.png` (fundo transparente). Markup em `#ui` do `index.html`.
+- Perfil (avatar, nome, LV), moedas e diamantes (com **+**), 4 ícones no topo (amigos, mensagens com selo, configurações, conexão), menu da esquerda (COFRE, LOJA, MISSÕES, EVENTOS, AMIGOS), chat embaixo e DECOLAR. A barra escura do topo segue o mockup.
+- **Só visual por enquanto:** todos abrem um aviso "em breve" (`lobby.js`). Valores de exemplo do mockup: `LV. 32`, diamantes `100`, texto do chat. O nome vem do `localStorage` (`nick`) e as moedas de `economia.js`. Ids que o JS usa: `#nick`, `#coins`, `#go`.
+
+## Tela de carregamento (v44/v45)
+- **Quem aciona é o botão verde JOGAR do SITE**: ele cria o iframe do jogo; ao abrir, `lobby.js` chama `CAOS.iniciarJogo()` e a animação cobre o jogo até tudo estar pronto, depois revela o lobby. DECOLAR (amarelo, dentro do jogo) não tem relação com ela.
+- `js/lobby/transicao.js`: canvas 2D 800x450 (desenhado em 1,5x) com cena em loop: dois soldados atrás de barreiras trocando tiros + dois duelistas ao fundo, skyline com paralaxe, rastros, clarão no cano, cápsulas, fumaça, faíscas, marcas de bala, brasas, título com glitch e **rachaduras de vidro** que surgem conforme o progresso. Embaixo: barra inclinada e segmentada com porcentagem, nome do recurso que carrega e dica.
+- `CAOS.transicao({progresso,pronto,texto,fim,minimo,maximo,abertura,pausar})`: só sai quando tudo carregou, passou o mínimo (4,2 s) e a barra chegou a 100%. Falha de tarefa não trava. Máximo 25 s (`fim(false)`).
+- `js/lobby/partida.js`: tarefas `{nome,peso,run,liberar?,p?}` (fonte, imagens do lobby, motor 3D/boneco, arma equipada, 1ª imagem da cena 3D do lobby — `heroi3d.js` chama `CAOS.lobbyOk()`). **Preparado para mapas, ainda sem implementar:** `CAOS.partida.extra()` devolverá só as tarefas do mapa escolhido e `CAOS.partida.descarregar()` chama o `liberar` do mapa anterior ao trocar.
 
 ```
 index.html              lobby
