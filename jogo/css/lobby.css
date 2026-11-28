@@ -6,7 +6,7 @@
 #hero{position:absolute;left:50%;top:168px;width:130px;height:214px;margin-left:-65px;pointer-events:none}   /* área de arrastar do boneco 3D (vazia; o boneco é desenhado em #lbg3d) */
 
 /* FUNDO DO LOBBY: só um degradê escuro enquanto o lobby 3D carrega (nada de desenho 2D antigo); a cena 3D entra com fade. */
-#lbg{position:absolute;inset:0;pointer-events:none;overflow:hidden;background:#150c2b url(../img/lobby/fundo.jpg?v=50) center/100% 100% no-repeat}   /* a imagem aparece na hora; a cena 3D (igual a ela) entra por cima */
+#lbg{position:absolute;inset:0;pointer-events:none;overflow:hidden;background:#150c2b url(../img/lobby/fundo.jpg?v=51) center/100% 100% no-repeat}   /* a imagem aparece na hora; a cena 3D (igual a ela) entra por cima */
 /* v28: lobby 3D de verdade (heroi3d.js). */
 #lbg3d{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .45s}
 #lbg.on3d #lbg3d{opacity:1}
@@ -65,6 +65,20 @@ button.gb:active{transform:scale(.965);filter:drop-shadow(0 0 4px rgba(255,200,4
 .dk{position:absolute;left:0;top:0;bottom:0;width:56px;background:linear-gradient(180deg,#17141a,#08070a);clip-path:polygon(0 0,calc(100% + 18px) 0,100% 100%,0 100%);display:flex;align-items:center;justify-content:center;padding-right:2px;z-index:2}
 .dk img{height:31px;width:auto;margin-left:10px}
 .decb b{position:absolute;left:72px;right:24px;top:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:25.5px;font-weight:800;color:#15110a;letter-spacing:.3px;white-space:nowrap;line-height:1;padding-top:1px;z-index:3}
+
+/* botão MODOS (recriado da imagem do dono): cápsula preta com borda dourada, ícone de mapa, texto itálico e caixa com setas */
+#ui .modos{position:absolute;left:607px;top:321px;width:171px;height:44px;filter:drop-shadow(0 0 5px rgba(255,190,20,.55));transition:transform .08s}
+#ui .modos:active{transform:scale(.97)}
+.mo-cap,.mo-go{position:absolute;display:block}
+.mo-cap{left:0;top:3px;bottom:3px;width:36px;background:#e9ae1c;clip-path:polygon(8px 0,100% 0,100% 100%,8px 100%,0 calc(100% - 8px),0 8px)}
+.mo-cap::after{content:"";position:absolute;inset:1.6px 0 1.6px 1.6px;background:linear-gradient(180deg,#1a1a1a,#070707);clip-path:polygon(7px 0,100% 0,100% 100%,7px 100%,0 calc(100% - 7px),0 7px)}
+.mo-pin{position:absolute;left:5px;top:0;width:24px;height:auto;z-index:2}
+.mo-bar{position:absolute;left:34px;right:26px;top:4px;bottom:4px;border-top:1.6px solid #f2b81f;border-bottom:1.6px solid #f2b81f;background:linear-gradient(180deg,#141414,#050505);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.mo-bar::after{content:"";position:absolute;right:0;top:0;bottom:0;width:62%;background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03));clip-path:polygon(14px 0,100% 0,100% 100%,0 100%);pointer-events:none}
+.mo-bar b{position:relative;z-index:1;font-size:21px;font-weight:800;letter-spacing:1px;color:#fff;transform:skewX(-9deg);line-height:1;padding-top:1px;margin-left:-8px}
+.mo-go{right:0;top:0;bottom:0;width:31px;background:#e9ae1c;clip-path:polygon(7px 0,calc(100% - 7px) 0,100% 7px,100% calc(100% - 7px),calc(100% - 7px) 100%,7px 100%,0 calc(100% - 7px),0 7px)}
+.mo-go::before{content:"";position:absolute;inset:2px;background:linear-gradient(180deg,#151515,#050505);clip-path:polygon(6px 0,calc(100% - 6px) 0,100% 6px,100% calc(100% - 6px),calc(100% - 6px) 100%,6px 100%,0 calc(100% - 6px),0 6px)}
+.mo-go img{position:absolute;left:50%;top:50%;width:15px;height:auto;transform:translate(-50%,-50%);z-index:1}
 
 /* tela de carregamento (canvas 2D por cima do lobby; ver js/lobby/transicao.js) */
 #trans{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:9;pointer-events:all}

@@ -7,10 +7,11 @@
 <title>Caos BR FPS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/base.css?v=50">
-<link rel="stylesheet" href="css/lobby.css?v=50">
-<link rel="stylesheet" href="css/overlay.css?v=50">
-<link rel="stylesheet" href="css/config.css?v=50">
+<link rel="stylesheet" href="css/base.css?v=51">
+<link rel="stylesheet" href="css/lobby.css?v=51">
+<link rel="stylesheet" href="css/overlay.css?v=51">
+<link rel="stylesheet" href="css/config.css?v=51">
+<link rel="stylesheet" href="css/selecao.css?v=51">
 </head>
 <body>
 <div id="wrap"><div id="stage">
@@ -33,24 +34,26 @@
    <button class="gb mb" data-p="Amigos" style="top:256px"><img src="img/ui/amigos.png" alt=""><span>AMIGOS</span><svg viewBox="0 0 10 14"><path d="M2.5 2l5 5-5 5"/></svg></button>
   </nav>
   <button class="gb chat" data-p="Chat"><span class="ci"><img src="img/ui/chat.png" alt=""></span></button>
+  <button class="modos" id="bModos" aria-label="Modos e mapas"><span class="mo-cap"></span><img class="mo-pin" src="img/ui/modos-mapa.png" alt=""><span class="mo-bar"><b>MODOS</b></span><span class="mo-go"><img src="img/ui/modos-seta.png" alt=""></span></button>
   <div class="dec"><button id="go" class="decb"><span class="dk"><img src="img/ui/logo.png" alt=""></span><b>DECOLAR</b></button></div>
  </div>
  <div class="ver">BETA 1.0.0</div>
  <div class="ov" id="ov"><div class="card" id="card"></div></div>
 </div></div>
 <!-- Só o essencial do lobby carrega aqui. three.js e o boneco são carregados em segundo plano (carregamento/carregador.js). -->
-<script src="js/sistemas/utils.js?v=50"></script>
-<script src="js/carregamento/manifesto.js?v=50"></script>
-<script src="js/carregamento/carregador.js?v=50"></script>
-<script src="js/sistemas/overlay.js?v=50"></script>
-<script src="js/sistemas/graficos.js?v=50"></script>
-<script src="js/sistemas/armas-dados.js?v=50"></script>
-<script src="js/sistemas/economia.js?v=50"></script>
-<script src="js/sistemas/musica.js?v=50"></script>
-<script src="js/lobby/transicao.js?v=50"></script>
-<script src="js/lobby/partida.js?v=50"></script>
-<script src="js/lobby/config.js?v=50"></script>
-<script src="js/lobby/lobby.js?v=50"></script>
-<script src="js/lobby/heroi3d.js?v=50"></script>
+<script src="js/sistemas/utils.js?v=51"></script>
+<script src="js/carregamento/manifesto.js?v=51"></script>
+<script src="js/carregamento/carregador.js?v=51"></script>
+<script src="js/sistemas/overlay.js?v=51"></script>
+<script src="js/sistemas/graficos.js?v=51"></script>
+<script src="js/sistemas/armas-dados.js?v=51"></script>
+<script src="js/sistemas/economia.js?v=51"></script>
+<script src="js/sistemas/musica.js?v=51"></script>
+<script src="js/lobby/transicao.js?v=51"></script>
+<script src="js/lobby/partida.js?v=51"></script>
+<script src="js/lobby/config.js?v=51"></script>
+<script src="js/lobby/selecao.js?v=51"></script>
+<script src="js/lobby/lobby.js?v=51"></script>
+<script src="js/lobby/heroi3d.js?v=51"></script>
 </body>
 </html>

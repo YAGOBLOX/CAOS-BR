@@ -6,6 +6,7 @@ try{const n=localStorage.getItem('nick');if(n)$('#nick').textContent=n}catch(e){
 try{if(typeof coins==='number')$('#coins').textContent=coins}catch(e){}
 const soon=nome=>open('<h2>'+nome+'</h2>Em breve. Este botão já está no lobby, mas a função dele chega numa próxima etapa.');
 document.querySelectorAll('#ui [data-p]').forEach(b=>b.addEventListener('click',()=>b.dataset.p==='Configurações'?CAOS.abrirConfig():soon(b.dataset.p)));
+$('#bModos').onclick=()=>CAOS.abrirSelecao();   // MODOS: abre a seleção de mapas e modos (js/lobby/selecao.js)
 $('#go').onclick=()=>open('<h2>EM BREVE</h2>As partidas ainda estão em desenvolvimento; os mapas entram numa próxima etapa.');
 // selo vermelho do botão de cartas: escondido por padrão. Quando existir sistema de mensagens, chame CAOS.avisoCartas(qtd) (0 = esconde).
 CAOS.avisoCartas=n=>{const b=$('#bdgMail');n=+n||0;b.hidden=n<=0;b.textContent=n>9?'9+':n>0?n:''};

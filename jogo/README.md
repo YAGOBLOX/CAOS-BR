@@ -17,6 +17,10 @@ Só o **lobby** e o **boneco principal** (o primeiro modelo simples do jogo). No
 - v46: botões menores e mais juntos (barra do topo com 40 px); **sem indicação de nível** (sem sistema de nick/nível ainda); **chat vazio** (só moldura e ícone); selo vermelho das cartas **escondido por padrão** — `CAOS.avisoCartas(qtd)` (em `lobby.js`) mostra/esconde quando existir sistema de mensagens.
 - **Só visual por enquanto:** todos abrem um aviso "em breve" (`lobby.js`). Diamantes `100` é valor de exemplo do mockup. O nome vem do `localStorage` (`nick`) e as moedas de `economia.js`. Ids que o JS usa: `#nick`, `#coins`, `#go`.
 
+## Botão MODOS e seleção de mapas/modos (v51)
+- Botão **MODOS** (recriado da imagem do dono; `.modos` em `css/lobby.css`, ícones em `img/ui/modos-*.png`) acima do DECOLAR. Abre a janela de **seleção de mapas e modos** (`js/lobby/selecao.js`, `css/selecao.css`): fundo semitransparente com desfoque sobre o lobby, coluna **MODOS DE JOGO** à esquerda, área **MAPAS** à direita (separadas por uma linha dourada) e rodapé com a escolha atual + CONFIRMAR. Fecha com ✕, Esc ou tocando fora. O lobby 3D fica pausado enquanto ela está aberta.
+- **Só a interface por enquanto** (listas vazias). Para adicionar no futuro: `CAOS.selecao.modos.push({id,nome,desc})`, `CAOS.selecao.mapas.push({id,nome,img,modos:[ids]})` e `CAOS.selecao.aoConfirmar=({modo,mapa})=>{...}`.
+
 ## Música e configurações (v49)
 - `audio/espirito-natalino.mp3` toca no lobby assim que o jogo abre (`CAOS.musica.iniciar()` em `lobby.js`), em **loop sem pausa** (`js/sistemas/musica.js`, Web Audio: o silêncio das pontas é cortado do loop e há um limitador contra estouro). Se o navegador bloquear o som, começa no 1º toque.
 - Engrenagem do lobby → painel **CONFIGURAÇÕES** (`js/lobby/config.js`, `css/config.css`; abas à esquerda, aba "Configurações Gerais"): **Música do lobby** (faixa "Espírito Natalino") e **Volume da música** 0–100%. Em **0%** a música para e o áudio é liberado da memória. Salvo em `localStorage` `mus`.
