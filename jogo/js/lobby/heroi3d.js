@@ -27,20 +27,23 @@
   cam.position.set(0,HE,0);
 
   // ---------- textura única + material único (sem luz) ----------
-  const tex=new R.TextureLoader().load('img/lobby/fundo.jpg?v='+CAOS.ver,()=>{ready=true},undefined,()=>{MAT.map=null;MAT.color.set(0x1b1230);MAT.needsUpdate=true;ready=true});
-  tex.generateMipmaps=false;tex.minFilter=tex.magFilter=R.LinearFilter;
+  // A coordenada da textura é calculada POR PIXEL no shader: pega o ponto 3D do pixel e o projeta com a câmera da imagem
+  // (u=U0+F*x/d, v=V0-F*(y-HE)/d). Assim piso, teto e laterais (superfícies inclinadas) ficam exatos; calcular só nos vértices distorcia.
   let ready=false;
-  const MAT=new R.MeshBasicMaterial({map:tex,side:R.DoubleSide});
+  const tex=new R.TextureLoader().load('img/lobby/fundo.jpg?v='+CAOS.ver,()=>{ready=true},undefined,()=>{ready=true;MAT.uniforms.ok.value=0});
+  tex.generateMipmaps=false;tex.minFilter=tex.magFilter=R.LinearFilter;
+  const MAT=new R.ShaderMaterial({side:R.DoubleSide,
+   uniforms:{map:{value:tex},ok:{value:1}},
+   vertexShader:'varying vec3 vP;void main(){vP=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
+   fragmentShader:'uniform sampler2D map;uniform float ok;varying vec3 vP;void main(){float d=-vP.z;'+
+    'vec2 q=vec2((%U0%+%F%*vP.x/d)/%IW%,1.0-(%V0%-%F%*(vP.y-%HE%)/d)/%IH%);'.replace(/%(\w+)%/g,(_,k)=>({U0,V0,F,HE,IW,IH}[k]).toFixed(1))+
+    'gl_FragColor=ok>.5?texture2D(map,q):vec4(.10,.07,.17,1.0);}'});
 
   // ponto da imagem (u,v) numa profundidade d  →  posição no mundo (a câmera olha para -z)
   const wp=(u,v,d)=>[(u-U0)*d/F,HE+(V0-v)*d/F,-d];
-  // vértice no mundo  →  coordenada da textura (projeção feita pela câmera da imagem)
-  const uv=(x,y,z)=>{const d=-z;return[(U0+F*x/d)/IW,1-(V0-F*(y-HE)/d)/IH]};
   function mesh(P,I){
-   const n=P.length/3,p=new Float32Array(P),t=new Float32Array(n*2);
-   for(let i=0;i<n;i++){const q=uv(p[i*3],p[i*3+1],p[i*3+2]);t[i*2]=q[0];t[i*2+1]=q[1]}
-   const g=new R.BufferGeometry();g.setAttribute('position',new R.BufferAttribute(p,3));g.setAttribute('uv',new R.BufferAttribute(t,2));g.setIndex(I);
-   const m=new R.Mesh(g,MAT);m.matrixAutoUpdate=false;sc.add(m);return m;
+   const g=new R.BufferGeometry();g.setAttribute('position',new R.BufferAttribute(new Float32Array(P),3));g.setIndex(I);
+   const m=new R.Mesh(g,MAT);m.matrixAutoUpdate=false;m.frustumCulled=false;sc.add(m);return m;
   }
   const quad=(a,b,c,d)=>mesh([...a,...b,...c,...d],[0,1,2,0,2,3]);
   const rect=(u0,v0,u1,v1,d)=>quad(wp(u0,v0,d),wp(u1,v0,d),wp(u1,v1,d),wp(u0,v1,d));
