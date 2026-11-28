@@ -9,5 +9,7 @@ function fit(){rot=innerHeight>innerWidth*1.05;const sx=rot?innerHeight/800:inne
 addEventListener('resize',fit);fit();
 const cl=(v,a,b)=>Math.max(a,Math.min(b,v)),cp=v=>cl(v,-.5,.9);
 const tap=(s,f)=>$(s).addEventListener('pointerdown',e=>{e.preventDefault();f()});
+/* sem menu do navegador/sistema ao segurar o dedo (copiar, colar, compartilhar, baixar...), sem seleção e sem arrastar imagens */
+['contextmenu','selectstart','dragstart'].forEach(e=>addEventListener(e,ev=>ev.preventDefault()));
 addEventListener('orientationchange',()=>{setTimeout(fit,150);setTimeout(fit,500)});
 addEventListener('pointerdown',()=>{try{screen.orientation.lock('landscape').catch(()=>{})}catch(e){}},{once:true});

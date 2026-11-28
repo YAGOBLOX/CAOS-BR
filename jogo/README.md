@@ -20,6 +20,8 @@ Só o **lobby** e o **boneco principal** (o primeiro modelo simples do jogo). No
 ## Música e configurações (v49)
 - `audio/espirito-natalino.mp3` toca no lobby assim que o jogo abre (`CAOS.musica.iniciar()` em `lobby.js`), em **loop sem pausa** (`js/sistemas/musica.js`, Web Audio: o silêncio das pontas é cortado do loop e há um limitador contra estouro). Se o navegador bloquear o som, começa no 1º toque.
 - Engrenagem do lobby → painel **CONFIGURAÇÕES** (`js/lobby/config.js`, `css/config.css`; abas à esquerda, aba "Configurações Gerais"): **Música do lobby** (faixa "Espírito Natalino") e **Volume da música** 0–100%. Em **0%** a música para e o áudio é liberado da memória. Salvo em `localStorage` `mus`.
+- Ao fim da aba há o botão **Sair do jogo / VOLTAR AO SITE** (chama `closeGame()` do site, que remove o iframe). O botão VOLTAR antigo da barra do site foi removido.
+- Segurar o dedo não abre menu do navegador/sistema: `user-select:none`, `-webkit-touch-callout:none` (`css/base.css`) e `contextmenu/selectstart/dragstart` bloqueados (`js/sistemas/utils.js`).
 - Nova faixa: MP3 em `audio/` + uma linha em `FAIXAS` (musica.js).
 
 ## Tela de carregamento (v44/v45)

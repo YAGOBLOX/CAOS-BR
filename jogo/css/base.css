@@ -1,6 +1,7 @@
 /* CAOS BR FPS · base da tela/palco */
 :root{--bg:#0b0614;--panel:#2a2540cc;--line:#5b5380;--txt:#e9e4ff;--gold:#ffb81f;--blue:#4aa8ff;--green:#2fcf5a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+img,svg,canvas{-webkit-user-drag:none;user-drag:none}   /* segurar o dedo não seleciona texto nem abre o menu copiar/compartilhar (o jogo age só pelos toques/ponteiros) */
 html,body{height:100%;background:var(--bg);overflow:hidden;font-family:"Courier New",ui-monospace,monospace;color:var(--txt)}
 #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
 #stage{width:800px;height:450px;position:relative;transform-origin:center;flex:none;background:radial-gradient(ellipse at 50% 70%,#7b2fd0 0,#3b1670 45%,#150a2e 100%);overflow:hidden}

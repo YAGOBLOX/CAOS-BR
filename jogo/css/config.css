@@ -34,3 +34,10 @@
 .cf-vol input::-moz-range-progress{height:4px;background:#ffb41f}
 .cf-vol input::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:18px;margin-top:-7px;background:linear-gradient(180deg,#ffe25a,#e9a000);border:1px solid #6b4600;transform:skewX(-12deg);box-shadow:0 0 6px rgba(255,190,30,.6)}
 .cf-vol input::-moz-range-thumb{width:11px;height:17px;border-radius:0;background:linear-gradient(180deg,#ffe25a,#e9a000);border:1px solid #6b4600;box-shadow:0 0 6px rgba(255,190,30,.6)}
+/* saída: fica no fim da lista (abaixo do volume) */
+.cf-pg{display:flex;flex-direction:column}
+.cf-list{flex:1}
+.cf-exit{margin-top:auto;border-color:rgba(255,90,70,.4)}
+.cf-sair{display:flex;align-items:center;justify-content:center;gap:8px;flex:none;min-width:190px;height:32px;padding:0 14px;font-size:14px;font-weight:800;letter-spacing:.8px;color:#fff;background:linear-gradient(180deg,#d83a2c,#8f1710)!important;border:1px solid #ff8a7a!important;clip-path:polygon(7px 0,100% 0,calc(100% - 7px) 100%,0 100%);box-shadow:0 0 8px rgba(255,70,50,.35)}
+.cf-sair svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.cf-sair:active{filter:brightness(1.25)}

@@ -6,7 +6,7 @@
 #hero{position:absolute;left:50%;top:168px;width:130px;height:214px;margin-left:-65px;pointer-events:none}   /* área de arrastar do boneco 3D (vazia; o boneco é desenhado em #lbg3d) */
 
 /* FUNDO DO LOBBY: só um degradê escuro enquanto o lobby 3D carrega (nada de desenho 2D antigo); a cena 3D entra com fade. */
-#lbg{position:absolute;inset:0;pointer-events:none;overflow:hidden;background:#150c2b url(../img/lobby/fundo.jpg?v=49) center/100% 100% no-repeat}   /* a imagem aparece na hora; a cena 3D (igual a ela) entra por cima */
+#lbg{position:absolute;inset:0;pointer-events:none;overflow:hidden;background:#150c2b url(../img/lobby/fundo.jpg?v=50) center/100% 100% no-repeat}   /* a imagem aparece na hora; a cena 3D (igual a ela) entra por cima */
 /* v28: lobby 3D de verdade (heroi3d.js). */
 #lbg3d{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .45s}
 #lbg.on3d #lbg3d{opacity:1}
